@@ -9,7 +9,7 @@ import torch
 
 #load and clean
 ticker = "BB.TO"
-dataset = pd.read_csv(f'{ticker}_unadjusted_prices_2007_2018.csv', skiprows=2)
+dataset = pd.read_csv(f'../DownloadCSV/IShare/{ticker}_unadjusted_prices_2007_2018.csv', skiprows=2)
 dataset.rename(columns={"Unnamed: 1": "Price"}, inplace=True)
 
 # scaling
@@ -35,3 +35,11 @@ y_train, y_test = y[:train_size], y[train_size:]
 # verify 3d shape
 print(f"X_train shape: {X_train.shape}") 
 # should be: (samples, 120, 1)
+
+# save processed arrays as NumPy files
+np.save(f'X_train_{ticker}.npy', X_train)
+np.save(f'X_test_{ticker}.npy', X_test)
+np.save(f'y_train_{ticker}.npy', y_train)
+np.save(f'y_test_{ticker}.npy', y_test)
+
+print("Pre processing complete. Processed data saved as: X_train_{ticker}.npy")
