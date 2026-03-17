@@ -13,8 +13,10 @@ dataset = pd.read_csv(f'../DownloadCSV/IShare/{ticker}_unadjusted_prices_2007_20
 dataset.rename(columns={"Unnamed: 1": "Price"}, inplace=True)
 
 # scaling
-scaler = MinMaxScaler(feature_range=(0, 1))
-scaled_data = scaler.fit_transform(dataset["Price"].values.reshape(-1, 1))
+#use natural log
+dataset['Log_Price'] = np.log(dataset['Price'])
+#shift data so centered around 0
+log_data = dataset['Log_Price'].values.reshape(-1, 1)
 
 # create sliding windows
 def create_sequences(data, seq_length):
@@ -25,7 +27,7 @@ def create_sequences(data, seq_length):
     return np.array(x), np.array(y)
 
 window_size = 120 # 120 day lag goal
-X, y = create_sequences(scaled_data, window_size)
+X, y = create_sequences(log_data, window_size)
 
 # chronological split (no shuffling)
 train_size = int(len(X) * 0.8)
@@ -42,4 +44,4 @@ np.save(f'X_test_{ticker}.npy', X_test)
 np.save(f'y_train_{ticker}.npy', y_train)
 np.save(f'y_test_{ticker}.npy', y_test)
 
-print("Pre processing complete. Processed data saved as: X_train_{ticker}.npy")
+print(f"Pre-processing complete. Processed data saved as: X_train_{ticker}.npy")
