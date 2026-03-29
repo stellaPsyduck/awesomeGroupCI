@@ -31,4 +31,4 @@ rf_input.to_csv(f'./RFInputs/{ticker}_rf_input.csv', index=False)
 
 # To verify this will give:
 #       Columns: Current date, Lag for day (for 120)
-#       Rows: The days we are looking at in total (That have lags - so our first row is only starting at 120 date)
+#       Rows: The days we are looking at in total (That have lags - so our first row is only starting at 120 date)b
