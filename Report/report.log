@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  29 MAR 2026 17:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  29 MAR 2026 18:04
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -397,46 +397,49 @@ Underfull \hbox (badness 10000) in paragraph at lines 51--54
 
  []
 
+<images/lstm_inputs.png, id=4, 2345.76375pt x 1226.5825pt>
+File: images/lstm_inputs.png Graphic file (type png)
+<use images/lstm_inputs.png>
+Package pdftex.def Info: images/lstm_inputs.png  used on input line 62.
+(pdftex.def)             Requested size: 176.39923pt x 92.23302pt.
 
 
-(./report.bbl
-LaTeX Font Info:    Trying to load font information for U+msa on input line 25.
- (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Trying to load font information for U+msa on input line 87.
+(c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 25.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 87.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-))
-** WARNING: Ignoring useless \section in Appendix (line 106).
-<images/aciw_raw.png, id=8, 462.528pt x 346.896pt>
+) (./report.bbl
+
+[1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
+
+
+ <./images/lstm_inputs.png (PNG copy)>])
+** WARNING: Ignoring useless \section in Appendix (line 121).
+<images/aciw_raw.png, id=43, 462.528pt x 346.896pt>
 File: images/aciw_raw.png Graphic file (type png)
 <use images/aciw_raw.png>
-Package pdftex.def Info: images/aciw_raw.png  used on input line 110.
+Package pdftex.def Info: images/aciw_raw.png  used on input line 125.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/appl_raw.png, id=10, 462.528pt x 346.896pt>
+<images/appl_raw.png, id=45, 462.528pt x 346.896pt>
 File: images/appl_raw.png Graphic file (type png)
 <use images/appl_raw.png>
-Package pdftex.def Info: images/appl_raw.png  used on input line 117.
+Package pdftex.def Info: images/appl_raw.png  used on input line 132.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/aciw_scaled.png, id=11, 462.528pt x 346.896pt>
+<images/aciw_scaled.png, id=46, 462.528pt x 346.896pt>
 File: images/aciw_scaled.png Graphic file (type png)
 <use images/aciw_scaled.png>
-Package pdftex.def Info: images/aciw_scaled.png  used on input line 124.
+Package pdftex.def Info: images/aciw_scaled.png  used on input line 139.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/appl_scaled.png, id=12, 462.528pt x 346.896pt>
+<images/appl_scaled.png, id=47, 462.528pt x 346.896pt>
 File: images/appl_scaled.png Graphic file (type png)
 <use images/appl_scaled.png>
-Package pdftex.def Info: images/appl_scaled.png  used on input line 131.
+Package pdftex.def Info: images/appl_scaled.png  used on input line 146.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -454,34 +457,27 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-[1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
-]
-
-
-
-[2
-
- <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png>] (./report.aux)
+[2 <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png>] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 11651 strings out of 473254
- 180490 string characters out of 5722070
- 591727 words of memory out of 5000000
- 34679 multiletter control sequences out of 15000+600000
- 590056 words of font info for 98 fonts, out of 8000000 for 9000
+ 11667 strings out of 473254
+ 180794 string characters out of 5722070
+ 591843 words of memory out of 5000000
+ 34693 multiletter control sequences out of 15000+600000
+ 591110 words of font info for 103 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,692b,461s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (2 pages, 371621 bytes).
+ 75i,8n,79p,693b,592s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (2 pages, 963938 bytes).
 PDF statistics:
- 142 PDF objects out of 1000 (max. 8388607)
- 124 compressed objects within 2 object streams
- 38 named destinations out of 1000 (max. 500000)
- 165 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 164 PDF objects out of 1000 (max. 8388607)
+ 139 compressed objects within 2 object streams
+ 40 named destinations out of 1000 (max. 500000)
+ 178 words of extra memory for PDF output out of 10000 (max. 10000000)
 

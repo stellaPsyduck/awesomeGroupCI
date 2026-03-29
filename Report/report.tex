@@ -54,7 +54,17 @@
 
 \subsection{Algorithms}
 \subsubsection*{Random Forests}
+yee
 \subsubsection*{LSTMS}
+explination
+\begin{figure}[h]
+    \centering
+\includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
+    \caption{Diagram of hard parameter sharing and inputs for an LSTM Multi-Tasking model. (Drawn by group).}
+    \label{lstm_diagram}
+\end{figure}
+
+\subsection{Metrics and Evaluation}
 
 \subsection{Preprocessing}
 \subsubsection*{Misaligned Dates}
@@ -72,7 +82,12 @@ stock AAPL after logging the data.
 \subsubsection*{Random Forests}
 describe script and set up of what it intakes \cite{log_scale}
 \subsubsection*{LSTMS}
-For 
+Pytorch requires LSTM inputs to be 3D tensors. The data looks at stocks, with the only attribute 
+being the stock price. Referring to \ref{lstm_diagram}, the matrix on the left would be an example 3D tensor input,
+with each vector $\vec{x}$ representing all the stocks of interest at the given t. There is no third dimension depicted,
+as the only attribute of each stock of interest is the given price at time t. \\
+The times within the input are $\vec{x_{t,n}}$ and the lags of $\vec{x_{tn}}$, which represent our rolling window,
+ since $\vec{x_{t+1}}$ should use all the previous lags for its prediction.
 
 \subsection{Building the Models (?)}
 \subsubsection*{Random Forests}

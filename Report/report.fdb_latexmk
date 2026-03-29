@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex report"] 1774820143.40234 "report.aux" "report.bbl" "report" 1774820147.22435 0
-  "./refs.bib" 1774816059 3488 a89808b70581267f13646d7d1e94449d ""
+["bibtex report"] 1774821780.94877 "report.aux" "report.bbl" "report" 1774821895.83038 0
+  "./refs.bib" 1774820353 3697 85df081ee9f77164d8bdbf798c5cf0d1 ""
   "c:/texlive/2024/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1735157461 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "report.aux" 1774820145 7766 5cbb7b0cbd6e42323e71d95557f82f6c "pdflatex"
+  "report.aux" 1774821894 8576 0f9ad3ae7ee869718703a2c46b091cef "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1774820143.89186 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1774820147.22485 0
+["pdflatex"] 1774821892.00005 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1774821895.83125 0
   "IEEEtran.cls" 1773602350 288304 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1774820140 4654 a815f5405f2193d8a1a5a27103f69daf ""
+  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1774821891 5567 4a639ba320a5156b208761b5189914b9 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1735156708 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1735157085 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1735160045 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -33,6 +33,9 @@
   "c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr8.tfm" 1735156277 1292 21c1c5bfeaebccffdb478fd231a0997d ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1735156277 1116 933a60c408fc0a863a92debe84b2d294 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1735156277 1120 8b7d695260f3cff42e636090a8002094 ""
+  "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1735155700 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb" 1735155700 36281 c355509802a035cadc5f15869451dcee ""
+  "c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb" 1735155700 32762 7fee39e011c23b3589931effd97b9702 ""
   "c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1735160045 46026 687528a208fbfc1f00832bb96cccebbb ""
   "c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb" 1735160045 45458 504e2b06fa82109d168c7a0afb09e145 ""
   "c:/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf" 1735160045 1380 0ea3a3370054be6da6acd929ec569f06 ""
@@ -101,13 +104,14 @@
   "c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1735160523 5531417 afafd3ba8f822fda36e3585e3807683b ""
   "c:/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1735160703 3347718 c1e3496c51eea31cc4a1115edc3aa07a ""
   "c:/texlive/2024/texmf.cnf" 1735160499 713 e69b156964470283e0530f5060668171 ""
-  "images/aciw_raw.png" 1774818494 90776 c47667c4db7ed7708360404459f6ae69 ""
-  "images/aciw_scaled.png" 1774818517 86909 0b27208f6afcd1a7ade1dc1971034ced ""
-  "images/appl_raw.png" 1774818471 79915 619c06b6644bb2a45fcfed2beb6ced46 ""
-  "images/appl_scaled.png" 1774818448 79298 4ba0e8e9ab6bfe2d61e06b590d74698d ""
-  "report.aux" 1774820145 7766 5cbb7b0cbd6e42323e71d95557f82f6c "pdflatex"
-  "report.bbl" 1774820143 1094 a5a36ab20bea0b1c0c8eae001b476e5e "bibtex report"
-  "report.tex" 1774820140 4654 a815f5405f2193d8a1a5a27103f69daf ""
+  "images/aciw_raw.png" 1774820226 90776 c47667c4db7ed7708360404459f6ae69 ""
+  "images/aciw_scaled.png" 1774820226 86909 0b27208f6afcd1a7ade1dc1971034ced ""
+  "images/appl_raw.png" 1774820226 79915 619c06b6644bb2a45fcfed2beb6ced46 ""
+  "images/appl_scaled.png" 1774820226 79298 4ba0e8e9ab6bfe2d61e06b590d74698d ""
+  "images/lstm_inputs.png" 1774820833 566832 469c7585780552520ff1061f3d22871a ""
+  "report.aux" 1774821894 8576 0f9ad3ae7ee869718703a2c46b091cef "pdflatex"
+  "report.bbl" 1774821781 1094 a5a36ab20bea0b1c0c8eae001b476e5e "bibtex report"
+  "report.tex" 1774821891 5567 4a639ba320a5156b208761b5189914b9 ""
   (generated)
   "report.aux"
   "report.log"
