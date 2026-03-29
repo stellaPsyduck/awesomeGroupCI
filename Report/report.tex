@@ -48,6 +48,9 @@
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
 \subsection{Data}
+- Companies \\
+- aggregation choice \\
+- time choice \\
 
 \subsection{Algorithms}
 \subsubsection*{Random Forests}
@@ -55,18 +58,21 @@
 
 \subsection{Preprocessing}
 \subsubsection*{Misaligned Dates}
+Due to different market holidays, some days in the data included both null values and
+ recorded prices. The days with null values were removed to keep the dataset consistent.
+  Dropping a few days of data should not obscure the stocks’ growth patterns and relationships.
 \subsubsection*{Logarithmic Scale}
-The data was scaled logarithmically. This was to ensure stability in our predictions by reducing 
-the effect of outliers on the model and to account for the exponential patterns in each of the stock data.
+The data was scaled logarithmically. This was to ensure stable predictions by reducing 
+ effect of outliers on the model and to account for the exponential patterns in each stock's data.
 The predictions become more stable because most analysis techniques assume additive data, including
-machine learning \cite{log_scale}. \\
-The scaling affect is shown in \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
+machine learning.\cite{log_scale}. \\
+The scaling affect is shown in appendix \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
 stock AAPL after logging the data.
 
 \subsubsection*{Random Forests}
 describe script and set up of what it intakes \cite{log_scale}
 \subsubsection*{LSTMS}
-describe script and set up of what it intakes
+For 
 
 \subsection{Building the Models (?)}
 \subsubsection*{Random Forests}
