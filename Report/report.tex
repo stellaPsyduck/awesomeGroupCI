@@ -6,6 +6,7 @@
 
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
+\usepackage{bookmark}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
@@ -53,10 +54,17 @@
 \subsubsection*{LSTMS}
 
 \subsection{Preprocessing}
-\subsubsection*{Normalization}
-*maybe like say not assuming any outlieers since stock data just sometimes funny*
+\subsubsection*{Misaligned Dates}
+\subsubsection*{Logarithmic Scale}
+The data was scaled logarithmically. This was to ensure stability in our predictions by reducing 
+the effect of outliers on the model and to account for the exponential patterns in each of the stock data.
+The predictions become more stable because most analysis techniques assume additive data, including
+machine learning \cite{log_scale}. \\
+The scaling affect is shown in \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
+stock AAPL after logging the data.
+
 \subsubsection*{Random Forests}
-describe script and set up of what it intakes
+describe script and set up of what it intakes \cite{log_scale}
 \subsubsection*{LSTMS}
 describe script and set up of what it intakes
 
@@ -84,4 +92,40 @@ describe script and set up of what it intakes
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
+
+%------------------------------------APPENDIX-----------------------------------------
+\appendix
+\counterwithin{figure}{section} % Resets figure count to 0, prefixes with section letter (A, B, etc.)
+\renewcommand{\thefigure}{\thesection\arabic{figure}} % Formats as A1 instead of A.1
+\section{Raw Data}
+\label{appendix_a}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/aciw_raw.png}
+    \caption{Raw price data of ACIW Stock}
+    \label{aciw_raw}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+\includegraphics[width=0.7\linewidth]{images/appl_raw.png}
+    \caption{Raw price data of APPL Stock}
+    \label{appl_raw}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/aciw_scaled.png}
+    \caption{Logged price data of ACIW Stock}
+    \label{aciw_scaled}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+\includegraphics[width=0.7\linewidth]{images/appl_scaled.png}
+    \caption{Logged price data of APPL Stock}
+    \label{appl_scasled}
+\end{figure}
+
 \end{document}
+
