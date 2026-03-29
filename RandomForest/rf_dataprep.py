@@ -4,11 +4,13 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
-import glob
+from pathlib import Path
 
-files = glob.glob("../DownloadCSV/*.csv")
+folder = Path("../DownloadCSV")
+print(f"{folder}")
 
-for file in files:
+for file in folder.glob("*.csv"):
+    print(f"Saving {file.stem[:4]}")
     dataset = pd.read_csv(file, skiprows=2)
     dataset.rename(columns={"Unnamed: 1": "Price"}, inplace=True)
     # print(dataset)
