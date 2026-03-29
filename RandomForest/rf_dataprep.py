@@ -4,31 +4,34 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
-# Loading in dataset - could consider making this less annoying but testing one for now
-ticker = "BB.TO"
-dataset = pd.read_csv(f'{ticker}_unadjusted_prices_2007_2018.csv', skiprows=2)
-dataset.rename(columns={"Unnamed: 1": "Price"}, inplace=True)
-# print(dataset)
+import glob
 
-# normalizing the data
-dataset["Price"] = np.log(dataset["Price"]) # I doubt anything is 0....
+files = glob.glob("../DownloadCSV/*.csv")
 
-# Setting up lags -  efficently so computer doesn't die
-lags = range(1,120) # will look at past 120 days
+for file in files:
+    dataset = pd.read_csv(file, skiprows=2)
+    dataset.rename(columns={"Unnamed: 1": "Price"}, inplace=True)
+    # print(dataset)
 
-lagged = pd.concat(
-    [dataset["Price"].shift(lag) for lag in lags], # create a lag number of values for every price
-    axis=1
-)
-lagged.columns = [f"lag_{lag}" for lag in lags]
-dataset = pd.concat([dataset, lagged], axis=1) # connect back to og dataset
+    # normalizing the data
+    dataset["Price"] = np.log(dataset["Price"]) # I doubt anything is 0....
 
-# Remove rows with missing lag values
-rf_input = dataset.dropna().reset_index(drop=True)
+    # Setting up lags -  efficently so computer doesn't die
+    lags = range(1,60) # will look at past 120 days
 
-# Writing to a CSV
-rf_input.to_csv(f'./RFInputs/{ticker}_rf_input.csv', index=False)
+    lagged = pd.concat(
+        [dataset["Price"].shift(lag) for lag in lags], # create a lag number of values for every price
+        axis=1
+    )
+    lagged.columns = [f"lag_{lag}" for lag in lags]
+    dataset = pd.concat([dataset, lagged], axis=1) # connect back to og dataset
 
-# To verify this will give:
-#       Columns: Current date, Lag for day (for 120)
-#       Rows: The days we are looking at in total (That have lags - so our first row is only starting at 120 date)b
+    # Remove rows with missing lag values
+    rf_input = dataset.dropna().reset_index(drop=True)
+
+    # Writing to a CSV
+    rf_input.to_csv(f'./RFInputs/{file.name[:4]}_rf_input.csv', index=False)
+
+    # To verify this will give:
+    #       Columns: Current date, Lag for day (for 60)
+    #       Rows: The days we are looking at in total (That have lags - so our first row is only starting at 120 date)b
