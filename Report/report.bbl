@@ -20,6 +20,11 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{rfmulti}
+\BIBentryALTinterwordspacing
+L.~Schmid, A.~Gerharz, A.~Groll, and M.~Pauly, ``Tree-based ensembles for multi-output regression: Comparing multivariate approaches with separate univariate ones,'' \emph{Computational Statistics \& Data Analysis}, vol. 179, p. 107628, 2023. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0167947322002080}
+\BIBentrySTDinterwordspacing
+
 \bibitem{log_scale}
 \BIBentryALTinterwordspacing
 ``Decomposition of time series,'' 2025. [Online]. Available: \url{https://medium.com/@m.capurso/decomposition-of-time-series-071ce7b7a5a0}
