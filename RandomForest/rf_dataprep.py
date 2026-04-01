@@ -1,9 +1,6 @@
 # imports
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
-
 from pathlib import Path
 
 folder = Path("../DownloadCSV")
@@ -19,7 +16,7 @@ for file in folder.glob("*.csv"):
     dataset["Price"] = np.log(dataset["Price"]) # I doubt anything is 0....
 
     # Setting up lags -  efficently so computer doesn't die
-    lags = range(1,60) # will look at past 120 days
+    lags = range(1,61) # will look at past 120 days
 
     lagged = pd.concat(
         [dataset["Price"].shift(lag) for lag in lags], # create a lag number of values for every price

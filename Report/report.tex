@@ -43,7 +43,9 @@
 %-------------------------------------MOTIVATION and OBJECTIVES------------------------
 \section{Motivation and Objectives}
 \subsection*{Motivation}
+Comparing and exploring multi-tasking
 \subsection*{Objectives}
+Figure out if multi-tasking stock data is better
 
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
@@ -89,7 +91,8 @@ at the current node and $\alpha$ is a regularization parameter weighting the inf
 value 1. Then, the task cut point is randomly selected from the interval $(\min_k f_k, \max_k f_k)$" - Schmid et. al \cite{rfmulti}}
 
 To implement this method, we used R, since there is a pre-made R package for multi-tasking tree enssemblers. It is technically archived in newer versions
-of R, but can be downloaded \href{https://cran.r-project.org/src/contrib/Archive/extraTrees/}{here}.
+of R, but can be downloaded \href{https://cran.r-project.org/src/contrib/Archive/extraTrees/}{here}. This was decided because the paper explaining the metholody
+used this package \cite{rfmulti}.
 
 \subsection{Metrics and Evaluation}
 \subsubsection*{Rolling Cross-Validation}
@@ -152,6 +155,7 @@ To extend to multi-tasking (??) \dots
 
 %------------------------------------APPENDIX-----------------------------------------
 \appendix
+
 \counterwithin{figure}{section} % Resets figure count to 0, prefixes with section letter (A, B, etc.)
 \renewcommand{\thefigure}{\thesection\arabic{figure}} % Formats as A1 instead of A.1
 \section{Raw Data}

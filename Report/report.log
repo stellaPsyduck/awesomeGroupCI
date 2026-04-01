@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  31 MAR 2026 01:06
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  31 MAR 2026 14:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -393,24 +393,24 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Underfull \hbox (badness 10000) in paragraph at lines 51--54
+Underfull \hbox (badness 10000) in paragraph at lines 53--56
 
  []
 
 <images/lstm_inputs.png, id=4, 2345.76375pt x 1226.5825pt>
 File: images/lstm_inputs.png Graphic file (type png)
 <use images/lstm_inputs.png>
-Package pdftex.def Info: images/lstm_inputs.png  used on input line 60.
+Package pdftex.def Info: images/lstm_inputs.png  used on input line 62.
 (pdftex.def)             Requested size: 176.39923pt x 92.23302pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 70.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 72.
 (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 70.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 72.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 3088) in paragraph at lines 67--81
+Underfull \hbox (badness 3088) in paragraph at lines 69--83
  []\OT1/ptm/m/it/10 Multi-Tasking Ex-tra Trees (or Ex-tremely Ran-dom-ized
  []
 
@@ -421,35 +421,35 @@ Underfull \hbox (badness 3088) in paragraph at lines 67--81
 [1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
- <./images/lstm_inputs.png (PNG copy)>] (./report.bbl
+ <./images/lstm_inputs.png (PNG copy)>]
 
-)
-** WARNING: Ignoring useless \section in Appendix (line 157).
-<images/aciw_raw.png, id=54, 462.528pt x 346.896pt>
+(./report.bbl)
+** WARNING: Ignoring useless \section in Appendix (line 161).
+<images/aciw_raw.png, id=52, 462.528pt x 346.896pt>
 File: images/aciw_raw.png Graphic file (type png)
 <use images/aciw_raw.png>
-Package pdftex.def Info: images/aciw_raw.png  used on input line 161.
+Package pdftex.def Info: images/aciw_raw.png  used on input line 165.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-<images/appl_raw.png, id=56, 462.528pt x 346.896pt>
+<images/appl_raw.png, id=54, 462.528pt x 346.896pt>
 File: images/appl_raw.png Graphic file (type png)
 <use images/appl_raw.png>
-Package pdftex.def Info: images/appl_raw.png  used on input line 168.
+Package pdftex.def Info: images/appl_raw.png  used on input line 172.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/aciw_scaled.png, id=57, 462.528pt x 346.896pt>
+<images/aciw_scaled.png, id=55, 462.528pt x 346.896pt>
 File: images/aciw_scaled.png Graphic file (type png)
 <use images/aciw_scaled.png>
-Package pdftex.def Info: images/aciw_scaled.png  used on input line 175.
+Package pdftex.def Info: images/aciw_scaled.png  used on input line 179.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<images/appl_scaled.png, id=58, 462.528pt x 346.896pt>
+<images/appl_scaled.png, id=56, 462.528pt x 346.896pt>
 File: images/appl_scaled.png Graphic file (type png)
 <use images/appl_scaled.png>
-Package pdftex.def Info: images/appl_scaled.png  used on input line 182.
+Package pdftex.def Info: images/appl_scaled.png  used on input line 186.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -482,16 +482,16 @@ L3 programming layer <2024-12-09>
 Here is how much of TeX's memory you used:
  11686 strings out of 473254
  181062 string characters out of 5722070
- 593054 words of memory out of 5000000
+ 591054 words of memory out of 5000000
  34703 multiletter control sequences out of 15000+600000
  592753 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,693b,461s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (3 pages, 1023680 bytes).
+Output written on report.pdf (3 pages, 1023789 bytes).
 PDF statistics:
- 221 PDF objects out of 1000 (max. 8388607)
- 183 compressed objects within 2 object streams
+ 222 PDF objects out of 1000 (max. 8388607)
+ 184 compressed objects within 2 object streams
  48 named destinations out of 1000 (max. 500000)
  178 words of extra memory for PDF output out of 10000 (max. 10000000)
 

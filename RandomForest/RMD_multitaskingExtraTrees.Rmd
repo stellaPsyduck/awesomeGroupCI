@@ -1,0 +1,310 @@
+---
+title: "MultiTaskingTrees"
+author: "stellaRovazzi"
+date: "2026-04-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+folder_path <- "C:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/RandomForest/RFInputs/"
+
+file_list <- list.files(
+  path = folder_path,
+  pattern = "\\.csv$",
+  full.names = TRUE
+)
+
+data_df <- map_dfr(file_list, function(file) {
+  task_name <- substr(file_path_sans_ext(basename(file)), 1, 4)
+  
+  read_csv(file, show_col_types = FALSE) %>%
+    mutate(task = task_name)
+})
+
+data_df <- data_df %>%  drop_na() %>%
+    mutate(
+      Date = as.Date(Date),
+      task_id = as.integer(as.factor(task))
+    ) %>%
+    arrange(Date, task)
+
+```
+
+# Defining Paramaeters
+
+```{r params}
+# Lag columns expected in each CSV
+lag_cols <- paste0("lag_", 1:60)
+
+# Final holdout test size (by unique dates, not rows)
+test_fraction <- 0.20
+
+# Rolling CV settings on the training portion only
+initial_train_days <- 60    # Train on this many days   
+val_days <- 5           # business week
+step_days <- 20             # move folds forward monthly
+
+# Model settings
+nodesize <- 3
+numRandomCuts <- 2
+```
+
+# Cleaning the data
+
+You can also embed plots, for example:
+
+```{r cleaning}
+required_cols <- c("Date", "Price", lag_cols, "task")
+missing_cols <- setdiff(required_cols, names(multi_task_df))
+
+if (length(missing_cols) > 0) {
+  stop(
+    paste(
+      "The following required columns are missing:",
+      paste(missing_cols, collapse = ", ")
+    )
+  )
+}
+
+multi_task_df <- multi_task_df %>%
+  mutate(
+    Date = as.Date(Date),
+    task = as.character(task)
+  ) %>%
+  drop_na(all_of(c("Date", "Price", lag_cols, "task"))) %>%
+  arrange(Date, task)
+```
+
+```{r splitting_data}
+
+all_dates <- sort(unique(multi_task_df$Date))
+n_dates <- length(all_dates)
+
+if (n_dates < (initial_train_days + val_days + 10)) {
+  stop("Not enough unique dates for the requested CV/test configuration.")
+}
+
+test_n_dates <- max(1, floor(n_dates * test_fraction))
+test_start_idx <- n_dates - test_n_dates + 1
+
+train_dates_full <- all_dates[1:(test_start_idx - 1)]
+test_dates <- all_dates[test_start_idx:n_dates]
+
+train_full <- multi_task_df %>%
+  filter(Date %in% train_dates_full)
+
+test_data <- multi_task_df %>%
+  filter(Date %in% test_dates)
+
+cat("Train date range:", min(train_full$Date), "to", max(train_full$Date), "\n")
+cat("Test date range: ", min(test_data$Date), "to", max(test_data$Date), "\n")
+cat("Train rows:", nrow(train_full), "\n")
+cat("Test rows: ", nrow(test_data), "\n\n")
+
+
+```
+```{r cross_validation_split_func}
+make_fixed_splits <- function(dates, train_days, val_days, step_days) {
+  splits <- list()
+  fold <- 1
+  train_start_idx <- 1
+  train_end_idx <- train_days
+
+  while ((train_end_idx + val_days) <= length(dates)) {
+    train_dates <- dates[train_start_idx:train_end_idx]
+    val_dates <- dates[(train_end_idx + 1):(train_end_idx + val_days)]
+
+    splits[[fold]] <- list(
+      fold = fold,
+      train_dates = train_dates,
+      val_dates = val_dates,
+      train_start = min(train_dates),
+      train_end = max(train_dates),
+      val_start = min(val_dates),
+      val_end = max(val_dates)
+    )
+
+    train_start_idx <- train_start_idx + step_days
+    train_end_idx <- train_end_idx + step_days
+    fold <- fold + 1
+  }
+
+  splits
+}
+
+```
+
+```{r cross_validaiton}
+cv_dates <- sort(unique(train_full$Date))
+
+cv_splits <- make_fixed_splits(
+  dates = cv_dates,
+  train_days = initial_train_days,
+  val_days = val_days,
+  step_days = step_days
+)
+
+if (length(cv_splits) == 0) {
+  stop("No CV folds were created. Reduce initial_train_days or val_days.")
+}
+
+cat("Number of CV folds:", length(cv_splits), "\n\n")
+```
+
+```{r metrics}
+calc_metrics <- function(actual, predicted) {
+  tibble(
+    rmse = sqrt(mean((actual - predicted)^2)),
+    mae = mean(abs(actual - predicted)),
+    mape = mean(abs((actual - predicted) / actual)) * 100
+  )
+}
+
+```
+
+
+```{r cross-val_loop}
+cv_results <- map_dfr(cv_splits, function(s) {
+  train_data <- train_full %>%
+    filter(Date %in% s$train_dates)
+
+  validation_data <- train_full %>%
+    filter(Date %in% s$val_dates)
+
+  # Keep only tasks seen in training for safety
+  seen_tasks <- unique(train_data$task_id)
+  validation_data <- validation_data %>%
+    filter(task_id %in% seen_tasks)
+
+  if (nrow(validation_data) == 0) {
+    return(tibble(
+      fold = s$fold,
+      train_start = s$train_start,
+      train_end = s$train_end,
+      val_start = s$val_start,
+      val_end = s$val_end,
+      n_train = nrow(train_data),
+      n_val = 0,
+      rmse = NA_real_,
+      mae = NA_real_,
+      mape = NA_real_
+    ))
+  }
+
+  x_train <- train_data %>%
+    select(all_of(lag_cols)) %>%
+    data.matrix()
+
+  y_train <- as.numeric(train_data$Price)
+
+  x_val <- validation_data %>%
+    select(all_of(lag_cols)) %>%
+    data.matrix()
+
+  y_val <- as.numeric(validation_data$Price)
+
+  p <- ncol(x_train)
+
+  model <- extraTrees(
+    x = x_train,
+    y = y_train,
+    nodesize = nodesize,
+    mtry = max(1, floor(p / 3)),
+    numRandomCuts = numRandomCuts,
+    tasks = train_data$task_id
+  )
+
+  # Most robust option for this package:
+  # do not pass tasks at prediction unless you know your install supports it
+  preds <- predict(model, x_val, newtasks=validation_data$task_id)
+
+  metrics <- calc_metrics(y_val, preds)
+
+  tibble(
+    fold = s$fold,
+    train_start = s$train_start,
+    train_end = s$train_end,
+    val_start = s$val_start,
+    val_end = s$val_end,
+    n_train = nrow(train_data),
+    n_val = nrow(validation_data),
+    rmse = metrics$rmse,
+    mae = metrics$mae,
+    mape = metrics$mape
+  )
+})
+
+cat("CV Results:\n")
+print(cv_results)
+cat("\n")
+
+cv_summary <- cv_results %>%
+  summarise(
+    mean_rmse = mean(rmse, na.rm = TRUE),
+    sd_rmse = sd(rmse, na.rm = TRUE),
+    mean_mae = mean(mae, na.rm = TRUE),
+    sd_mae = sd(mae, na.rm = TRUE),
+    mean_mape = mean(mape, na.rm = TRUE),
+    sd_mape = sd(mape, na.rm = TRUE)
+  )
+
+cat("CV Summary:\n")
+print(cv_summary)
+cat("\n")
+
+```
+
+
+
+```{r huh}
+print(mean(cv_results$mae, na.rm = TRUE))
+```
+```{r evaluateithink}
+x_train_full <- train_full %>%
+  select(all_of(lag_cols)) %>%
+  data.matrix()
+
+y_train_full <- as.numeric(train_full$Price)
+
+# Keep only tasks in test that were seen in train_full
+seen_tasks_final <- unique(train_full$task_id)
+test_data_eval <- test_data %>%
+  filter(task_id %in% seen_tasks_final)
+
+x_test <- test_data_eval %>%
+  select(all_of(lag_cols)) %>%
+  data.matrix()
+
+y_test <- as.numeric(test_data_eval$Price)
+
+p_final <- ncol(x_train_full)
+
+final_model <- extraTrees(
+  x = x_train_full,
+  y = y_train_full,
+  nodesize = nodesize,
+  mtry = max(1, floor(p_final / 3)),
+  numRandomCuts = numRandomCuts,
+  tasks = train_full$task_id
+)
+
+test_preds <- predict(final_model, x_test, newtasks=test_data$task_id)
+
+test_metrics <- calc_metrics(y_test, test_preds)
+
+cat("Final Test Metrics:\n")
+print(test_metrics)
+cat("\n")
+
+# ----------------------------- OPTIONAL OUTPUT TABLE -----------------------------
+test_predictions <- test_data_eval %>%
+  mutate(predicted_price = test_preds)
+
+cat("Sample Test Predictions:\n")
+print(head(test_predictions))
+```
+
+
+
+
