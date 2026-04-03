@@ -1,0 +1,30 @@
+=========================================
+FINAL MULTI-TASK LSTM TRAINING LOG
+CONFIG: 2-Layers, 128-Hidden, 0.0005 LR
+=========================================
+TEST MAE PER STOCK
+OTEX.TO    | MAE: 0.7750
+BB.TO      | MAE: 0.1365
+DSG.TO     | MAE: 0.8726
+GIB-A.TO   | MAE: 0.6601
+CLS.TO     | MAE: 0.3846
+CRM        | MAE: 0.5313
+CSCO       | MAE: 0.2356
+MSFT       | MAE: 0.6238
+ORCL       | MAE: 0.2104
+INTC       | MAE: 0.3340
+IBM        | MAE: 0.3238
+AMD        | MAE: 0.6386
+AAPL       | MAE: 0.4926
+VSAT       | MAE: 0.0658
+ACIW       | MAE: 0.2249
+NOVT       | MAE: 0.8365
+BDC        | MAE: 0.2319
+BMI        | MAE: 0.4895
+SLAB       | MAE: 0.3341
+OLED       | MAE: 0.7457
+PLAB       | MAE: 0.2318
+BELFB      | MAE: 0.3503
+UCTT       | MAE: 0.5249
+BLKB       | MAE: 0.6847
+NTCT       | MAE: 0.1722
