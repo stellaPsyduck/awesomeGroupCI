@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  2 APR 2026 00:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  3 APR 2026 12:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -424,16 +424,19 @@ Underfull \hbox (badness 3088) in paragraph at lines 69--83
  <./images/lstm_inputs.png (PNG copy)>]
 
 (./report.bbl)
-** WARNING: Ignoring useless \section in Appendix (line 165).
+** WARNING: Ignoring useless \section in Appendix (line 174).
 <images/aciw_raw.png, id=52, 462.528pt x 346.896pt>
 File: images/aciw_raw.png Graphic file (type png)
 <use images/aciw_raw.png>
-Package pdftex.def Info: images/aciw_raw.png  used on input line 169.
+Package pdftex.def Info: images/aciw_raw.png  used on input line 178.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 <images/appl_raw.png, id=54, 462.528pt x 346.896pt>
 File: images/appl_raw.png Graphic file (type png)
 <use images/appl_raw.png>
-Package pdftex.def Info: images/appl_raw.png  used on input line 176.
+Package pdftex.def Info: images/appl_raw.png  used on input line 185.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -441,7 +444,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <images/aciw_scaled.png, id=55, 462.528pt x 346.896pt>
 File: images/aciw_scaled.png Graphic file (type png)
 <use images/aciw_scaled.png>
-Package pdftex.def Info: images/aciw_scaled.png  used on input line 183.
+Package pdftex.def Info: images/aciw_scaled.png  used on input line 192.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -449,7 +452,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 <images/appl_scaled.png, id=56, 462.528pt x 346.896pt>
 File: images/appl_scaled.png Graphic file (type png)
 <use images/appl_scaled.png>
-Package pdftex.def Info: images/appl_scaled.png  used on input line 190.
+Package pdftex.def Info: images/appl_scaled.png  used on input line 199.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -467,31 +470,31 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-[2 <./images/aciw_raw.png>]
+[2]
 
 
 
 [3
 
- <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png>] (./report.aux)
+ <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png>] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 11690 strings out of 473254
- 181112 string characters out of 5722070
- 591054 words of memory out of 5000000
- 34705 multiletter control sequences out of 15000+600000
+ 11701 strings out of 473254
+ 181224 string characters out of 5722070
+ 593054 words of memory out of 5000000
+ 34706 multiletter control sequences out of 15000+600000
  592753 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,693b,472s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (3 pages, 1024222 bytes).
+Output written on report.pdf (3 pages, 1024711 bytes).
 PDF statistics:
- 231 PDF objects out of 1000 (max. 8388607)
- 193 compressed objects within 2 object streams
- 50 named destinations out of 1000 (max. 500000)
- 194 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 249 PDF objects out of 1000 (max. 8388607)
+ 210 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
+ 210 words of extra memory for PDF output out of 10000 (max. 10000000)
 

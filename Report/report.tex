@@ -55,7 +55,7 @@ Figure out if multi-tasking stock data is better
 - time choice (length of window)\\
 
 \subsection{Algorithms}
-\subsubsection*{LSTMS}
+\subsubsection*{LSTMs}
 explination
 \begin{figure}[h]
     \centering
@@ -112,7 +112,7 @@ machine learning.\cite{log_scale}. \\
 The scaling affect is shown in appendix \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
 stock AAPL after logging the data.
 
-\subsubsection*{LSTMS}
+\subsubsection*{LSTMs}
 Pytorch requires LSTM inputs to be 3D tensors \cite{3d_tensor_lstm}. The data looks at stocks, with the only attribute 
 being the stock price. Referring to figure \ref{lstm_diagram}, the matrix on the left would be an example 3D tensor input,
 with each vector $\vec{x}$ representing all the stocks of interest at the given t. There is no third dimension depicted,
@@ -125,20 +125,29 @@ Lags are data from a previous date; for example, lag 1 at time $t$ is the data p
 Each datapoint will then have 61 attributes: 1 representing time t’s price and 60 representing the 60 associated
 lags \cite{timeseries_data}. Days without all 60 previous lags have been dropped.
 
-\subsection{Building the Models (?)}
-\subsubsection*{LSTMS}
-- explain single then multi
-- describe the hyperparemeters we are tuning
+\subsection{Building the Models}
+\subsubsection*{LSTMs}
+describe the things we need to tune? And how single vs mutli looks diffrent (not what we chose just what we did method wise).
+Why chosen hyper parameters, why others not chosen.
+
 \subsubsection*{Extra Trees}
-- eplain single then multi
-- describe the hyperparameters we are tuning 
-For the single thing training (multi-output) \dots
-To extend to multi-tasking (??) \dots
+describe the things we need to tune? And how single vs mutli looks diffrent (not what we chose just what we did method wise)
 %---------------------------------------RESULTS-------------------------------------
 \section{Results}
 *add pics and stuff*
-\subsection{Hyperparameters}
-\subsection{Algorithm Performances}
+\subsection{Single-Task LSTM}
+\subsubsection*{Hyperparameters}
+\subsubsection*{Algorithm Performances}
+\subsection{Multi-Task LSTM}
+\subsubsection*{Hyperparameters}
+\subsubsection*{Algorithm Performances}
+\subsection{Single-Task Extra Trees}
+\subsubsection*{Hyperparameters}
+\subsubsection*{Algorithm Performances}
+\subsection{Multi-Task Extra Trees}
+\subsubsection*{Hyperparameters}
+\subsubsection*{Algorithm Performances}
+
 
 %---------------------------------------DISCUSSIONS-------------------------------------
 \section{Discussion}
@@ -146,11 +155,11 @@ To extend to multi-tasking (??) \dots
 \subsection{Interpretation of Results}
 \subsubsection{Single vs Multi}
 \subsubsection{LSTM MTL vs ExtraTrees MTL}
-\subsection{Hyperparameters}
 \subsection{Advantages and Disadvantages of Multi-Tasking}
 
 %--------------------------------------CONCLUSION-------------------------------------
 \section{Conclusion}
+\subsection{Future Works}
 
 %-------------------------------------BIBLIOGRAPHY-------------------------------------
 \bibliographystyle{IEEEtran}
