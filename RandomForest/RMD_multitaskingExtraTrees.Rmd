@@ -331,6 +331,24 @@ cat("Sample Test Predictions:\n")
 print(head(test_predictions))
 ```
 
+```{r}
+test_predictions <- test_predictions %>%
+  mutate(
+    error = Price - predicted_price,
+    mae = abs(error)
+  )
+
+multi_results <- test_predictions %>%
+  select(Date, Price, predicted_price, mae, task)
+
+mean_multi_results <- test_predictions %>%
+  group_by(task) %>%
+  summarise(mae_mean = mean(mae, na.rm = TRUE))
+
+print(mean_multi_results)
+```
+
+
 
 
 
