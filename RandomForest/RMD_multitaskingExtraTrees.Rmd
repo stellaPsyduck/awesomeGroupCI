@@ -7,6 +7,15 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(extraTrees)
+library(dplyr)
+library(purrr)
+library(readr)
+library(tools)
+library(tidyr)
+
+
 folder_path <- "C:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/RandomForest/RFInputs/"
 
 file_list <- list.files(
@@ -41,13 +50,10 @@ lag_cols <- paste0("lag_", 1:60)
 test_fraction <- 0.20
 
 # Rolling CV settings on the training portion only
-initial_train_days <- 60    # Train on this many days   
-val_days <- 5           # business week
-step_days <- 20             # move folds forward monthly
+initial_train_days <- 60  # Train on this many days   
+val_days <- 5             # business week
+step_days <- 20           # move folds forward monthly
 
-# Model settings
-nodesize <- 3
-numRandomCuts <- 2
 ```
 
 # Cleaning the data
@@ -56,7 +62,7 @@ You can also embed plots, for example:
 
 ```{r cleaning}
 required_cols <- c("Date", "Price", lag_cols, "task")
-missing_cols <- setdiff(required_cols, names(multi_task_df))
+missing_cols <- setdiff(required_cols, names(data_df))
 
 if (length(missing_cols) > 0) {
   stop(
@@ -67,7 +73,7 @@ if (length(missing_cols) > 0) {
   )
 }
 
-multi_task_df <- multi_task_df %>%
+data_df <- data_df %>%
   mutate(
     Date = as.Date(Date),
     task = as.character(task)
@@ -78,7 +84,7 @@ multi_task_df <- multi_task_df %>%
 
 ```{r splitting_data}
 
-all_dates <- sort(unique(multi_task_df$Date))
+all_dates <- sort(unique(data_df$Date))
 n_dates <- length(all_dates)
 
 if (n_dates < (initial_train_days + val_days + 10)) {
@@ -91,10 +97,10 @@ test_start_idx <- n_dates - test_n_dates + 1
 train_dates_full <- all_dates[1:(test_start_idx - 1)]
 test_dates <- all_dates[test_start_idx:n_dates]
 
-train_full <- multi_task_df %>%
+train_full <- data_df %>%
   filter(Date %in% train_dates_full)
 
-test_data <- multi_task_df %>%
+test_data <- data_df %>%
   filter(Date %in% test_dates)
 
 cat("Train date range:", min(train_full$Date), "to", max(train_full$Date), "\n")
@@ -104,7 +110,7 @@ cat("Test rows: ", nrow(test_data), "\n\n")
 
 
 ```
-```{r cross_validation_split_func}
+```{r make_functions}
 make_fixed_splits <- function(dates, train_days, val_days, step_days) {
   splits <- list()
   fold <- 1
@@ -133,6 +139,12 @@ make_fixed_splits <- function(dates, train_days, val_days, step_days) {
   splits
 }
 
+calc_metrics <- function(actual, predicted) {
+  tibble(
+    mae = mean(abs(actual - predicted)),
+  )
+}
+
 ```
 
 ```{r cross_validaiton}
@@ -150,120 +162,134 @@ if (length(cv_splits) == 0) {
 }
 
 cat("Number of CV folds:", length(cv_splits), "\n\n")
-```
 
-```{r metrics}
-calc_metrics <- function(actual, predicted) {
-  tibble(
-    rmse = sqrt(mean((actual - predicted)^2)),
-    mae = mean(abs(actual - predicted)),
-    mape = mean(abs((actual - predicted) / actual)) * 100
-  )
-}
 
 ```
 
 
 ```{r cross-val_loop}
-cv_results <- map_dfr(cv_splits, function(s) {
-  train_data <- train_full %>%
-    filter(Date %in% s$train_dates)
+param_grid <- expand.grid(
+  nodesize = c(3, 5, 10), # num of features left in terminal nodes
+  numRandomCuts = c(2, 4, 8, 10), # good range
+  mtry_frac = c(sqrt(60), 60/3), # will technically be 60 features
+  stringsAsFactors = FALSE
+)
 
-  validation_data <- train_full %>%
-    filter(Date %in% s$val_dates)
 
-  # Keep only tasks seen in training for safety
-  seen_tasks <- unique(train_data$task_id)
-  validation_data <- validation_data %>%
-    filter(task_id %in% seen_tasks)
+all_cv_results <- purrr::pmap_dfr(param_grid, function(nodesize, numRandomCuts, mtry_frac) {
 
-  if (nrow(validation_data) == 0) {
-    return(tibble(
+  fold_results <- map_dfr(cv_splits, function(s) {
+    train_data <- train_full %>%
+      filter(Date >= s$train_start & Date <= s$train_end)
+
+    validation_data <- train_full %>%
+      filter(Date >= s$val_start & Date <= s$val_end)
+
+    seen_tasks <- unique(train_data$task_id)
+    validation_data <- validation_data %>%
+      filter(task_id %in% seen_tasks)
+
+    if (nrow(validation_data) == 0) {
+      return(tibble(
+        fold = s$fold,
+        mae = NA_real_,
+      ))
+    }
+
+    x_train <- train_data %>%
+      select(all_of(lag_cols)) %>%
+      data.matrix()
+
+    y_train <- as.numeric(train_data$Price)
+
+    x_val <- validation_data %>%
+      select(all_of(lag_cols)) %>%
+      data.matrix()
+
+    y_val <- as.numeric(validation_data$Price)
+
+    p <- ncol(x_train)
+
+    model <- extraTrees(
+      x = x_train,
+      y = y_train,
+      nodesize = nodesize,
+      mtry = mtry_frac,
+      numRandomCuts = numRandomCuts,
+      tasks = train_data$task_id
+    )
+
+    preds <- predict(model, x_val, newtasks=validation_data$task_id)
+    metrics <- calc_metrics(y_val, preds)
+
+    tibble(
       fold = s$fold,
-      train_start = s$train_start,
-      train_end = s$train_end,
-      val_start = s$val_start,
-      val_end = s$val_end,
-      n_train = nrow(train_data),
-      n_val = 0,
-      rmse = NA_real_,
-      mae = NA_real_,
-      mape = NA_real_
-    ))
-  }
+      mae = metrics$mae,
+    )
+  })
 
-  x_train <- train_data %>%
-    select(all_of(lag_cols)) %>%
-    data.matrix()
-
-  y_train <- as.numeric(train_data$Price)
-
-  x_val <- validation_data %>%
-    select(all_of(lag_cols)) %>%
-    data.matrix()
-
-  y_val <- as.numeric(validation_data$Price)
-
-  p <- ncol(x_train)
-
-  model <- extraTrees(
-    x = x_train,
-    y = y_train,
-    nodesize = nodesize,
-    mtry = max(1, floor(p / 3)),
-    numRandomCuts = numRandomCuts,
-    tasks = train_data$task_id
-  )
-
-  # Most robust option for this package:
-  # do not pass tasks at prediction unless you know your install supports it
-  preds <- predict(model, x_val, newtasks=validation_data$task_id)
-
-  metrics <- calc_metrics(y_val, preds)
-
-  tibble(
-    fold = s$fold,
-    train_start = s$train_start,
-    train_end = s$train_end,
-    val_start = s$val_start,
-    val_end = s$val_end,
-    n_train = nrow(train_data),
-    n_val = nrow(validation_data),
-    rmse = metrics$rmse,
-    mae = metrics$mae,
-    mape = metrics$mape
-  )
+  fold_results %>%
+    mutate(
+      nodesize = nodesize,
+      numRandomCuts = numRandomCuts,
+      mtry_frac = mtry_frac
+    )
 })
 
-cat("CV Results:\n")
-print(cv_results)
-cat("\n")
-
-cv_summary <- cv_results %>%
+cv_summary_by_params <- all_cv_results %>%
+  group_by(nodesize, numRandomCuts, mtry_frac) %>%
   summarise(
-    mean_rmse = mean(rmse, na.rm = TRUE),
-    sd_rmse = sd(rmse, na.rm = TRUE),
     mean_mae = mean(mae, na.rm = TRUE),
     sd_mae = sd(mae, na.rm = TRUE),
-    mean_mape = mean(mape, na.rm = TRUE),
-    sd_mape = sd(mape, na.rm = TRUE)
-  )
+    .groups = "drop"
+  ) %>%
+  arrange(mean_mae)
 
-cat("CV Summary:\n")
-print(cv_summary)
-cat("\n")
+print(cv_summary_by_params)
+
+best_params <- cv_summary_by_params %>%
+  slice(1)
+
+print(best_params)
 
 ```
 
 
-
-```{r huh}
-print(mean(cv_results$mae, na.rm = TRUE))
+```{r nodesize}
+library(ggplot2)
+ggplot(data = cv_summary_by_params, aes(x = as.factor(nodesize), y = mean_mae)) +
+  geom_boxplot() +
+  labs(title = "Multi-Task Node Size vs MAE",
+       x = "Node Size",
+       y = "Mean of MAE for Folds")
 ```
+```{r nodesize}
+library(ggplot2)
+ggplot(data = cv_summary_by_params, aes(x = as.factor(numRandomCuts), y = mean_mae)) +
+  geom_boxplot() +
+  labs(title = "Multi-Task Number of Random Cuts vs MAE",
+       x = "Random Cuts",
+       y = "Mean of MAE for Folds")
+```
+```{r mtry}
+library(ggplot2)
+ggplot(data = cv_summary_by_params, aes(x = as.factor(mtry_frac), y = mean_mae)) +
+  geom_boxplot() +
+  labs(title = "Multi-Task M try Fraction vs MAE",
+       x = "M try",
+       y = "Mean of MAE for Folds")
+```
+
 ```{r evaluateithink}
+
+nodesize = 3 # 5 and 3 are like basically equivalent
+numRandomCuts = 10 # good range
+mtry_frac = 20 # will technically be 60 features
+
 x_train_full <- train_full %>%
   select(all_of(lag_cols)) %>%
   data.matrix()
+
 
 y_train_full <- as.numeric(train_full$Price)
 
