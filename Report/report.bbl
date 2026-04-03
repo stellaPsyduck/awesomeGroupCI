@@ -20,9 +20,27 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{rfmulti}
+\BIBentryALTinterwordspacing
+L.~Schmid, A.~Gerharz, A.~Groll, and M.~Pauly, ``Tree-based ensembles for multi-output regression: Comparing multivariate approaches with separate univariate ones,'' \emph{Computational Statistics \& Data Analysis}, vol. 179, p. 107628, 2023. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0167947322002080}
+\BIBentrySTDinterwordspacing
+
 \bibitem{log_scale}
 \BIBentryALTinterwordspacing
 ``Decomposition of time series,'' 2025. [Online]. Available: \url{https://medium.com/@m.capurso/decomposition-of-time-series-071ce7b7a5a0}
+\BIBentrySTDinterwordspacing
+
+\bibitem{3d_tensor_lstm}
+\BIBentryALTinterwordspacing
+``Sequence models and long short-term memory networks,'' 2017. [Online]. Available: \url{https://docs.pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html}
+\BIBentrySTDinterwordspacing
+
+\bibitem{slater}
+J.~Slater, ``Time series analysis (stat*4360),'' University of Guelph, 2025.
+
+\bibitem{timeseries_data}
+\BIBentryALTinterwordspacing
+I.~P. Carrascosa, ``Forecasting the future with tree-based models for time series,'' 2025. [Online]. Available: \url{https://machinelearningmastery.com/forecasting-the-future-with-tree-based-models-for-time-series/}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}

@@ -43,18 +43,18 @@
 %-------------------------------------MOTIVATION and OBJECTIVES------------------------
 \section{Motivation and Objectives}
 \subsection*{Motivation}
+Comparing and exploring multi-tasking
 \subsection*{Objectives}
+Figure out if multi-tasking stock data is better
 
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
 \subsection{Data}
 - Companies \\
-- aggregation choice \\
-- time choice \\
+- aggregation choice (by day vs other aggregations) \\
+- time choice (length of window)\\
 
 \subsection{Algorithms}
-\subsubsection*{Random Forests}
-yee
 \subsubsection*{LSTMS}
 explination
 \begin{figure}[h]
@@ -63,14 +63,47 @@ explination
     \caption{Diagram of hard parameter sharing and inputs for an LSTM Multi-Tasking model. (Drawn by group).}
     \label{lstm_diagram}
 \end{figure}
+To implement this, we used \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch}.
+
+\subsubsection*{Multi-Tasking Extra Trees (or Extremely Randomized Trees)}
+Extra Trees is a tree ensemble method like Random Forests, but it produces more decorrelated trees. It uses
+ the entire data set to build decision trees, rather than bootstrapping as in random forests. It also differs
+in its threshold selection, which randomly selects where to split the feature rather than using an optimization
+method. It still chooses $m_{try}$ number of random features to choose the feature splits to compare, where
+$m_{try} = \lfloor \frac{p}{3} \rfloor$ and p is the number of features. There are two relevant extensions to this algorithm that make it similar
+to our LSTM hard parameter multi-tasking \cite{rfmulti}. \\
+The first is introducing multi-output, which essentially means the loss function is the summation of sample error
+and task outputs. This effectively makes each node split
+consider the error of the candiate splits' effect across all tasks \cite{rfmulti}.
+The second is introducing task-focused splits, or the ability to make decisions based on what the task is
+being predicted. To do this, a random group of $m_{try}$ features and S random possible
+subsets of tasks are selected (S$\epsilon \mathbb{Z} < T$ randomly selected). Each feature split is randomized,
+and the multi-output error is calculated. Then, $f_k$ (Equation \ref{fk}) is calculated for each candidate task subset or feature;
+this is the prediction. The error is calculated from the prediction and used to choose the best split at the node \cite{rfmulti}. 
+
+\begin{equation}
+    \label{fk}
+    f_k = \frac{\sum_{\nu \epsilon I_k} y_{\nu} + \alpha \frac{1}{\lfloor I \rfloor} \sum_{w \epsilon I} y_w}{\lfloor I_k \rfloor + \alpha}
+\end{equation}
+
+\noindent\textit{``I denotes the set of sample indexes at the current node, $I_k$ the set of sample indexes of the task $k$
+at the current node and $\alpha$ is a regularization parameter weighting the influence of the tasks with default
+value 1. Then, the task cut point is randomly selected from the interval $(\min_k f_k, \max_k f_k)$" - Schmid et. al \cite{rfmulti}}
+
+To implement this method, we used R, since there is a pre-made R package for multi-tasking tree enssemblers. It is technically archived in newer versions
+of R, but can be downloaded \href{https://cran.r-project.org/src/contrib/Archive/extraTrees/}{here}. This was decided because the paper explaining the metholody
+used this package \cite{rfmulti}.
 
 \subsection{Metrics and Evaluation}
+\subsubsection*{Rolling Cross-Validation}
+\subsubsection*{Mean Absolute Error (Criterion and Metric)}
+
 
 \subsection{Preprocessing}
 \subsubsection*{Misaligned Dates}
 Due to different market holidays, some days in the data included both null values and
- recorded prices. The days with null values were removed to keep the dataset consistent.
-  Dropping a few days of data should not obscure the stocks’ growth patterns and relationships.
+recorded prices. The days with null values were removed to keep the dataset consistent.
+Dropping a few days of data should not obscure the stocks’ growth patterns and relationships.
 \subsubsection*{Logarithmic Scale}
 The data was scaled logarithmically. This was to ensure stable predictions by reducing 
  effect of outliers on the model and to account for the exponential patterns in each stock's data.
@@ -79,20 +112,28 @@ machine learning.\cite{log_scale}. \\
 The scaling affect is shown in appendix \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
 stock AAPL after logging the data.
 
-\subsubsection*{Random Forests}
-describe script and set up of what it intakes \cite{log_scale}
 \subsubsection*{LSTMS}
-Pytorch requires LSTM inputs to be 3D tensors. The data looks at stocks, with the only attribute 
-being the stock price. Referring to \ref{lstm_diagram}, the matrix on the left would be an example 3D tensor input,
+Pytorch requires LSTM inputs to be 3D tensors \cite{3d_tensor_lstm}. The data looks at stocks, with the only attribute 
+being the stock price. Referring to figure \ref{lstm_diagram}, the matrix on the left would be an example 3D tensor input,
 with each vector $\vec{x}$ representing all the stocks of interest at the given t. There is no third dimension depicted,
 as the only attribute of each stock of interest is the given price at time t. \\
 The times within the input are $\vec{x_{t,n}}$ and the lags of $\vec{x_{tn}}$, which represent our rolling window,
  since $\vec{x_{t+1}}$ should use all the previous lags for its prediction.
+\subsubsection*{Extra Trees}
+To turn the stock price data into an acceptable input for a tree ensemble, the lags must be added manually.
+Lags are data from a previous date; for example, lag 1 at time $t$ is the data point at time $ t-1$ \cite{slater}.
+Each datapoint will then have 61 attributes: 1 representing time t’s price and 60 representing the 60 associated
+lags \cite{timeseries_data}. Days without all 60 previous lags have been dropped.
 
 \subsection{Building the Models (?)}
-\subsubsection*{Random Forests}
 \subsubsection*{LSTMS}
-
+- explain single then multi
+- describe the hyperparemeters we are tuning
+\subsubsection*{Extra Trees}
+- eplain single then multi
+- describe the hyperparameters we are tuning 
+For the single thing training (multi-output) \dots
+To extend to multi-tasking (??) \dots
 %---------------------------------------RESULTS-------------------------------------
 \section{Results}
 *add pics and stuff*
@@ -103,6 +144,8 @@ The times within the input are $\vec{x_{t,n}}$ and the lags of $\vec{x_{tn}}$, w
 \section{Discussion}
 \subsection{Findings}
 \subsection{Interpretation of Results}
+\subsubsection{Single vs Multi}
+\subsubsection{LSTM MTL vs ExtraTrees MTL}
 \subsection{Hyperparameters}
 \subsection{Advantages and Disadvantages of Multi-Tasking}
 
@@ -116,6 +159,7 @@ The times within the input are $\vec{x_{t,n}}$ and the lags of $\vec{x_{tn}}$, w
 
 %------------------------------------APPENDIX-----------------------------------------
 \appendix
+
 \counterwithin{figure}{section} % Resets figure count to 0, prefixes with section letter (A, B, etc.)
 \renewcommand{\thefigure}{\thesection\arabic{figure}} % Formats as A1 instead of A.1
 \section{Raw Data}
