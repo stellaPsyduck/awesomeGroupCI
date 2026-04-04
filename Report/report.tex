@@ -6,9 +6,11 @@
 
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
+\usepackage{bookmark}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -37,51 +39,398 @@
 
 %--------------------------------------INTRODUCTION-------------------------------------
 \section{Introduction}
-**Insert introduction here**
+Forecasting of financial time series is a significant challenge in computational intelligence
+due to the high volatility, non-linearity and inconsistent variety of global markets. Traditional 
+univariate models often try to predict stock price movements in isolation, not accounting
+for the deep rooted dependencies and shared behaviours between firms in the same sector. 
+This project investigates Multi-Task Learning, a form of inductive transfer
+to improve predictive accuracy by explicity modeling these interconnections. 
+
+By utilizing shared representations, the Multi-Task Learning framework forces the model to favor
+parameters that generalize across different but associated market behaviours. This approach leverages 
+sector-wide knowledge to improve the performance of individual target tasks. Our study focuses on 
+a diverse cohort of 25 companies spanning the hardware and software sectors, derived from the 
+iShares S&P/TSX Capped Information Technology Index and Vanguard Information Technology ETFs. 
+
+The primary objective is to develop a robust architecture capable of capturing complex, non-linear 
+dependencies in financial data from 2009 to 2017. To evaluate the efficacy of the Multi-Task Learning 
+approach, we compare two sophisticated architectures:
+    - Long Short-Term Memory (LSTM) Networks: A recurrent architecture designed for sequential data, 
+    implemented with a shared hidden layers and task-specific output heads.
+    - Multi-Task Extra Trees: An ensemble method utilizing multi-output regression to optimize node 
+    splits across all tasks simultaneously.
+
+By comparing these multi-tasking frameworks against traditional single-prediction baselines, 
+this study demonstrates how shared representations can reduce variance and provide more stable 
+price forecasts in volatile financial environments.
 
 %-------------------------------------MOTIVATION and OBJECTIVES------------------------
 \section{Motivation and Objectives}
 \subsection*{Motivation}
+Comparing and exploring multi-tasking
 \subsection*{Objectives}
+Figure out if multi-tasking stock data is better
 
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
 \subsection{Data}
+\subsubsection{Data Availability}
+Given the abundance of detailed historical stock market data, the dataset was carefully chosen.
+A mix of hardware and software companies between 2009 and 2017 was selected to ensure that the
+data exhibits behaviours uninfluenced by external severe market-changing events. Training on 
+this data allowed for the architecture to capture the complex, non-linear market behaviors that
+traditional models struggle to represent. The timeframe was specifically restricted to the period
+from 2009 through 2017 to avoid two major economic anomalies: the 2008 financial crash and the 
+COVID-19 pandemic. Excluding these catastrophic events prevents the model from unintentionally
+being trained on massive market disruptions.
+
+\subsubsection{Datasets}
+The specific companies in the dataset were taken from the iShares S&P/TSX Capped Information Technology Index ETF and the Vanguard Information Technology ETF. These professionally curated funds were used to ensure a baseline of market viability and relevance. To guarantee sufficient training data, a total of 25 companies were selected: 5 from iShare and 20 from the Vanguard ETF. The selected companies were subsequently divided into three categories based on their market capitalization: large-cap (greater than \$120,000,000 USD), mid-cap (between \$120,000,000 and \$50,000,000 USD), and small-cap (less than \$50,000,000 USD).
+
+\subsubsection{Intra-Sector Relationships and Multitasking}
+A varied composition of technology companies, spanning across a large range of valuations, was deliberately selected to optimize the architecture for multi-task learning. This introduced the models to complex intra-sector relationships, allowing them to learn how behaviours in one sector influence or correlate with another. By multi-tasking across these datasets, the model avoids overfitting to a single company size and develops a stronger understanding of the underlying patterns of the market.
 
 \subsection{Algorithms}
-\subsubsection*{Random Forests}
-\subsubsection*{LSTMS}
+\subsubsection*{LSTMs}
+explination
+\begin{figure}[h]
+    \centering
+\includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
+    \caption{Diagram of hard parameter sharing and inputs for an LSTM Multi-Tasking model. (Drawn by group).}
+    \label{lstm_diagram}
+\end{figure}
+To implement this, we used \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch}.
+
+\subsubsection*{Multi-Tasking Extra Trees (or Extremely Randomized Trees)}
+Extra Trees (ET) is a tree ensemble method like Random Forests, but it produces more decorrelated trees. It uses
+ the entire data set to build decision trees, rather than bootstrapping as in random forests. It also differs
+in its threshold selection, which randomly selects where to split the feature rather than using an optimization
+method. It still chooses $m_{try}$ number of random features to choose the feature splits to compare, where
+$m_{try} = \lfloor \frac{p}{3} \rfloor$ or $m_{try} = \lfloor \sqrt{p} \rfloor$ and p is the number of features. There are two relevant extensions to this algorithm that make it similar
+to our LSTM hard parameter multi-tasking \cite{rfmulti}. \\
+The first is introducing multi-output, which essentially means the loss function is the summation of sample error
+and task outputs. This effectively makes each node split
+consider the error of the candiate splits' effect across all tasks \cite{rfmulti}.
+The second is introducing task-focused splits, or the ability to make decisions based on what the task is
+being predicted. To do this, a random group of $m_{try}$ features and S random possible
+subsets of tasks are selected (S$\epsilon \mathbb{Z} < T$ randomly selected). Each feature split is randomized,
+and the multi-output error is calculated. Then, $f_k$ (Equation \ref{fk}) is calculated for each candidate task subset or feature;
+this is the prediction. The error is calculated from the prediction and used to choose the best split at the node \cite{rfmulti}. 
+
+\begin{equation}
+    \label{fk}
+    f_k = \frac{\sum_{\nu \epsilon I_k} y_{\nu} + \alpha \frac{1}{\lfloor I \rfloor} \sum_{w \epsilon I} y_w}{\lfloor I_k \rfloor + \alpha}
+\end{equation}
+
+\noindent\textit{``I denotes the set of sample indexes at the current node, $I_k$ the set of sample indexes of the task $k$
+at the current node and $\alpha$ is a regularization parameter weighting the influence of the tasks with default
+value 1. Then, the task cut point is randomly selected from the interval $(\min_k f_k, \max_k f_k)$" - Schmid et. al \cite{rfmulti}}
+
+To implement this method, we used R, since there is a pre-made R package for multi-tasking tree enssemblers. It is technically archived in newer versions
+of R, but can be downloaded \href{https://cran.r-project.org/src/contrib/Archive/extraTrees/}{here}. This was decided because the paper explaining the metholody
+used this package \cite{rfmulti}.
+
+\subsection{Metrics and Evaluation}
+\subsubsection*{Rolling Cross-Validation}
+To validate the model model, rolling cross validation was used. This method slides a set length
+“window” along the folds, validating with the last fold of the
+window. A visual for this method is shown in figure \ref{rolling}. It's ideal for time series data \cite{slater}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/rollingCross.png}
+    \caption{Rolling cross validation explination. (Drawn by Group)}
+    \label{rolling}
+\end{figure}
+\subsubsection*{Mean Absolute Error (Criterion and Metric)}
+Mean Absolute Error (MAE) is a metric robust to outliers \cite{slater}. 
+For that reason, the MAE was chosen as the loss function, and the models
+were evaluated with this metric. The MAE could not be used as the “criterion”
+or error to minimize in extra trees because the R package did not support it.
+\subsubsection*{Training and Evaluation}
+The data was split into 80-20 training and evaluation. This made the evaluation period approximately
+cover the years 2015 to 2017.
 
 \subsection{Preprocessing}
-\subsubsection*{Normalization}
-*maybe like say not assuming any outlieers since stock data just sometimes funny*
-\subsubsection*{Random Forests}
-describe script and set up of what it intakes
-\subsubsection*{LSTMS}
-describe script and set up of what it intakes
+\subsubsection*{Misaligned Dates}
+Due to different market holidays, some days in the data included both null values and
+recorded prices. The days with null values were removed to keep the dataset consistent.
+Dropping a few days of data should not obscure the stocks’ growth patterns and relationships.
+\subsubsection*{Logarithmic Scale}
+The data was scaled logarithmically. This was to ensure stable predictions by reducing 
+ effect of outliers on the model and to account for the exponential patterns in each stock's data.
+The predictions become more stable because most analysis techniques assume additive data, including
+machine learning.\cite{log_scale}. \\
+The scaling affect is shown in appendix \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
+stock AAPL after logging the data.
+\subsubsection*{Lag Length}
+Lags are data from a previous date; for example, lag 1 at time $t$ is the data point at time $ t-1$ \cite{slater}.
+This idea is from time series, where it is assumed that lags of the data have some affect on the current $t$'s data. \\
+For this model, 60 lags were used because a quarter of the fiscal year is approximately this many days \cite{stockgro}. This value considers
+only days when the markets are actually open.
 
-\subsection{Building the Models (?)}
-\subsubsection*{Random Forests}
-\subsubsection*{LSTMS}
+\subsubsection*{LSTMs}
+Pytorch requires LSTM inputs to be 3D tensors \cite{3d_tensor_lstm}. The data looks at stocks, with the only attribute 
+being the stock price. Referring to figure \ref{lstm_diagram}, the matrix on the left would be an example 3D tensor input,
+with each vector $\vec{x}$ representing all the stocks of interest at the given t. There is no third dimension depicted,
+as the only attribute of each stock of interest is the given price at time t. \\
+The times within the input are $\vec{x_{t,n}}$ and the lags of $\vec{x_{tn}}$, which represent our rolling window,
+ since $\vec{x_{t+1}}$ should use all the previous lags for its prediction.
+\subsubsection*{Extra Trees}
+To turn the stock price data into an acceptable input for a tree ensemble, the lags must be added manually.
+Each datapoint will then have 60 attributes representing the 60 associated lags
+lags \cite{timeseries_data}. Days without all 60 previous lags have been dropped.
+
+\subsection{Building the Models}
+\subsubsection*{LSTMs}
+describe the things we need to tune? And how single vs mutli looks diffrent (not what we chose just what we did method wise).
+Why chosen hyper parameters, why others not chosen.
+
+\subsubsection*{Extra Trees}
+For Extra Trees, single-task and multi-task, the parameters that could be tuned  are \cite{rfmulti}:
+
+\begin{itemize}
+\item The number of grown trees
+\item The cardinality of the sample of features at every node is $m_{try}$
+\item The number of random split values at each node
+\item The minimum number of observations that each terminal node should contain (stopping criteria)
+\end{itemize}
+
+The models in this paper are tuned for $m_{try}$, the number of random splits/cuts, and the number
+of terminal node observations. The number of trees was set to the default of 500 \cite{extratreedoc}.
+Any excess grown tree doesn't impact the predictive power of the model, and 500 is likely enough for
+the tasks of interest \cite{toomanytree}.
 
 %---------------------------------------RESULTS-------------------------------------
 \section{Results}
 *add pics and stuff*
-\subsection{Hyperparameters}
-\subsection{Algorithm Performances}
+\subsection{Single-Task LSTM}
+For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters are in CHANGE TO THE CORRECT APPENDIX. The model performance was optimized based on the lowest validation Mean Absolute Error (MAE). 
+\subsection*{Hyperparameters}
+\subsubsection*{BlackBerry (BB.TO)}
+For the BlackBerry dataset, the optimal validation MAE was achieved using 42 epochs, 25 hidden nodes, a learning rate of 0.0008, and a single LSTM layer.
+\subsubsection*{IBM}
+For the IBM dataset, the optimal validation MAE was achieved using 32 epochs, 100 hidden nodes, a learning rate of 0.0011, and a single LSTM layer.
+\subsection*{Algorithm Performances}
+BlackBerry’s test evaluation of MAE was 0.0371 for single task LSTM, and IBM’s test evaluation of MAE was 0.0628.
+\subsection{Multi-Task LSTM}
+\subsubsection*{Hyperparameters}
+\subsubsection*{Algorithm Performances}
+
+\subsection{Single-Task Extra Trees}
+For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
+to tune the hyperparmeter are in \ref{st_extra_tune}.
+\subsubsection*{IBM}
+IBM Had the smallest validation MAE with terminal node size 3 \ref{bbto_nodesize}, 2 random cuts \ref{bbto_randcuts}, and $m_try$ size $p/3$ \ref{bbto_mtry}.
+IBM's evaluation MAE was 0.01502721 for single task ET. \\
+Figure \ref{st_pred_ibm} shows the prediction of this model over the monthly evaluation period.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/single_tree_pred_IBM.png}
+    \caption{Evaluation prediction of IBM stock using single-task extra tree. Solid line is true value; dotted is prediction; and shaded area is the variance.}
+    \label{st_pred_ibm}
+\end{figure}
+Nearing the later part of the calendar year, the single-task model seems to over-esitmate the IBM stock. As well, the variance at the begining of the
+evaluation period is high.
+\subsubsection*{Blackberry (BB.TO)} 
+Blackberry had the smallest validation MAE with terminal node size 3 \ref{ibm_nodesize}, 8 random cuts \ref{ibm_randcuts}, and $m_try$ size $\sqrt{p}$ \ref{ibm_mtry}.
+Blackberry's evaluation MAE was 0.02308594 for single-task ET.  
+Figure \ref{st_pred_bbto} shows the prediction of this model over the monthly evaluation period.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/single_tree_pred_BBTO.png}
+    \caption{Evaluation prediction of BB.TO stock using single-task extra tree. Solid line is true value; dotted is prediction; and shaded area is the variance.}
+    \label{st_pred_bbto}
+\end{figure}
+The variance of the prediction is consistent throughout the evaluation period. There is a mix between
+over and under reporting the price of the blackbery stock.
+\subsection{Multi-Task Extra Trees}
+\subsubsection*{Hyperparameters}
+Tuning showed 3 nodes and 5 nodes had almost equivalent MAE, so we chose 3 nodes.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_node.png}
+    \caption{Tuning Multi-Task Extra Trees node size}
+    \label{mt_node}
+\end{figure}
+
+Tuning showed $p/3$ was the best for multi-tasking $m_try$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_mtry.png}
+    \caption{Tuning  Multi-Task Extra Trees $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{mt_mtry}
+\end{figure}
+
+Tuning showed 10 random cuts would be ideal for multi-tasking.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_rand.png}
+    \caption{Tuning Multi-Task Extra Trees number of random cuts}
+    \label{mt_randcuts}
+\end{figure}
+
+\subsubsection*{Algorithm Evaluation Performances}
+Below is a table that shows the MAE of evaluation for each stock prediction in the multi-tasking extra trees model:
+
+\begin{tabular}{c c}
+\hline
+Task & Mean of MAE for Evaluation Window \\
+\hline
+AAPL & 0.010017864 \\
+ACIW & 0.013566978 \\
+AMD & 0.031279329 \\
+BB.TO & 0.015650922 \\
+BDC & 0.017563812 \\
+BELF & 0.019272468 \\
+BLKB & 0.013493255 \\
+BMI & 0.011254196 \\
+CLS.TO & 0.012401716 \\
+CRM & 0.013950118 \\
+CSCO & 0.009417804 \\
+DSG.TO & 0.011196125 \\
+GIB-A.TO & 0.009294681 \\
+IBM & 0.011959280 \\
+INTC & 0.009181391 \\
+KXS.TO & 0.017382097 \\
+MSFT & 0.009562804 \\
+NOVT & 0.013969065 \\
+NTCT & 0.015411194 \\
+OLED & 0.024107319 \\
+ORCL & 0.008827831 \\
+OTEX.TO & 0.009609518 \\
+PLAB & 0.015337510 \\
+SLAB & 0.014071373 \\
+UCTT & 0.023878160 \\
+VSAT & 0.012968538 \\
+\hline
+\end{tabular} \\
+
+Figures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi-tasked predictions of the
+stocks previously predicted with single-task models.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tree_pred_IBM.png}
+    \caption{Evaluation prediction of IBM stock using multi-task extra tree. Solid line is true value; dotted is prediction; and shaded area is the variance.}
+    \label{mt_pred_ibm}
+\end{figure}
+
+The IBM multi-task prediction has consistent variance throughout the evaluation period. It still, however, over estimates the
+cost of the stock nearing the end of the calendar year.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tree_pred_BBTO.png}
+    \caption{Evaluation prediction of BB.TO stock using multi-task extra tree. Solid line is true value; dotted is prediction; and shaded area is the variance.}
+    \label{mt_pred_bbto}
+\end{figure}
+
+The blackberry stock prediction holds very close to the true prediction.
 
 %---------------------------------------DISCUSSIONS-------------------------------------
 \section{Discussion}
 \subsection{Findings}
 \subsection{Interpretation of Results}
-\subsection{Hyperparameters}
+\subsubsection{Single vs Multi}
+\subsubsection{LSTM MTL vs ExtraTrees MTL}
 \subsection{Advantages and Disadvantages of Multi-Tasking}
 
 %--------------------------------------CONCLUSION-------------------------------------
 \section{Conclusion}
-
+\subsection*{Future Works}
+To further this project, the remaining stocks of interest could have their 
+single-task counterparts calculated and compared. This would provide a better 
+understanding of how multitasking affects the predictions.  \\
+Tthe intermediate step of multi-input single-output predictions could also be explored.
+This would reveal the effect of shared weights in multi-tasking, because the multi-input
+single-output model would use the same input data as our multi-tasking model, but it would optimize for only one prediction.
 %-------------------------------------BIBLIOGRAPHY-------------------------------------
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
+
+%------------------------------------APPENDIX-----------------------------------------
+\newpage
+\appendix
+\counterwithin{figure}{subsection}
+\renewcommand{\thefigure}{\thesubsection\arabic{figure}}
+\section{Appendices}
+
+\subsection{Raw Data}
+\label{appendix_a}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/aciw_raw.png}
+    \caption{Raw price data of ACIW Stock}
+    \label{aciw_raw}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/appl_raw.png}
+    \caption{Raw price data of APPL Stock}
+    \label{appl_raw}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/aciw_scaled.png}
+    \caption{Logged price data of ACIW Stock}
+    \label{aciw_scaled}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/appl_scaled.png}
+    \caption{Logged price data of APPL Stock}
+    \label{appl_scaled}
+\end{figure}
+
+\clearpage
+\subsection{Single-Task Extra Trees Tuning}
+\label{st_extra_tune}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/bbto_tune_nodesize.png}
+    \caption{Tuning Blackberry node size}
+    \label{bbto_nodesize}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/bbto_tune_mtry.png}
+    \caption{Tuning Blackberry $m_{try}$ fraction, choice between $p/3$\\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{bbto_mtry}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/bbto_tune_randcuts.png}
+    \caption{Tuning Blackberry number of random cuts}
+    \label{bbto_randcuts}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_node.png}
+    \caption{Tuning IBM node size}
+    \label{ibm_nodesize}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_mtry.png}
+    \caption{Tuning IBM $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{ibm_mtry}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_randcuts.png}
+    \caption{Tuning IBM number of random cuts}
+    \label{ibm_randcuts}
+\end{figure}
 \end{document}
+
