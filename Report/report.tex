@@ -50,9 +50,6 @@ Figure out if multi-tasking stock data is better
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
 \subsection{Data}
-- Companies \\
-- aggregation choice (by day vs other aggregations) \\
-- time choice (length of window)\\
 
 \subsection{Algorithms}
 \subsubsection*{LSTMs}
@@ -141,8 +138,13 @@ describe the things we need to tune? And how single vs mutli looks diffrent (not
 \subsection{Multi-Task LSTM}
 \subsubsection*{Hyperparameters}
 \subsubsection*{Algorithm Performances}
+
 \subsection{Single-Task Extra Trees}
+For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
+to tune the hyperparmeter are in \ref{st_extra_tune}.
 \subsubsection*{Hyperparameters}
+Blackberry had the smallest validation MAE with terminal node size 3 \ref{ibm_nodesize}, 8 random cuts \ref{ibm_randcuts}, and $m_try$ size $\sqrt{p}$ \ref{ibm_mtry}.\\
+IBM Had the smallest validation MAE with terminal node size 3 \ref{bbto_nodesize}, 2 random cuts \ref{bbto_randcuts}, and $m_try$ size $p/3$ \ref{bbto_mtry}.
 \subsubsection*{Algorithm Performances}
 \subsection{Multi-Task Extra Trees}
 \subsubsection*{Hyperparameters}
@@ -167,39 +169,87 @@ describe the things we need to tune? And how single vs mutli looks diffrent (not
 
 
 %------------------------------------APPENDIX-----------------------------------------
+\newpage
 \appendix
+\counterwithin{figure}{subsection}
+\renewcommand{\thefigure}{\thesubsection\arabic{figure}}
+\section{Appendices}
 
-\counterwithin{figure}{section} % Resets figure count to 0, prefixes with section letter (A, B, etc.)
-\renewcommand{\thefigure}{\thesection\arabic{figure}} % Formats as A1 instead of A.1
-\section{Raw Data}
+\subsection{Raw Data}
 \label{appendix_a}
-\begin{figure}[h]
+
+\begin{figure}[htpb]
     \centering
     \includegraphics[width=0.7\linewidth]{images/aciw_raw.png}
     \caption{Raw price data of ACIW Stock}
     \label{aciw_raw}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htpb]
     \centering
-\includegraphics[width=0.7\linewidth]{images/appl_raw.png}
+    \includegraphics[width=0.7\linewidth]{images/appl_raw.png}
     \caption{Raw price data of APPL Stock}
     \label{appl_raw}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htpb]
     \centering
     \includegraphics[width=0.7\linewidth]{images/aciw_scaled.png}
     \caption{Logged price data of ACIW Stock}
     \label{aciw_scaled}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htpb]
     \centering
-\includegraphics[width=0.7\linewidth]{images/appl_scaled.png}
+    \includegraphics[width=0.7\linewidth]{images/appl_scaled.png}
     \caption{Logged price data of APPL Stock}
-    \label{appl_scasled}
+    \label{appl_scaled}
 \end{figure}
 
+\clearpage
+\subsection{Single-Task Extra Trees Tuning}
+\label{st_extra_tune}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/bbto_tune_nodesize.png}
+    \caption{Tuning Blackberry node size}
+    \label{bbto_nodesize}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/bbto_tune_mtry.png}
+    \caption{Tuning Blackberry $m_{try}$ fraction, choice between $p/3$\\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{bbto_mtry}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/bbto_tune_randcuts.png}
+    \caption{Tuning Blackberry number of random cuts}
+    \label{bbto_randcuts}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_node.png}
+    \caption{Tuning IBM node size}
+    \label{ibm_nodesize}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_mtry.png}
+    \caption{Tuning IBM $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{ibm_mtry}
+\end{figure}
+
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_randcuts.png}
+    \caption{Tuning IBM number of random cuts}
+    \label{ibm_randcuts}
+\end{figure}
 \end{document}
 

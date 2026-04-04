@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  3 APR 2026 12:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  3 APR 2026 20:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -393,24 +393,20 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Underfull \hbox (badness 10000) in paragraph at lines 53--56
-
- []
-
 <images/lstm_inputs.png, id=4, 2345.76375pt x 1226.5825pt>
 File: images/lstm_inputs.png Graphic file (type png)
 <use images/lstm_inputs.png>
-Package pdftex.def Info: images/lstm_inputs.png  used on input line 62.
+Package pdftex.def Info: images/lstm_inputs.png  used on input line 59.
 (pdftex.def)             Requested size: 176.39923pt x 92.23302pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 72.
-(c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Trying to load font information for U+msa on input line 69.
+ (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 72.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 69.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 3088) in paragraph at lines 69--83
+Underfull \hbox (badness 3088) in paragraph at lines 66--80
  []\OT1/ptm/m/it/10 Multi-Tasking Ex-tra Trees (or Ex-tremely Ran-dom-ized
  []
 
@@ -424,38 +420,64 @@ Underfull \hbox (badness 3088) in paragraph at lines 69--83
  <./images/lstm_inputs.png (PNG copy)>]
 
 (./report.bbl)
-** WARNING: Ignoring useless \section in Appendix (line 174).
-<images/aciw_raw.png, id=52, 462.528pt x 346.896pt>
+
+[2]
+** WARNING: Ignoring useless \section in Appendix (line 176).
+<images/aciw_raw.png, id=112, 462.528pt x 346.896pt>
 File: images/aciw_raw.png Graphic file (type png)
 <use images/aciw_raw.png>
-Package pdftex.def Info: images/aciw_raw.png  used on input line 178.
+Package pdftex.def Info: images/aciw_raw.png  used on input line 183.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/appl_raw.png, id=54, 462.528pt x 346.896pt>
+<images/appl_raw.png, id=114, 462.528pt x 346.896pt>
 File: images/appl_raw.png Graphic file (type png)
 <use images/appl_raw.png>
-Package pdftex.def Info: images/appl_raw.png  used on input line 185.
+Package pdftex.def Info: images/appl_raw.png  used on input line 190.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/aciw_scaled.png, id=55, 462.528pt x 346.896pt>
+<images/aciw_scaled.png, id=115, 462.528pt x 346.896pt>
 File: images/aciw_scaled.png Graphic file (type png)
 <use images/aciw_scaled.png>
-Package pdftex.def Info: images/aciw_scaled.png  used on input line 192.
+Package pdftex.def Info: images/aciw_scaled.png  used on input line 197.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/appl_scaled.png, id=56, 462.528pt x 346.896pt>
+<images/appl_scaled.png, id=116, 462.528pt x 346.896pt>
 File: images/appl_scaled.png Graphic file (type png)
 <use images/appl_scaled.png>
-Package pdftex.def Info: images/appl_scaled.png  used on input line 199.
+Package pdftex.def Info: images/appl_scaled.png  used on input line 204.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
-LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+
+[3 <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png>]
+<images/bbto_tune_nodesize.png, id=131, 526.96875pt x 325.215pt>
+File: images/bbto_tune_nodesize.png Graphic file (type png)
+<use images/bbto_tune_nodesize.png>
+Package pdftex.def Info: images/bbto_tune_nodesize.png  used on input line 215.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/bbto_tune_mtry.png, id=132, 526.96875pt x 325.215pt>
+File: images/bbto_tune_mtry.png Graphic file (type png)
+<use images/bbto_tune_mtry.png>
+Package pdftex.def Info: images/bbto_tune_mtry.png  used on input line 222.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/bbto_tune_randcuts.png, id=133, 526.96875pt x 325.215pt>
+File: images/bbto_tune_randcuts.png Graphic file (type png)
+<use images/bbto_tune_randcuts.png>
+Package pdftex.def Info: images/bbto_tune_randcuts.png  used on input line 229.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/IBM_tune_node.png, id=134, 526.96875pt x 325.215pt>
+File: images/IBM_tune_node.png Graphic file (type png)
+<use images/IBM_tune_node.png>
+Package pdftex.def Info: images/IBM_tune_node.png  used on input line 236.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/IBM_tune_mtry.png, id=135, 526.96875pt x 325.215pt>
+File: images/IBM_tune_mtry.png Graphic file (type png)
+<use images/IBM_tune_mtry.png>
+Package pdftex.def Info: images/IBM_tune_mtry.png  used on input line 243.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/IBM_tune_randcuts.png, id=136, 526.96875pt x 325.215pt>
+File: images/IBM_tune_randcuts.png Graphic file (type png)
+<use images/IBM_tune_randcuts.png>
+Package pdftex.def Info: images/IBM_tune_randcuts.png  used on input line 250.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
 
 
 ** Conference Paper **
@@ -470,31 +492,29 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-[2]
 
 
+[4
 
-[3
-
- <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png>] (./report.aux)
+ <./images/bbto_tune_nodesize.png> <./images/bbto_tune_mtry.png> <./images/bbto_tune_randcuts.png> <./images/IBM_tune_node.png> <./images/IBM_tune_mtry.png> <./images/IBM_tune_randCuts.png>] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 11701 strings out of 473254
- 181224 string characters out of 5722070
- 593054 words of memory out of 5000000
- 34706 multiletter control sequences out of 15000+600000
+ 11761 strings out of 473254
+ 182916 string characters out of 5722070
+ 593672 words of memory out of 5000000
+ 34757 multiletter control sequences out of 15000+600000
  592753 words of font info for 105 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,8n,79p,693b,472s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (3 pages, 1024711 bytes).
+<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (4 pages, 1114083 bytes).
 PDF statistics:
- 249 PDF objects out of 1000 (max. 8388607)
- 210 compressed objects within 3 object streams
- 60 named destinations out of 1000 (max. 500000)
- 210 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 308 PDF objects out of 1000 (max. 8388607)
+ 248 compressed objects within 3 object streams
+ 69 named destinations out of 1000 (max. 500000)
+ 256 words of extra memory for PDF output out of 10000 (max. 10000000)
 
