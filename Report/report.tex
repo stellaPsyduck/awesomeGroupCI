@@ -230,9 +230,43 @@ For the BlackBerry dataset, the optimal validation MAE was achieved using 42 epo
 For the IBM dataset, the optimal validation MAE was achieved using 32 epochs, 100 hidden nodes, a learning rate of 0.0011, and a single LSTM layer.
 \subsection*{Algorithm Performances}
 BlackBerry’s test evaluation of MAE was 0.0371 for single task LSTM, and IBM’s test evaluation of MAE was 0.0628.
+
 \subsection{Multi-Task LSTM}
+The Multi-Task LSTM architecture was designed to leverage shared temporal features 
+across a synchronized dataset of 25 stocks. By utilizing shared hidden layers, the model 
+implements an inductive bias that favours parameters generalizing across the technology sector.
 \subsubsection*{Hyperparameters}
+The optimal configurations for the MTL model was determined through a systematic 3 stage ablation study 
+evaluating layer count, hidden dimension size, and learning rates. The final architecture selected for 
+the 200-epoch evaluation run consisted of:
+\begin{itemize}
+    \item \textbf{LSTM Layers:} 2. As illustrated in Figure \ref{mtl_layers}, 2 layers provided the optimal balance between model capacity and generalization, whereas deeper architectures showed a sharp increase in validation error.
+    \item \textbf{Hidden Dimension:} 128. The selection of 128 hidden units was justified by the performance trends in Figure \ref{mtl_hidden}, proving sufficient to capture high-dimensional cross-stock correlations without over-parameterization.
+    \item \textbf{Learning Rate:} 0.0005. Figure \ref{mtl_lr} highlights that this rate allowed for the most stable descent into the convergence learning cliff, avoiding the instability found in more aggressive rates.
+    \item \textbf{Dropout:} 0.2. Applied to the shared hidden layers to provide robust regularization against the high volatility of the technology sector.
+    \item \textbf{Batch Size:} 64. Utilized to provide a stable gradient estimate for the weighted sum of task-specific loss functions while maintaining enough stochastic noise for effective generalization.
+\end{itemize}
+
 \subsubsection*{Algorithm Performances}
+The multi-task LSTM achieved a final aggregate test Mean Absolute Error (MAE) of \textbf{0.4444} across all 25 task-specific output heads. 
+As illustrated in Figure \ref{fig:mtl_loss_curve}, the model demonstrated rapid convergence within the first 25 epochs 
+and maintained a stable validation error throughout the 200-epoch duration.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
+    \caption{Training vs. Validation MAE for the optimized 2-layer Multi-Task LSTM over 200 epochs.}
+    \label{fig:mtl_final_curve}
+\end{figure}
+
+Detailed evaluation of individual stocks showed varying levels of predictive accuracy, likely influenced by the specific volatility of the underlying assets. 
+Notable high-performance results include:
+\begin{itemize}
+    \item \textbf{VSAT:} MAE of 0.0658.
+    \item \textbf{BB.TO:} MAE of 0.1365.
+    \item \textbf{NTCT:} MAE of 0.1722.
+\end{itemize}
+The stability of the validation curve suggests that the shared representation effectively mitigated overfitting, 
+providing more reliable forecasts compared to deeper, unoptimized architectures.
 
 \subsection{Single-Task Extra Trees}
 For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
@@ -374,6 +408,40 @@ single-output model would use the same input data as our multi-tasking model, bu
 \renewcommand{\thefigure}{\thesubsection\arabic{figure}}
 \section{Appendices}
 
+\subsection{Multi-Task LSTM Hyperparameter Tuning}
+\label{mtl_lstm_tune}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/LSTM_Layers_Comparison_Multitask.png}
+    \caption{Tuning Multi-Task LSTM: Number of Layers. Evaluation of 1 to 6 layers showed 2 layers provided the optimal balance of capacity and generalization.}
+    \label{mtl_layers}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/LSTM_Hidden_Layers_Comparison_Multitask.png}
+    \caption{Tuning Multi-Task LSTM: Hidden Dimension. Performance across a range of 25 to 200 units justified the selection of 128 hidden units.}
+    \label{mtl_hidden}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Learning_Rates_Comparison_Multitask.png}
+    \caption{Tuning Multi-Task LSTM: Learning Rate. Comparison of rates between 0.01 and 0.0001 identified 0.0005 as the most stable for sectoral synchronization.}
+    \label{mtl_lr}
+\end{figure}
+
+\subsection{Multi-Task LSTM Training Results}
+\label{mtl_final_results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
+    \caption{Final 200-Epoch Training Curve: Multi-Task LSTM. Visualizing the convergence and stability of the optimized 2-layer, 128-hidden unit model.}
+    \label{mtl_final_curve}
+\end{figure}
+
 \subsection{Raw Data}
 \label{appendix_a}
 
@@ -450,5 +518,13 @@ single-output model would use the same input data as our multi-tasking model, bu
     \caption{Tuning IBM number of random cuts}
     \label{ibm_randcuts}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/IBM_tune_randcuts.png}
+    \caption{Tuning IBM number of random cuts}
+    \label{ibm_randcuts}
+\end{figure}
+
 \end{document}
 
