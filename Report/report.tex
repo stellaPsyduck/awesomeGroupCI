@@ -10,6 +10,7 @@
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -63,7 +64,7 @@ explination
 To implement this, we used \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch}.
 
 \subsubsection*{Multi-Tasking Extra Trees (or Extremely Randomized Trees)}
-Extra Trees is a tree ensemble method like Random Forests, but it produces more decorrelated trees. It uses
+Extra Trees (ET) is a tree ensemble method like Random Forests, but it produces more decorrelated trees. It uses
  the entire data set to build decision trees, rather than bootstrapping as in random forests. It also differs
 in its threshold selection, which randomly selects where to split the feature rather than using an optimization
 method. It still chooses $m_{try}$ number of random features to choose the feature splits to compare, where
@@ -143,12 +144,70 @@ describe the things we need to tune? And how single vs mutli looks diffrent (not
 For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
 to tune the hyperparmeter are in \ref{st_extra_tune}.
 \subsubsection*{Hyperparameters}
-Blackberry had the smallest validation MAE with terminal node size 3 \ref{ibm_nodesize}, 8 random cuts \ref{ibm_randcuts}, and $m_try$ size $\sqrt{p}$ \ref{ibm_mtry}.\\
+Blackberry had the smallest validation MAE with terminal node size 3 \ref{ibm_nodesize}, 8 random cuts \ref{ibm_randcuts}, and $m_try$ size $\sqrt{p}$ \ref{ibm_mtry}.
 IBM Had the smallest validation MAE with terminal node size 3 \ref{bbto_nodesize}, 2 random cuts \ref{bbto_randcuts}, and $m_try$ size $p/3$ \ref{bbto_mtry}.
-\subsubsection*{Algorithm Performances}
+\subsubsection*{Algorithm Performances} Blackberry's evaluation MAE was 0.02308594 for single-task ET.  IBM's evaluation MAE was 0.01502721 for single task ET.
 \subsection{Multi-Task Extra Trees}
 \subsubsection*{Hyperparameters}
+Tuning showed 3 nodes and 5 nodes had almost equivalent MAE, so we chose 3 nodes.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_node.png}
+    \caption{Tuning Multi-Task Extra Trees node size}
+    \label{mt_node}
+\end{figure}
+
+Tuning showed $p/3$ was the best for multi-tasking $m_try$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_mtry.png}
+    \caption{Tuning  Multi-Task Extra Trees $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{mt_mtry}
+\end{figure}
+
+Tuning showed 10 random cuts would be ideal for multi-tasking.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_rand.png}
+    \caption{Tuning Multi-Task Extra Trees number of random cuts}
+    \label{mt_randcuts}
+\end{figure}
+
 \subsubsection*{Algorithm Performances}
+Below is a table that shows the MAE of evaluation for each stock prediction in the multi-tasking extra trees model:
+
+\begin{tabular}{c c}
+\hline
+Task & Mean of MAE for Evaluation Window \\
+\hline
+AAPL & 0.010017864 \\
+ACIW & 0.013566978 \\
+AMD & 0.031279329 \\
+BB.TO & 0.015650922 \\
+BDC & 0.017563812 \\
+BELF & 0.019272468 \\
+BLKB & 0.013493255 \\
+BMI & 0.011254196 \\
+CLS.TO & 0.012401716 \\
+CRM & 0.013950118 \\
+CSCO & 0.009417804 \\
+DSG.TO & 0.011196125 \\
+GIB-A.TO & 0.009294681 \\
+IBM & 0.011959280 \\
+INTC & 0.009181391 \\
+KXS.TO & 0.017382097 \\
+MSFT & 0.009562804 \\
+NOVT & 0.013969065 \\
+NTCT & 0.015411194 \\
+OLED & 0.024107319 \\
+ORCL & 0.008827831 \\
+OTEX.TO & 0.009609518 \\
+PLAB & 0.015337510 \\
+SLAB & 0.014071373 \\
+UCTT & 0.023878160 \\
+VSAT & 0.012968538 \\
+\hline
+\end{tabular}
 
 
 %---------------------------------------DISCUSSIONS-------------------------------------
@@ -178,28 +237,28 @@ IBM Had the smallest validation MAE with terminal node size 3 \ref{bbto_nodesize
 \subsection{Raw Data}
 \label{appendix_a}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/aciw_raw.png}
     \caption{Raw price data of ACIW Stock}
     \label{aciw_raw}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/appl_raw.png}
     \caption{Raw price data of APPL Stock}
     \label{appl_raw}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/aciw_scaled.png}
     \caption{Logged price data of ACIW Stock}
     \label{aciw_scaled}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/appl_scaled.png}
     \caption{Logged price data of APPL Stock}
@@ -210,42 +269,42 @@ IBM Had the smallest validation MAE with terminal node size 3 \ref{bbto_nodesize
 \subsection{Single-Task Extra Trees Tuning}
 \label{st_extra_tune}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/bbto_tune_nodesize.png}
     \caption{Tuning Blackberry node size}
     \label{bbto_nodesize}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/bbto_tune_mtry.png}
     \caption{Tuning Blackberry $m_{try}$ fraction, choice between $p/3$\\ and $\sqrt{p}$ where $p$ is feature length}
     \label{bbto_mtry}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/bbto_tune_randcuts.png}
     \caption{Tuning Blackberry number of random cuts}
     \label{bbto_randcuts}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/IBM_tune_node.png}
     \caption{Tuning IBM node size}
     \label{ibm_nodesize}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/IBM_tune_mtry.png}
     \caption{Tuning IBM $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
     \label{ibm_mtry}
 \end{figure}
 
-\begin{figure}[htpb]
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{images/IBM_tune_randcuts.png}
     \caption{Tuning IBM number of random cuts}
