@@ -69,7 +69,25 @@ price forecasts in volatile financial environments.
 \subsection*{Motivation}
 Comparing and exploring multi-tasking
 \subsection*{Objectives}
-Figure out if multi-tasking stock data is better
+The primary objective of this research is to evaluate whether a multi-task learning framework 
+can improve the predictive accuracy of individual stock prices by leveraging historical information 
+from correlated stocks within the same sector. To achieve this, the project also contains the following 
+sub-objectives:
+    - Comparative Performance Analysis: To perform a good comparison between multi-task learning architectures 
+    and traditional single-task (univariate) baselines to determine if modeling stocks in isolation fails 
+    to capture critical sector-wide dependencies.
+    - Validation of Inductive Transfer: To assess the effectiveness of inductive transfer, specifically 
+    the ability to improve the performance of a target task after learning to model related tasks within 
+    the technology sector.
+    - Evaluation of Inductive Bias: To determine if forcing the model to favour parameters that are 
+    effective across multiple target tasks leads to more stable forecasts in highly volatile financial 
+    environments.
+    - Cross-Model Generalization: To apply the multi-task learning approach across 2 distinct computational 
+    intelligence architectures, Long Short-Term Memory (LSTM) networks and Multi-Task Extra Trees to ensure 
+    the findings are robust across different algorithmic types.
+    - Sector Interrelationship Testing: To validate if the shared representation between hardware and software 
+    firms provides a accuracy boost by modeling their interconnections rather than modeling them in 
+    isolation.
 
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
