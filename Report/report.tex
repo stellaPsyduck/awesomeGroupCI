@@ -51,6 +51,21 @@ Figure out if multi-tasking stock data is better
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
 \subsection{Data}
+\subsubsection{Data Availability}
+Given the abundance of detailed historical stock market data, the dataset was carefully chosen.
+A mix of hardware and software companies between 2009 and 2017 was selected to ensure that the
+data exhibits behaviours uninfluenced by external severe market-changing events. Training on 
+this data allowed for the architecture to capture the complex, non-linear market behaviors that
+traditional models struggle to represent. The timeframe was specifically restricted to the period
+from 2009 through 2017 to avoid two major economic anomalies: the 2008 financial crash and the 
+COVID-19 pandemic. Excluding these catastrophic events prevents the model from unintentionally
+being trained on massive market disruptions.
+
+\subsubsection{Datasets}
+The specific companies in the dataset were taken from the iShares S&P/TSX Capped Information Technology Index ETF and the Vanguard Information Technology ETF. These professionally curated funds were used to ensure a baseline of market viability and relevance. To guarantee sufficient training data, a total of 25 companies were selected: 5 from iShare and 20 from the Vanguard ETF. The selected companies were subsequently divided into three categories based on their market capitalization: large-cap (greater than \$120,000,000 USD), mid-cap (between \$120,000,000 and \$50,000,000 USD), and small-cap (less than \$50,000,000 USD).
+
+\subsubsection{Intra-Sector Relationships and Multitasking}
+A varied composition of technology companies, spanning across a large range of valuations, was deliberately selected to optimize the architecture for multi-task learning. This introduced the models to complex intra-sector relationships, allowing them to learn how behaviours in one sector influence or correlate with another. By multi-tasking across these datasets, the model avoids overfitting to a single company size and develops a stronger understanding of the underlying patterns of the market.
 
 \subsection{Algorithms}
 \subsubsection*{LSTMs}
@@ -166,8 +181,14 @@ the tasks of interest \cite{toomanytree}.
 \section{Results}
 *add pics and stuff*
 \subsection{Single-Task LSTM}
-\subsubsection*{Hyperparameters}
-\subsubsection*{Algorithm Performances}
+For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters are in CHANGE TO THE CORRECT APPENDIX. The model performance was optimized based on the lowest validation Mean Absolute Error (MAE). 
+\subsection*{Hyperparameters}
+\subsubsection*{BlackBerry (BB.TO)}
+For the BlackBerry dataset, the optimal validation MAE was achieved using 42 epochs, 25 hidden nodes, a learning rate of 0.0008, and a single LSTM layer.
+\subsubsection*{IBM}
+For the IBM dataset, the optimal validation MAE was achieved using 32 epochs, 100 hidden nodes, a learning rate of 0.0011, and a single LSTM layer.
+\subsection*{Algorithm Performances}
+BlackBerry’s test evaluation of MAE was 0.0371 for single task LSTM, and IBM’s test evaluation of MAE was 0.0628.
 \subsection{Multi-Task LSTM}
 \subsubsection*{Hyperparameters}
 \subsubsection*{Algorithm Performances}
