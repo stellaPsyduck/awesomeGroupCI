@@ -58,6 +58,19 @@ bb_lstm_layers = 1
 
 
 # premo results:
+
+# IBM:
+# --- Running LSTM with 1 layer(s) ---
+# Epoch [10/32] complete.
+# Epoch [20/32] complete.
+# Epoch [30/32] complete.
+# Results for 1 layers -> Train MAE: 0.3083 | Val MAE: 0.1104 | Test MAE: 0.0628
+
+
+
+
+
+# BlackBerry:
 # --- Running LSTM with 1 layer(s) ---
 # Epoch [10/42] complete.
 # Epoch [20/42] complete.
