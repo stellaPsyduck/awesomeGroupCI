@@ -348,7 +348,50 @@ mean_multi_results <- test_predictions %>%
 print(mean_multi_results)
 ```
 
+```{r}
+print(max(test_predictions$Date))
+```
 
+```{r plotting_results}
+
+
+month_summary <- test_predictions %>%
+  filter(task == 'IBM_') %>%
+  mutate(
+    Date = as.Date(Date),
+    month = as.integer(format(Date, "%m"))
+  ) %>%
+  group_by(month) %>%
+  summarise(
+    actual_price = mean(Price, na.rm = TRUE),
+    predicted_price = mean(predicted_price, na.rm = TRUE),
+    error_var = var(error, na.rm = TRUE),
+    error_sd = sd(error, na.rm = TRUE),
+    lower = predicted_price - 1.96 * error_sd,
+    upper = predicted_price + 1.96 * error_sd,
+    .groups = "drop"
+  )
+
+month_summary$month_label <- factor(
+  month_summary$month,
+  levels = 1:12,
+  labels = month.abb   # Jan, Feb, ...
+)
+
+library(ggplot2)
+ggplot(month_summary, aes(x = month_label)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, group=1), alpha = 0.2) +
+  geom_line(aes(y = actual_price, group=1), linewidth = 0.5) +
+  geom_line(aes(y = predicted_price, group=1), linetype = "dashed", linewidth = 0.5) +
+  labs(
+    title = "Multi-Tasking IBM Actual vs Predicted Price by Month",
+    x = "Month",
+    y = "Price (Log(USD))"
+  ) +
+  theme_minimal()
+
+
+```
 
 
 

@@ -16,8 +16,8 @@ library(tools)
 library(tidyr)
 
 
-file <- "C:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/RandomForest/RFInputs/AAPL_rf_input.CSV"
-task_name <- "AAPL"
+file <- "C:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/RandomForest/RFInputs/IBM__rf_input.CSV"
+task_name <- "IBM"
 
 # Read in file and add task column
 data_df <- read_csv(file, show_col_types = FALSE) %>%
@@ -282,17 +282,55 @@ indiv_test_preds <- predict(final_model, x_test, newtasks=test_data$task_id)
 
 indiv_test_metrics <- calc_metrics(y_test, indiv_test_preds)
 
-cat("Final Test Metrics:\n")
-print(test_metrics)
-cat("\n")
+indiv_test_predictions <- test_data_eval %>%
+  mutate(predicted_price = indiv_test_preds)
+
+indiv_test_predictions <- indiv_test_predictions %>%
+  mutate(
+    error = Price - predicted_price,
+    mae = abs(error)
+  )
 
 
 
 
 ```
 
+```{r}
+month_summary <- indiv_test_predictions %>%
+  mutate(
+    Date = as.Date(Date),
+    month = as.integer(format(Date, "%m"))
+  ) %>%
+  group_by(month) %>%
+  summarise(
+    actual_price = mean(Price, na.rm = TRUE),
+    predicted_price = mean(predicted_price, na.rm = TRUE),
+    error_var = var(error, na.rm = TRUE),
+    error_sd = sd(error, na.rm = TRUE),
+    lower = predicted_price - 1.96 * error_sd,
+    upper = predicted_price + 1.96 * error_sd,
+    .groups = "drop"
+  )
 
+month_summary$month_label <- factor(
+  month_summary$month,
+  levels = 1:12,
+  labels = month.abb   # Jan, Feb, ...
+)
 
+library(ggplot2)
+ggplot(month_summary, aes(x = month_label)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, group=1), alpha = 0.2) +
+  geom_line(aes(y = actual_price, group=1), linewidth = 0.5) +
+  geom_line(aes(y = predicted_price, group=1), linetype = "dashed", linewidth = 0.5) +
+  labs(
+    title = "Single-Tasking BB.TO Actual vs Predicted Price by Month",
+    x = "Month",
+    y = "Price (Log(USD))"
+  ) +
+  theme_minimal()
+```
 
 
 

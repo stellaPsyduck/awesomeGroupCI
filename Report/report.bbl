@@ -25,9 +25,17 @@
 L.~Schmid, A.~Gerharz, A.~Groll, and M.~Pauly, ``Tree-based ensembles for multi-output regression: Comparing multivariate approaches with separate univariate ones,'' \emph{Computational Statistics \& Data Analysis}, vol. 179, p. 107628, 2023. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0167947322002080}
 \BIBentrySTDinterwordspacing
 
+\bibitem{slater}
+J.~Slater, ``Time series analysis (stat*4360),'' University of Guelph, 2025.
+
 \bibitem{log_scale}
 \BIBentryALTinterwordspacing
 ``Decomposition of time series,'' 2025. [Online]. Available: \url{https://medium.com/@m.capurso/decomposition-of-time-series-071ce7b7a5a0}
+\BIBentrySTDinterwordspacing
+
+\bibitem{stockgro}
+\BIBentryALTinterwordspacing
+R.~Malhotra, ``How many trading days in a year?'' 2026. [Online]. Available: \url{https://www.stockgro.club/blogs/trading/how-many-trading-days-in-a-year/#:~:text=Trading%20days%20don't%20spread,a%20shorter%20month%20for%20trading.}
 \BIBentrySTDinterwordspacing
 
 \bibitem{3d_tensor_lstm}
@@ -35,12 +43,19 @@ L.~Schmid, A.~Gerharz, A.~Groll, and M.~Pauly, ``Tree-based ensembles for multi-
 ``Sequence models and long short-term memory networks,'' 2017. [Online]. Available: \url{https://docs.pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html}
 \BIBentrySTDinterwordspacing
 
-\bibitem{slater}
-J.~Slater, ``Time series analysis (stat*4360),'' University of Guelph, 2025.
-
 \bibitem{timeseries_data}
 \BIBentryALTinterwordspacing
 I.~P. Carrascosa, ``Forecasting the future with tree-based models for time series,'' 2025. [Online]. Available: \url{https://machinelearningmastery.com/forecasting-the-future-with-tree-based-models-for-time-series/}
+\BIBentrySTDinterwordspacing
+
+\bibitem{extratreedoc}
+\BIBentryALTinterwordspacing
+``extratrees: Function for training extratree classifier or regression.'' [Online]. Available: \url{https://www.rdocumentation.org/packages/extraTrees/versions/1.0.5/topics/extraTrees}
+\BIBentrySTDinterwordspacing
+
+\bibitem{toomanytree}
+\BIBentryALTinterwordspacing
+``The effects of the depth and number of trees in a random forest,'' 2025. [Online]. Available: \url{https://www.geeksforgeeks.org/machine-learning/the-effects-of-the-depth-and-number-of-trees-in-a-random-forest/}
 \BIBentrySTDinterwordspacing
 
 \end{thebibliography}
