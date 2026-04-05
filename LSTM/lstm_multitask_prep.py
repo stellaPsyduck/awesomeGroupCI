@@ -14,96 +14,105 @@ import os
 import numpy as np
 import pandas as pd
 
-#setup
-# define categories and base path
+# Path to where download scripts saved CSVs
 base_path = '../DownloadCSV/'
-categories = ["IShare", "LargeCompany", "MediumCompany", "SmallCompany"]
-seq_length = 60 # 60 business days of lookback
+seq_length = 60 
 
-# container for merged synchronized dataset 
+TARGET_TICKERS = [
+    "CSU.TO", "CLS.TO", "SHOP", "GIB-A.TO", "OTEX.TO", "DSG.TO", "KXS.TO", "BB.TO", # iShare
+    "AMD", "IBM", "CSCO", "AAPL", "MSFT", "ORCL", "INTC", "CRM",                   # Large
+    "NOVT", "VSAT", "BDC", "SLAB", "OLED", "ACIW", "BMI",                         # Medium
+    "BELFB", "BLKB", "NTCT", "UCTT", "PLAB"                                       # Small
+]
+
 global_df = None
 
-print("Starting global data merging (full outer join startegy)")
+print(f"Starting synchronized merge for {len(TARGET_TICKERS)} target stocks")
 
-#data merging and alignment 
-for cat in categories:
-    folder_path = os.path.join(base_path, cat)
+# data merging
+# check the base_path directly since scripts save files there
+if not os.path.exists(base_path):
+    print(f"!!! ERROR: Folder '{base_path}' not found.")
+    print(f"Current Directory: {os.getcwd()}")
+    exit()
+
+all_files = [f for f in os.listdir(base_path) if f.endswith('.csv')]
+print(f"Files found in {base_path}: {all_files[:5]}... (Total: {len(all_files)})")
+
+for ticker in TARGET_TICKERS:
+    # use a case-insensitive, flexible start-match
+    match = [f for f in all_files if f.upper().startswith(ticker.upper())]
     
-    if not os.path.exists(folder_path):
-        print(f"Skipping {cat}: Folder not found")
-        continue
-
-    # Get all CSV files across all folders
-    all_files = [f for f in os.listdir(folder_path) if f.endswith('.csv')]
-
-    for file_name in all_files:
-        path = os.path.join(folder_path, file_name)
-        
+    if match:
+        file_name = match[0]
+        path = os.path.join(base_path, file_name)
         try:
-            # standardizing input: skip headers and renaming cols
-            df = pd.read_csv(path, skiprows=2)
+            # Try reading without headers first to see struct
+            df = pd.read_csv(path)
+        
+            if 'Date' not in df.columns:
+                df = pd.read_csv(path, names=['Date', 'Close'], skiprows=1)
+            
+            # Standardizing cols
+            df = df.iloc[:, [0, 1]] # Take first 2 columns regardless of name
             df.columns = ['Date', 'Price']
             
-            # extract ticker from filename, like IBM_unadjusted_prices_2007_2018.csv  -> IBM
-            ticker = file_name.split('_')[0]
+            # Log transform
+            df[ticker] = np.log(pd.to_numeric(df['Price'], errors='coerce'))
+            df = df[['Date', ticker]].dropna()
             
-            #apply  natural log to stabalize variance 
-            df[ticker] = np.log(df['Price'])
-            df = df[['Date', ticker]]
-            
-            # gsynch with global timeline 
             if global_df is None:
                 global_df = df
             else:
-                # merge on date to ensure all stocks align on same trading days 
                 global_df = pd.merge(global_df, df, on='Date', how='outer')
             
-            print(f" Merged {ticker} (Outer)")
+            print(f"  [OK] Merged: {ticker}")
         except Exception as e:
-            print(f"Error: {e}")
+            print(f"  [ERROR] {ticker}: {e}")
+    else:
+        print(f"  [MISSING] No file found starting with '{ticker}'")
 
-# clean up, rmeove any dates where not all stocks have avaibale date  (synchronized window)
+# cleaning
+if global_df is None:
+    print("\n!!! ERROR: No data was merged. Check if the CSVs are in " + os.path.abspath(base_path))
+    exit()
+
+# Synchronize: keep only dates where ALL stocks have data
 global_df.dropna(inplace=True)
 global_df = global_df.sort_values('Date')
 
-# identify all synchronized tickers (features)
-tickers = [col for col in global_df.columns if col != 'Date']
-print(f"\nPreprocessing Complete: {len(tickers)} stocks synchronized.")
+# Final ticker list (only those that acc had data)
+final_tickers = [t for t in TARGET_TICKERS if t in global_df.columns]
+global_df = global_df[['Date'] + final_tickers]
+
+print(f"\nPreprocessing Complete: {len(final_tickers)} stocks synchronized.")
 print(f"Final Data Shape: {global_df.shape}")
 
-# Save ticker names for the models output heads
+# Save tickers for the model
 with open('tickers.txt', 'w') as f:
-    f.write(",".join(tickers))
+    f.write(",".join(final_tickers))
 
-# Sequence creation
-# transform dataframe into multi-dimenosional numpy arr [Days, Stocks]
-final_data = global_df[tickers].values
+# sequence creation and splitting 
+final_data = global_df[final_tickers].values
 x_list, y_list = [], []
 
-# create sliding windows: X = [t-60 to t-1], y=[t]
 for i in range(len(final_data) - seq_length):
-    x_list.append(final_data[i:(i + seq_length), :]) # multi stock input window
-    y_list.append(final_data[i + seq_length, :]) # next day prices for all stocks 
+    x_list.append(final_data[i:(i + seq_length), :]) 
+    y_list.append(final_data[i + seq_length, :]) 
     
 X = np.array(x_list)
 y = np.array(y_list)
 
-#chronological data split
-# Split 60/20/20 train/valid//test
+# 60/20/20 Split
 train_split = int(0.6 * len(X))
 val_split = int(0.8 * len(X))
 
-X_train, y_train = X[:train_split], y[:train_split]
-X_val, y_val = X[train_split:val_split], y[train_split:val_split]
-X_test, y_test = X[val_split:], y[val_split:]
+# Export binaries
+np.save('X_train_global.npy', X[:train_split])
+np.save('y_train_global.npy', y[:train_split])
+np.save('X_val_global.npy', X[train_split:val_split])
+np.save('y_val_global.npy', y[train_split:val_split])
+np.save('X_test_global.npy', X[val_split:])
+np.save('y_test_global.npy', y[val_split:])
 
-#export deliverables
-# Save as NumPy binaries for loading in train script
-np.save('X_train_global.npy', X_train)
-np.save('y_train_global.npy', y_train)
-np.save('X_val_global.npy', X_val)
-np.save('y_val_global.npy', y_val)
-np.save('X_test_global.npy', X_test)
-np.save('y_test_global.npy', y_test)
-
-print(f"preprocessing complete. train={len(X_train)}, val={len(X_val)}, test={len(X_test)}")
+print(f"Successfully exported data for {len(final_tickers)} stocks.")

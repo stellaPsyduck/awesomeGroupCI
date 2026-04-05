@@ -123,7 +123,7 @@ with torch.no_grad():
 print(f"\n FINAL EVALUATION RESULT (Test MAE): {test_mae.item():.4f}")
 
 # save state dictionary
-torch.save(model.state_dict(), 'final_4layer_multitask.pth')
+torch.save(model.state_dict(), 'final_2layer_multitask.pth')
 
 # output detailed per stock erformance metrics 
 print("\nTEST MAE PER STOCK")
