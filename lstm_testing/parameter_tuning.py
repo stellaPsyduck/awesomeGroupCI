@@ -43,9 +43,9 @@ features = 1
 
 # ----------- Tuned Parameters IBM --------------
 
-tuned_epoch = 32
+tuned_epoch = 6
 tuned_hidden_layer = 100
-tuned_learning_rate = 0.0011
+tuned_learning_rate = 0.0009
 tuned_lstm_layers = 1
 
 
@@ -61,10 +61,7 @@ bb_lstm_layers = 1
 
 # IBM:
 # --- Running LSTM with 1 layer(s) ---
-# Epoch [10/32] complete.
-# Epoch [20/32] complete.
-# Epoch [30/32] complete.
-# Results for 1 layers -> Train MAE: 0.3083 | Val MAE: 0.1104 | Test MAE: 0.0628
+# Results for 1 layers -> Train MAE: 0.2967 | Val MAE: 0.0950 | Test MAE: 0.1918
 
 
 
@@ -144,7 +141,7 @@ def train_and_evaluate_lstm_for_epoch(model, train_loader, val_loader, test_load
     plt.ylabel('Mean Absolute Error')
     plt.title('LSTM Training vs Validation Loss')
     plt.legend()  
-    plt.savefig('LSTM_Train_vs_Val_Loss.png')
+    plt.savefig('LSTM_Train_vs_Val_Loss -- IBM.png')
     plt.show()
 
     model.eval()
@@ -251,7 +248,7 @@ def evaluate_lstm_hidden_sizes(train_loader, val_loader, test_loader, device, in
     plt.figtext(0.5, 0.02, caption_text, ha="center", fontsize=10, wrap=True)
 
 
-    plt.savefig('LSTM_Hidden_Layers_Comparison.png')
+    plt.savefig('LSTM_Hidden_Layers_Comparison -- IBM.png')
     # plt.show()
 
     return results
@@ -264,7 +261,7 @@ def evaluate_lstm_hidden_sizes(train_loader, val_loader, test_loader, device, in
 def evaluate_lstm_learning_rates(train_loader, val_loader, test_loader, device, input_size, hidden_size=tuned_hidden_layer, epochs=tuned_epoch):
     results = {}
 
-    learning_rate_list = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009]
+    learning_rate_list = [0.0005, 0.0006, 0.0007, 0.0008, 0.0009, 0.001, 0.0011]
 
     for rate in learning_rate_list:
         print(f'\n--- Running LSTM with learning rate of {rate} ---')
@@ -349,7 +346,7 @@ def evaluate_lstm_learning_rates(train_loader, val_loader, test_loader, device, 
     caption_text = "Figure: A visualization of the training and validation MAE for different learning rates."
     plt.figtext(0.5, 0.02, caption_text, ha="center", fontsize=10, wrap=True)
 
-    plt.savefig('Learning_Rates_Comparison.png')
+    plt.savefig('Learning_Rates_Comparison -- IBM.png')
     # plt.show()
 
     return results
@@ -450,7 +447,7 @@ def evaluate_lstm_num_layers(train_loader, val_loader, test_loader, device, inpu
     caption_text = "Figure : A visualization of the training and validation MAE across different amounts of stacked LSTM layers."
     plt.figtext(0.5, 0.02, caption_text, ha="center", fontsize=10, wrap=True)
 
-    plt.savefig('LSTM_Layers_Comparison.png')
+    plt.savefig('LSTM_Layers_Comparison -- IBM.png')
     # plt.show()
 
     return results
@@ -480,7 +477,7 @@ if __name__ == "__main__":
 
     # evaluate_lstm_learning_rates(train_loader=IBM_train, val_loader=IBM_valid, test_loader=IBM_test, input_size=features, device=device)
 
-    # evaluate_lstm_num_layers(train_loader=IBM_train, val_loader=IBM_valid, test_loader=IBM_test, input_size=features, hidden_size=tuned_hidden_layer, epochs=tuned_epoch, learning_rate=tuned_learning_rate, device=device)
+    evaluate_lstm_num_layers(train_loader=IBM_train, val_loader=IBM_valid, test_loader=IBM_test, input_size=features, hidden_size=tuned_hidden_layer, epochs=tuned_epoch, learning_rate=tuned_learning_rate, device=device)
 
     # train_and_evaluate_lstm_for_epoch(model, train_loader=BB_train, val_loader=BB_valid, 
     #                     test_loader=BB_test, epochs=200, device=device, learning_rate=0.001)
@@ -489,6 +486,6 @@ if __name__ == "__main__":
 
     # evaluate_lstm_learning_rates(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features,  epochs=bb_tuned_epoch, hidden_size=bb_tuned_hidden_layer, device=device)
 
-    evaluate_lstm_num_layers(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features, hidden_size=bb_tuned_hidden_layer, epochs=bb_tuned_epoch, learning_rate=bb_tuned_learning_rate, device=device)
+    # evaluate_lstm_num_layers(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features, hidden_size=bb_tuned_hidden_layer, epochs=bb_tuned_epoch, learning_rate=bb_tuned_learning_rate, device=device)
 
 # DO BB.TO for next tuning
