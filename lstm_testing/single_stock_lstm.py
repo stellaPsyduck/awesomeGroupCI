@@ -19,8 +19,11 @@ import torch.nn as nn
     # (num_samples, seq_length, input_dim)
     # This is because batch_first = true
 class UnivariantLSTM(nn.Module):
-    def __init__(self, input_size, hidden_size, num_layers=1, dropout=0.0, output_size=1):
+    def __init__(self, input_size, hidden_size, num_layers=1, dropout=0.2, output_size=1):
         super().__init__()
+
+        if num_layers == 1:
+            dropout = 0.0
 
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers=num_layers, dropout=dropout, batch_first=True)
         self.dropout = nn.Dropout(dropout)
