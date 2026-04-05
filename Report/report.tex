@@ -39,18 +39,86 @@
 
 %--------------------------------------INTRODUCTION-------------------------------------
 \section{Introduction}
-**Insert introduction here**
+Forecasting of financial time series is a significant challenge in computational intelligence
+due to the high volatility, non-linearity and inconsistent variety of global markets. Traditional 
+univariate models often try to predict stock price movements in isolation, not accounting
+for the deep rooted dependencies and shared behaviours between firms in the same sector. 
+This project investigates Multi-Task Learning, a form of inductive transfer
+to improve predictive accuracy by explicity modeling these interconnections. 
+
+By utilizing shared representations, the Multi-Task Learning framework forces the model to favor
+parameters that generalize across different but associated market behaviours. This approach leverages 
+sector-wide knowledge to improve the performance of individual target tasks. Our study focuses on 
+a diverse cohort of 25 companies spanning the hardware and software sectors, derived from the 
+iShares S\&P/TSX Capped Information Technology Index and Vanguard Information Technology ETFs. 
+
+The primary objective is to develop a robust architecture capable of capturing complex, non-linear 
+dependencies in financial data from 2009 to 2017. To evaluate the efficacy of the Multi-Task Learning 
+approach, we compare two sophisticated architectures:
+\begin{itemize}
+\item Long Short-Term Memory (LSTM) Networks: A recurrent architecture designed for sequential data, 
+    implemented with a shared hidden layers and task-specific output heads.
+\item Multi-Task Extra Trees: An ensemble method utilizing multi-output regression to optimize node 
+    splits across all tasks simultaneously.
+\end{itemize}
+By comparing these multi-tasking frameworks against traditional single-prediction baselines, 
+this study demonstrates how shared representations can reduce variance and provide more stable 
+price forecasts in volatile financial environments.
 
 %-------------------------------------MOTIVATION and OBJECTIVES------------------------
 \section{Motivation and Objectives}
 \subsection*{Motivation}
 Comparing and exploring multi-tasking
 \subsection*{Objectives}
-Figure out if multi-tasking stock data is better
-
+The primary objective of this research is to evaluate whether a multi-task learning framework 
+can improve the predictive accuracy of individual stock prices by leveraging historical information 
+from correlated stocks within the same sector. To achieve this, the project also contains the following 
+sub-objectives:
+\begin{itemize}
+\item Comparative Performance Analysis: To perform a good comparison between multi-task learning architectures 
+    and traditional single-task (univariate) baselines to determine if modeling stocks in isolation fails 
+    to capture critical sector-wide dependencies.
+\item Validation of Inductive Transfer: To assess the effectiveness of inductive transfer, specifically 
+    the ability to improve the performance of a target task after learning to model related tasks within 
+    the technology sector.
+\item Evaluation of Inductive Bias: To determine if forcing the model to favour parameters that are 
+    effective across multiple target tasks leads to more stable forecasts in highly volatile financial 
+    environments.
+\item Cross-Model Generalization: To apply the multi-task learning approach across 2 distinct computational 
+    intelligence architectures, Long Short-Term Memory (LSTM) networks and Multi-Task Extra Trees to ensure 
+    the findings are robust across different algorithmic types.
+\item Sector Interrelationship Testing: To validate if the shared representation between hardware and software 
+    firms provides a accuracy boost by modeling their interconnections rather than modeling them in 
+    isolation.
+\end{itemize}
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
-\subsection{Data}
+\subsubsection{Data Availability}
+Given the abundance of detailed historical stock market data, the dataset was carefully chosen.
+A mix of hardware and software companies between 2009 and 2017 was selected to ensure that the
+data exhibits behaviours uninfluenced by external severe market-changing events. Training on 
+this data allowed for the architecture to capture the complex, non-linear market behaviors that
+traditional models struggle to represent. The timeframe was specifically restricted to the period
+from 2009 through 2017 to avoid two major economic anomalies: the 2008 financial crash and the 
+COVID-19 pandemic. Excluding these catastrophic events prevents the model from unintentionally
+being trained on massive market disruptions.
+
+\subsubsection{Datasets}
+The specific companies in the dataset were taken from the iShares S\&P/TSX Capped Information
+Technology Index ETF and the Vanguard Information Technology ETF. These professionally curated
+funds were used to ensure a baseline of market viability and relevance. To guarantee sufficient
+training data, a total of 25 companies were selected: 5 from iShare and 20 from the Vanguard ETF.
+The selected companies were subsequently divided into three categories based on their market
+capitalization: large-cap (greater than \$120,000,000 USD), mid-cap (between \$120,000,000 and
+\$50,000,000 USD), and small-cap (less than \$50,000,000 USD).
+
+\subsubsection{Intra-Sector Relationships and Multitasking}
+A varied composition of technology companies, spanning across a large range of valuations,
+was deliberately selected to optimize the architecture for multi-task learning. This introduced
+the models to complex intra-sector relationships, allowing them to learn how behaviours in one
+sector influence or correlate with another. By multi-tasking across these datasets, the model
+avoids overfitting to a single company size and develops a stronger understanding of the underlying
+patterns of the market.
 
 \subsection{Algorithms}
 \subsubsection*{LSTMs}
@@ -164,13 +232,35 @@ the tasks of interest \cite{toomanytree}.
 
 %---------------------------------------RESULTS-------------------------------------
 \section{Results}
-*add pics and stuff*
-\subsection{Single-Task LSTM}
-\subsubsection*{Hyperparameters}
-\subsubsection*{Algorithm Performances}
+For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters
+are in CHANGE TO THE CORRECT APPENDIX.
+The model performance was optimized based on the lowest validation Mean Absolute Error (MAE). 
+\subsection*{Hyperparameters}
+\subsubsection*{BlackBerry (BB.TO)}
+For the BlackBerry dataset, the optimal validation MAE was achieved using 42 epochs, 25 hidden
+nodes, a learning rate of 0.0008, and a single LSTM layer.
+\subsubsection*{IBM}
+For the IBM dataset, the optimal validation MAE was achieved using 32 epochs, 100 hidden nodes,
+a learning rate of 0.0011, and a single LSTM layer.
+\subsection*{Algorithm Performances}
+BlackBerry’s test evaluation of MAE was 0.0371 for single task LSTM, and IBM’s test
+evaluation of MAE was 0.0628.
+
 \subsection{Multi-Task LSTM}
+The Multi-Task LSTM architecture was designed to leverage shared temporal features 
+across a synchronized dataset of 25 stocks. By utilizing shared hidden layers, the model 
+implements an inductive bias that favours parameters generalizing across the technology sector.
 \subsubsection*{Hyperparameters}
-\subsubsection*{Algorithm Performances}
+The optimal configurations for the MTL model was determined through a systematic 3 stage ablation study 
+evaluating layer count, hidden dimension size, and learning rates. The final architecture selected for 
+the 200-epoch evaluation run consisted of:
+\begin{itemize}
+    \item \textbf{LSTM Layers:} 2. As illustrated in Figure \ref{mtl_layers}, 2 layers provided the optimal balance between model capacity and generalization, whereas deeper architectures showed a sharp increase in validation error.
+    \item \textbf{Hidden Dimension:} 128. The selection of 128 hidden units was justified by the performance trends in Figure \ref{mtl_hidden}, proving sufficient to capture high-dimensional cross-stock correlations without over-parameterization.
+    \item \textbf{Learning Rate:} 0.0005. Figure \ref{mtl_lr} highlights that this rate allowed for the most stable descent into the convergence learning cliff, avoiding the instability found in more aggressive rates.
+    \item \textbf{Dropout:} 0.2. Applied to the shared hidden layers to provide robust regularization against the high volatility of the technology sector.
+    \item \textbf{Batch Size:} 64. Utilized to provide a stable gradient estimate for the weighted sum of task-specific loss functions while maintaining enough stochastic noise for effective generalization.
+\end{itemize}
 
 \subsection{Single-Task Extra Trees}
 For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
@@ -201,29 +291,8 @@ The variance of the prediction is consistent throughout the evaluation period. T
 over and under reporting the price of the blackbery stock.
 \subsection{Multi-Task Extra Trees}
 \subsubsection*{Hyperparameters}
-Tuning showed 3 nodes and 5 nodes had almost equivalent MAE, so we chose 3 nodes.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{images/multi_tune_node.png}
-    \caption{Tuning Multi-Task Extra Trees node size}
-    \label{mt_node}
-\end{figure}
-
-Tuning showed $p/3$ was the best for multi-tasking $m_try$.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{images/multi_tune_mtry.png}
-    \caption{Tuning  Multi-Task Extra Trees $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
-    \label{mt_mtry}
-\end{figure}
-
-Tuning showed 10 random cuts would be ideal for multi-tasking.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\linewidth]{images/multi_tune_rand.png}
-    \caption{Tuning Multi-Task Extra Trees number of random cuts}
-    \label{mt_randcuts}
-\end{figure} 
+Appendix \ref{mtl_et_tune} shows the tuning plots for this section. Tuning showed 3 nodes and 5 nodes had almost equivalent MAE, so we chose 3 nodes.
+Tuning also showed $p/3$ was the best for $m_try$ and 10 random cuts would be ideal for multi-tasking.
 
 \subsubsection*{Algorithm Evaluation Performances}
 Below is a table that shows the MAE of evaluation for each stock prediction in the multi-tasking extra trees model:
@@ -306,7 +375,7 @@ single-output model would use the same input data as our multi-tasking model, bu
 
 
 %------------------------------------APPENDIX-----------------------------------------
-\newpage
+\clearpage
 \appendix
 \counterwithin{figure}{subsection}
 \renewcommand{\thefigure}{\thesubsection\arabic{figure}}
@@ -343,7 +412,40 @@ single-output model would use the same input data as our multi-tasking model, bu
     \label{appl_scaled}
 \end{figure}
 
-\clearpage
+\subsection{Multi-Task LSTM Hyperparameter Tuning}
+\label{mtl_lstm_tune}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/LSTM_Layers_Comparison_Multitask.png}
+    \caption{Tuning Multi-Task LSTM: Number of Layers. Evaluation of 1 to 6 layers showed 2 layers provided the optimal balance of capacity and generalization.}
+    \label{mtl_layers}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/LSTM_Hidden_Layers_Comparison_Multitask.png}
+    \caption{Tuning Multi-Task LSTM: Hidden Dimension. Performance across a range of 25 to 200 units justified the selection of 128 hidden units.}
+    \label{mtl_hidden}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/Learning_Rates_Comparison_Multitask.png}
+    \caption{Tuning Multi-Task LSTM: Learning Rate. Comparison of rates between 0.01 and 0.0001 identified 0.0005 as the most stable for sectoral synchronization.}
+    \label{mtl_lr}
+\end{figure}
+
+\subsection{Multi-Task LSTM Training Results}
+\label{mtl_final_results}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
+    \caption{Final 200-Epoch Training Curve: Multi-Task LSTM. Visualizing the convergence and stability of the optimized 2-layer, 128-hidden unit model.}
+    \label{mtl_final_curve}
+\end{figure}
+
 \subsection{Single-Task Extra Trees Tuning}
 \label{st_extra_tune}
 
@@ -388,5 +490,30 @@ single-output model would use the same input data as our multi-tasking model, bu
     \caption{Tuning IBM number of random cuts}
     \label{ibm_randcuts}
 \end{figure}
+
+\subsection{Multi-Task Extra Trees Hyperparameter Tuning}
+\label{mtl_et_tune}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_node.png}
+    \caption{Tuning Multi-Task Extra Trees node size}
+    \label{mt_node}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_mtry.png}
+    \caption{Tuning  Multi-Task Extra Trees $m_{try}$ fraction, choice between $p/3$ \\ and $\sqrt{p}$ where $p$ is feature length}
+    \label{mt_mtry}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_tune_rand.png}
+    \caption{Tuning Multi-Task Extra Trees number of random cuts}
+    \label{mt_randcuts}
+\end{figure} 
+
 \end{document}
 

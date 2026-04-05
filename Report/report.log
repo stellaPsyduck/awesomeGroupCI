@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  4 APR 2026 13:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.12.25)  4 APR 2026 23:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -400,129 +400,120 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-<images/lstm_inputs.png, id=4, 2345.76375pt x 1226.5825pt>
-File: images/lstm_inputs.png Graphic file (type png)
-<use images/lstm_inputs.png>
-Package pdftex.def Info: images/lstm_inputs.png  used on input line 60.
-(pdftex.def)             Requested size: 176.39923pt x 92.23302pt.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 70.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 59.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 70.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 59.
  (c:/texlive/2024/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 3088) in paragraph at lines 67--81
- []\OT1/ptm/m/it/10 Multi-Tasking Ex-tra Trees (or Ex-tremely Ran-dom-ized
- []
 
-
-
-<images/rollingCross.png, id=15, 2437.105pt x 1006.76125pt>
-File: images/rollingCross.png Graphic file (type png)
-<use images/rollingCross.png>
-Package pdftex.def Info: images/rollingCross.png  used on input line 102.
-(pdftex.def)             Requested size: 176.39923pt x 72.86157pt.
 
 
 [1{c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
+]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 112.
+ (c:/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+)
+<images/lstm_inputs.png, id=17, 2345.76375pt x 1226.5825pt>
+File: images/lstm_inputs.png Graphic file (type png)
+<use images/lstm_inputs.png>
+Package pdftex.def Info: images/lstm_inputs.png  used on input line 128.
+(pdftex.def)             Requested size: 176.39923pt x 92.23302pt.
 
-pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.105 \end{figure}
-                   <./images/lstm_inputs.png (PNG copy)>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+Underfull \hbox (badness 3088) in paragraph at lines 135--149
+ []\OT1/ptm/m/it/10 Multi-Tasking Ex-tra Trees (or Ex-tremely Ran-dom-ized
+ []
+
+
 
 
 
 [2
+pdfTeX warning (ext4): destination with the same identifier (name{figure.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.162 
+       <./images/lstm_inputs.png (PNG copy)>]
+<images/rollingCross.png, id=50, 2437.105pt x 1006.76125pt>
+File: images/rollingCross.png Graphic file (type png)
+<use images/rollingCross.png>
+Package pdftex.def Info: images/rollingCross.png  used on input line 170.
+(pdftex.def)             Requested size: 176.39923pt x 72.86157pt.
+
+
+
+
+[3
 pdfTeX warning (ext4): destination with the same identifier (name{figure.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.178 \subsubsection
-                    *{IBM} <./images/rollingCross.png>]
-<images/single_tree_pred_IBM.png, id=96, 526.96875pt x 325.215pt>
+l.238 \subsection
+                 *{Hyperparameters} <./images/rollingCross.png>]
+
+<images/single_tree_pred_IBM.png, id=99, 526.96875pt x 325.215pt>
 File: images/single_tree_pred_IBM.png Graphic file (type png)
 <use images/single_tree_pred_IBM.png>
-Package pdftex.def Info: images/single_tree_pred_IBM.png  used on input line 184.
+Package pdftex.def Info: images/single_tree_pred_IBM.png  used on input line 274.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/single_tree_pred_BBTO.png, id=101, 526.96875pt x 325.215pt>
+<images/single_tree_pred_BBTO.png, id=104, 526.96875pt x 325.215pt>
 File: images/single_tree_pred_BBTO.png Graphic file (type png)
 <use images/single_tree_pred_BBTO.png>
-Package pdftex.def Info: images/single_tree_pred_BBTO.png  used on input line 196.
-(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/multi_tune_node.png, id=102, 526.96875pt x 325.215pt>
-File: images/multi_tune_node.png Graphic file (type png)
-<use images/multi_tune_node.png>
-Package pdftex.def Info: images/multi_tune_node.png  used on input line 207.
+Package pdftex.def Info: images/single_tree_pred_BBTO.png  used on input line 286.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
 
 
-<images/multi_tune_mtry.png, id=103, 526.96875pt x 325.215pt>
-File: images/multi_tune_mtry.png Graphic file (type png)
-<use images/multi_tune_mtry.png>
-Package pdftex.def Info: images/multi_tune_mtry.png  used on input line 215.
-(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/multi_tune_rand.png, id=104, 526.96875pt x 325.215pt>
-File: images/multi_tune_rand.png Graphic file (type png)
-<use images/multi_tune_rand.png>
-Package pdftex.def Info: images/multi_tune_rand.png  used on input line 223.
-(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 231--263
+[4
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.296 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.296 
+       <./images/single_tree_pred_IBM.png> <./images/single_tree_pred_BBTO.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 300--332
 
  []
 
+<images/multi_tree_pred_IBM.png, id=139, 526.96875pt x 325.215pt>
+File: images/multi_tree_pred_IBM.png Graphic file (type png)
+<use images/multi_tree_pred_IBM.png>
+Package pdftex.def Info: images/multi_tree_pred_IBM.png  used on input line 338.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/multi_tree_pred_BBTO.png, id=140, 526.96875pt x 325.215pt>
+File: images/multi_tree_pred_BBTO.png Graphic file (type png)
+<use images/multi_tree_pred_BBTO.png>
+Package pdftex.def Info: images/multi_tree_pred_BBTO.png  used on input line 348.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[3
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.264 F
-       igures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.264 F
-       igures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi...
+(./report.bbl
+
+[5
 pdfTeX warning (ext4): destination with the same identifier (name{figure.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.264 F
-       igures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi...
+l.27 
+     
 pdfTeX warning (ext4): destination with the same identifier (name{figure.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.264 F
-       igures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi...
-pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.264 F
-       igures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi... <./images/single_tree_pred_IBM.png> <./images/single_tree_pred_BBTO.png> <./images/multi_tune_node.png> <./images/multi_tune_mtry.png> <./images/multi_tune_rand.png>]
-<images/multi_tree_pred_IBM.png, id=138, 526.96875pt x 325.215pt>
-File: images/multi_tree_pred_IBM.png Graphic file (type png)
-<use images/multi_tree_pred_IBM.png>
-Package pdftex.def Info: images/multi_tree_pred_IBM.png  used on input line 269.
-(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/multi_tree_pred_BBTO.png, id=139, 526.96875pt x 325.215pt>
-File: images/multi_tree_pred_BBTO.png Graphic file (type png)
-<use images/multi_tree_pred_BBTO.png>
-Package pdftex.def Info: images/multi_tree_pred_BBTO.png  used on input line 279.
-(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-
-Underfull \vbox (badness 1546) has occurred while \output is active []
-
-
-
-(./report.bbl
+l.27 
+      <./images/multi_tree_pred_IBM.png> <./images/multi_tree_pred_BBTO.png>]
 Underfull \hbox (badness 6893) in paragraph at lines 38--40
 \OT1/ptm/m/n/8 [On-line]. Avail-able: [][]$https : / / www . stockgro . club / blogs / trading /
  []
@@ -532,108 +523,193 @@ Underfull \hbox (badness 10000) in paragraph at lines 38--40
 \OT1/ptm/m/n/8 how-[]many-[]trading-[]days-[]in-[]a-[]year / # : [] : text = Trading % 20days % 20don '[] t %
  []
 
+)
 
 
-[4
-pdfTeX warning (ext4): destination with the same identifier (name{figure.8}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.50 
-     
-pdfTeX warning (ext4): destination with the same identifier (name{figure.9}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.50 
-      <./images/multi_tree_pred_IBM.png> <./images/multi_tree_pred_BBTO.png>])
 
-** WARNING: Ignoring useless \section in Appendix (line 313).
-<images/aciw_raw.png, id=171, 462.528pt x 346.896pt>
+[6
+
+]
+** WARNING: Ignoring useless \section in Appendix (line 382).
+<images/aciw_raw.png, id=180, 462.528pt x 346.896pt>
 File: images/aciw_raw.png Graphic file (type png)
 <use images/aciw_raw.png>
-Package pdftex.def Info: images/aciw_raw.png  used on input line 320.
+Package pdftex.def Info: images/aciw_raw.png  used on input line 389.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-<images/appl_raw.png, id=172, 462.528pt x 346.896pt>
+<images/appl_raw.png, id=181, 462.528pt x 346.896pt>
 File: images/appl_raw.png Graphic file (type png)
 <use images/appl_raw.png>
-Package pdftex.def Info: images/appl_raw.png  used on input line 327.
+Package pdftex.def Info: images/appl_raw.png  used on input line 396.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-<images/aciw_scaled.png, id=173, 462.528pt x 346.896pt>
+<images/aciw_scaled.png, id=182, 462.528pt x 346.896pt>
 File: images/aciw_scaled.png Graphic file (type png)
 <use images/aciw_scaled.png>
-Package pdftex.def Info: images/aciw_scaled.png  used on input line 334.
+Package pdftex.def Info: images/aciw_scaled.png  used on input line 403.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
-<images/appl_scaled.png, id=174, 462.528pt x 346.896pt>
+<images/appl_scaled.png, id=183, 462.528pt x 346.896pt>
 File: images/appl_scaled.png Graphic file (type png)
 <use images/appl_scaled.png>
-Package pdftex.def Info: images/appl_scaled.png  used on input line 341.
+Package pdftex.def Info: images/appl_scaled.png  used on input line 410.
 (pdftex.def)             Requested size: 176.39923pt x 132.29823pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[5
+<images/LSTM_Layers_Comparison_Multitask.png, id=184, 722.7pt x 433.62pt>
+File: images/LSTM_Layers_Comparison_Multitask.png Graphic file (type png)
+<use images/LSTM_Layers_Comparison_Multitask.png>
+Package pdftex.def Info: images/LSTM_Layers_Comparison_Multitask.png  used on input line 420.
+(pdftex.def)             Requested size: 189.0pt x 113.40019pt.
+<images/LSTM_Hidden_Layers_Comparison_Multitask.png, id=185, 867.24pt x 505.89pt>
+File: images/LSTM_Hidden_Layers_Comparison_Multitask.png Graphic file (type png)
+<use images/LSTM_Hidden_Layers_Comparison_Multitask.png>
+Package pdftex.def Info: images/LSTM_Hidden_Layers_Comparison_Multitask.png  used on input line 427.
+(pdftex.def)             Requested size: 189.0pt x 110.24632pt.
+<images/Learning_Rates_Comparison_Multitask.png, id=186, 867.24pt x 505.89pt>
+File: images/Learning_Rates_Comparison_Multitask.png Graphic file (type png)
+<use images/Learning_Rates_Comparison_Multitask.png>
+Package pdftex.def Info: images/Learning_Rates_Comparison_Multitask.png  used on input line 434.
+(pdftex.def)             Requested size: 189.0pt x 110.24632pt.
+<images/lstm_multitask_train_vs_val_loss.png, id=187, 722.7pt x 433.62pt>
+File: images/lstm_multitask_train_vs_val_loss.png Graphic file (type png)
+<use images/lstm_multitask_train_vs_val_loss.png>
+Package pdftex.def Info: images/lstm_multitask_train_vs_val_loss.png  used on input line 444.
+(pdftex.def)             Requested size: 189.0pt x 113.40019pt.
+
+
+[7
+
+
 pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.1.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.345 
+l.448 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.1.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.345 
+l.448 
       
 pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.1.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.345 
-       <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png>]
-
-
-
-[6
+l.448 
+      
 pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.1.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.346 \clearpage
-                
-
- <./images/appl_scaled.png>]
-<images/bbto_tune_nodesize.png, id=196, 526.96875pt x 325.215pt>
+l.448 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.448 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.448 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.448 
+       <./images/aciw_raw.png> <./images/appl_raw.png> <./images/aciw_scaled.png> <./images/appl_scaled.png> <./images/LSTM_Layers_Comparison_Multitask.png> <./images/LSTM_Hidden_Layers_Comparison_Multitask.png> <./images/Learning_Rates_Comparison_Multitask.png>]
+<images/bbto_tune_nodesize.png, id=207, 526.96875pt x 325.215pt>
 File: images/bbto_tune_nodesize.png Graphic file (type png)
 <use images/bbto_tune_nodesize.png>
-Package pdftex.def Info: images/bbto_tune_nodesize.png  used on input line 352.
+Package pdftex.def Info: images/bbto_tune_nodesize.png  used on input line 454.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/bbto_tune_mtry.png, id=197, 526.96875pt x 325.215pt>
+<images/bbto_tune_mtry.png, id=208, 526.96875pt x 325.215pt>
 File: images/bbto_tune_mtry.png Graphic file (type png)
 <use images/bbto_tune_mtry.png>
-Package pdftex.def Info: images/bbto_tune_mtry.png  used on input line 359.
+Package pdftex.def Info: images/bbto_tune_mtry.png  used on input line 461.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/bbto_tune_randcuts.png, id=198, 526.96875pt x 325.215pt>
+<images/bbto_tune_randcuts.png, id=209, 526.96875pt x 325.215pt>
 File: images/bbto_tune_randcuts.png Graphic file (type png)
 <use images/bbto_tune_randcuts.png>
-Package pdftex.def Info: images/bbto_tune_randcuts.png  used on input line 366.
+Package pdftex.def Info: images/bbto_tune_randcuts.png  used on input line 468.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/IBM_tune_node.png, id=199, 526.96875pt x 325.215pt>
+<images/IBM_tune_node.png, id=210, 526.96875pt x 325.215pt>
 File: images/IBM_tune_node.png Graphic file (type png)
 <use images/IBM_tune_node.png>
-Package pdftex.def Info: images/IBM_tune_node.png  used on input line 373.
+Package pdftex.def Info: images/IBM_tune_node.png  used on input line 475.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-<images/IBM_tune_mtry.png, id=200, 526.96875pt x 325.215pt>
+
+
+<images/IBM_tune_mtry.png, id=211, 526.96875pt x 325.215pt>
 File: images/IBM_tune_mtry.png Graphic file (type png)
 <use images/IBM_tune_mtry.png>
-Package pdftex.def Info: images/IBM_tune_mtry.png  used on input line 380.
+Package pdftex.def Info: images/IBM_tune_mtry.png  used on input line 482.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
-
-Underfull \vbox (badness 1286) has occurred while \output is active []
-
-
-
-<images/IBM_tune_randcuts.png, id=201, 526.96875pt x 325.215pt>
+<images/IBM_tune_randcuts.png, id=212, 526.96875pt x 325.215pt>
 File: images/IBM_tune_randcuts.png Graphic file (type png)
 <use images/IBM_tune_randcuts.png>
-Package pdftex.def Info: images/IBM_tune_randcuts.png  used on input line 387.
+Package pdftex.def Info: images/IBM_tune_randcuts.png  used on input line 489.
 (pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/multi_tune_node.png, id=213, 526.96875pt x 325.215pt>
+File: images/multi_tune_node.png Graphic file (type png)
+<use images/multi_tune_node.png>
+Package pdftex.def Info: images/multi_tune_node.png  used on input line 499.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+<images/multi_tune_mtry.png, id=214, 526.96875pt x 325.215pt>
+File: images/multi_tune_mtry.png Graphic file (type png)
+<use images/multi_tune_mtry.png>
+Package pdftex.def Info: images/multi_tune_mtry.png  used on input line 506.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+
+Underfull \vbox (badness 2573) has occurred while \output is active []
+
+
+
+[8
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.3.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.4.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.4.2}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.4.3}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.4.4}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.4.5}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.4.6}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+      
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.5.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.510 
+       <./images/lstm_multitask_train_vs_val_loss.png> <./images/bbto_tune_nodesize.png> <./images/bbto_tune_mtry.png> <./images/bbto_tune_randcuts.png> <./images/IBM_tune_node.png> <./images/IBM_tune_mtry.png> <./images/IBM_tune_randCuts.png> <./images/multi_tune_node.png>]
+<images/multi_tune_rand.png, id=234, 526.96875pt x 325.215pt>
+File: images/multi_tune_rand.png Graphic file (type png)
+<use images/multi_tune_rand.png>
+Package pdftex.def Info: images/multi_tune_rand.png  used on input line 513.
+(pdftex.def)             Requested size: 176.39923pt x 108.86458pt.
+
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -647,57 +723,39 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-[7
 
 
-pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.1}) has been already used, duplicate ignored
+[9
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.5.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.391 \end{document}
+l.518 \end{document}
                     
-pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.2}) has been already used, duplicate ignored
+pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.5.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.391 \end{document}
+l.518 \end{document}
                     
-pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.3}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.391 \end{document}
-                    
-pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.4}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.391 \end{document}
-                    
-pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.5}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.391 \end{document}
-                    
-pdfTeX warning (ext4): destination with the same identifier (name{figure.Appendix.A.2.6}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.391 \end{document}
-                     <./images/bbto_tune_nodesize.png> <./images/bbto_tune_mtry.png> <./images/bbto_tune_randcuts.png> <./images/IBM_tune_node.png> <./images/IBM_tune_mtry.png> <./images/IBM_tune_randCuts.png>] (./report.aux)
+
+ <./images/multi_tune_mtry.png> <./images/multi_tune_rand.png>] (./report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-09>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 11916 strings out of 473254
- 186303 string characters out of 5722070
- 596186 words of memory out of 5000000
- 34892 multiletter control sequences out of 15000+600000
- 592753 words of font info for 105 fonts, out of 8000000 for 9000
+ 11992 strings out of 473254
+ 188509 string characters out of 5722070
+ 596158 words of memory out of 5000000
+ 34952 multiletter control sequences out of 15000+600000
+ 594174 words of font info for 107 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,8n,79p,693b,591s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (7 pages, 1405726 bytes).
+ 75i,8n,79p,701b,597s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (9 pages, 1571757 bytes).
 PDF statistics:
- 375 PDF objects out of 1000 (max. 8388607)
- 294 compressed objects within 3 object streams
- 85 named destinations out of 1000 (max. 500000)
- 288 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 423 PDF objects out of 1000 (max. 8388607)
+ 329 compressed objects within 4 object streams
+ 96 named destinations out of 1000 (max. 500000)
+ 340 words of extra memory for PDF output out of 10000 (max. 10000000)
 
