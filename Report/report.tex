@@ -93,7 +93,7 @@ sub-objectives:
 \end{itemize}
 %-------------------------------------METHODOLOGY-------------------------------------
 \section{Methodology}
-\subsubsection{Data Availability}
+\subsubsection*{Data Availability}
 Given the abundance of detailed historical stock market data, the dataset was carefully chosen.
 A mix of hardware and software companies between 2009 and 2017 was selected to ensure that the
 data exhibits behaviours uninfluenced by external severe market-changing events. Training on 
@@ -103,7 +103,7 @@ from 2009 through 2017 to avoid two major economic anomalies: the 2008 financial
 COVID-19 pandemic. Excluding these catastrophic events prevents the model from unintentionally
 being trained on massive market disruptions.
 
-\subsubsection{Datasets}
+\subsubsection*{Datasets}
 The specific companies in the dataset were taken from the iShares S\&P/TSX Capped Information
 Technology Index ETF and the Vanguard Information Technology ETF. These professionally curated
 funds were used to ensure a baseline of market viability and relevance. To guarantee sufficient
@@ -112,7 +112,7 @@ The selected companies were subsequently divided into three categories based on 
 capitalization: large-cap (greater than \$120,000,000 USD), mid-cap (between \$120,000,000 and
 \$50,000,000 USD), and small-cap (less than \$50,000,000 USD).
 
-\subsubsection{Intra-Sector Relationships and Multitasking}
+\subsubsection*{Intra-Sector Relationships and Multitasking}
 A varied composition of technology companies, spanning across a large range of valuations,
 was deliberately selected to optimize the architecture for multi-task learning. This introduced
 the models to complex intra-sector relationships, allowing them to learn how behaviours in one
@@ -232,6 +232,7 @@ the tasks of interest \cite{toomanytree}.
 
 %---------------------------------------RESULTS-------------------------------------
 \section{Results}
+\subsection{Single-Task LSTM}
 For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters
 are in CHANGE TO THE CORRECT APPENDIX.
 The model performance was optimized based on the lowest validation Mean Absolute Error (MAE). 
@@ -261,6 +262,27 @@ the 200-epoch evaluation run consisted of:
     \item \textbf{Dropout:} 0.2. Applied to the shared hidden layers to provide robust regularization against the high volatility of the technology sector.
     \item \textbf{Batch Size:} 64. Utilized to provide a stable gradient estimate for the weighted sum of task-specific loss functions while maintaining enough stochastic noise for effective generalization.
 \end{itemize}
+
+\subsubsection*{Algorithm Performances}
+The multi-task LSTM achieved a final aggregate test Mean Absolute Error (MAE) of \textbf{0.4444} across all 25 task-specific output heads. 
+As illustrated in Figure \ref{mtl_final_curve}, the model demonstrated rapid convergence within the first 25 epochs and maintained a stable validation error throughout the 200-epoch duration. \\
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
+    \caption{Training vs. Validation MAE for the optimized 2-layer Multi-Task LSTM over 200 epochs.}
+    \label{mtl_final_curve}
+\end{figure}
+
+Detailed evaluation of individual stocks showed varying levels of predictive accuracy, likely influenced by the specific volatility of the underlying assets. 
+Notable high-performance results include:
+\begin{itemize}
+    \item \textbf{VSAT:} MAE of 0.0658.
+    \item \textbf{BB.TO:} MAE of 0.1365.
+    \item \textbf{NTCT:} MAE of 0.1722.
+\end{itemize}
+The stability of the validation curve suggests that the shared representation effectively mitigated overfitting, 
+providing more reliable forecasts compared to deeper, unoptimized architectures.
 
 \subsection{Single-Task Extra Trees}
 For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
@@ -434,16 +456,6 @@ single-output model would use the same input data as our multi-tasking model, bu
     \includegraphics[width=0.75\linewidth]{images/Learning_Rates_Comparison_Multitask.png}
     \caption{Tuning Multi-Task LSTM: Learning Rate. Comparison of rates between 0.01 and 0.0001 identified 0.0005 as the most stable for sectoral synchronization.}
     \label{mtl_lr}
-\end{figure}
-
-\subsection{Multi-Task LSTM Training Results}
-\label{mtl_final_results}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.75\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
-    \caption{Final 200-Epoch Training Curve: Multi-Task LSTM. Visualizing the convergence and stability of the optimized 2-layer, 128-hidden unit model.}
-    \label{mtl_final_curve}
 \end{figure}
 
 \subsection{Single-Task Extra Trees Tuning}

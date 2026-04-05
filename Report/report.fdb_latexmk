@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex report"] 1775359074.50801 "report.aux" "report.bbl" "report" 1775359080.7192 0
+["bibtex report"] 1775360018.47179 "report.aux" "report.bbl" "report" 1775360024.66937 0
   "./refs.bib" 1775356886 4655 83f7745f56271109be8ff190d7957cef ""
   "c:/texlive/2024/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1735157461 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "report.aux" 1775359078 21147 c34533ac5327d352293204a5f2dc6ef8 "pdflatex"
+  "report.aux" 1775360022 19275 8c3085435e47d6e8ada514193bcd1d44 "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1775359075.27132 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1775359080.7202 0
+["pdflatex"] 1775360019.25682 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1775360024.67041 0
   "IEEEtran.cls" 1775356886 288304 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1775359067 26952 80eb45b19593119d9497afc90b7b5ce4 ""
+  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1775360016 27794 86c38302b594764be48f7c5fe3ddf0a5 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1735156708 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1735157085 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1735160045 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -125,9 +125,9 @@
   "images/IBM_tune_mtry.png" 1775356886 10842 bc2fbb005e342183148314fb254ab4c5 ""
   "images/IBM_tune_node.png" 1775356886 11254 36018c8c00cc11870e271ff9d331e176 ""
   "images/IBM_tune_randCuts.png" 1775356886 12721 7b9043322a894c5d8728ce9b88c66f21 ""
-  "images/LSTM_Hidden_Layers_Comparison_Multitask.png" 1775358721 42693 fd53d16330db4223c6824855ae7a0352 ""
-  "images/LSTM_Layers_Comparison_Multitask.png" 1775358732 27926 0efdbbbb4334fe88cd325614ff01b1f5 ""
-  "images/Learning_Rates_Comparison_Multitask.png" 1775358740 39251 eac28ff9e4751867b3fc8a43d530da3d ""
+  "images/LSTM_Hidden_Layers_Comparison_Multitask.png" 1775359210 42693 fd53d16330db4223c6824855ae7a0352 ""
+  "images/LSTM_Layers_Comparison_Multitask.png" 1775359210 27926 0efdbbbb4334fe88cd325614ff01b1f5 ""
+  "images/Learning_Rates_Comparison_Multitask.png" 1775359210 39251 eac28ff9e4751867b3fc8a43d530da3d ""
   "images/aciw_raw.png" 1775356886 90776 c47667c4db7ed7708360404459f6ae69 ""
   "images/aciw_scaled.png" 1775356886 86909 0b27208f6afcd1a7ade1dc1971034ced ""
   "images/appl_raw.png" 1775356886 79915 619c06b6644bb2a45fcfed2beb6ced46 ""
@@ -136,7 +136,7 @@
   "images/bbto_tune_nodesize.png" 1775356886 12628 52303644dfa71e6cf9e3661e54cebeb1 ""
   "images/bbto_tune_randcuts.png" 1775356886 14405 6231e4b7ffe40b680039cddc37a31e6c ""
   "images/lstm_inputs.png" 1775356886 566832 469c7585780552520ff1061f3d22871a ""
-  "images/lstm_multitask_train_vs_val_loss.png" 1775358749 52886 8ce3f6fc543817946f1b351389d3f19f ""
+  "images/lstm_multitask_train_vs_val_loss.png" 1775359210 52886 8ce3f6fc543817946f1b351389d3f19f ""
   "images/multi_tree_pred_BBTO.png" 1775356886 20548 22a1c7f235fe684f80fbe0d063a072f6 ""
   "images/multi_tree_pred_IBM.png" 1775356886 19953 126d131cf79489af8b724d406a7699b4 ""
   "images/multi_tune_mtry.png" 1775356886 10502 5f9ac94f4a463299b097fa7be37b8ea4 ""
@@ -145,9 +145,9 @@
   "images/rollingCross.png" 1775356886 248251 95e9ea8e39ac7c17f1125548bf13f664 ""
   "images/single_tree_pred_BBTO.png" 1775356886 20226 0be9ec72fab1bdcdef1e0f2f64f583e9 ""
   "images/single_tree_pred_IBM.png" 1775356886 19783 0ee2f6ba75ba727415bc669b74f189b8 ""
-  "report.aux" 1775359078 21147 c34533ac5327d352293204a5f2dc6ef8 "pdflatex"
-  "report.bbl" 1775359075 3030 c89f68030dd5ea6c9df4c89cfc66cd27 "bibtex report"
-  "report.tex" 1775359067 26952 80eb45b19593119d9497afc90b7b5ce4 ""
+  "report.aux" 1775360022 19275 8c3085435e47d6e8ada514193bcd1d44 "pdflatex"
+  "report.bbl" 1775360019 3030 c89f68030dd5ea6c9df4c89cfc66cd27 "bibtex report"
+  "report.tex" 1775360016 27794 86c38302b594764be48f7c5fe3ddf0a5 ""
   (generated)
   "report.aux"
   "report.log"
