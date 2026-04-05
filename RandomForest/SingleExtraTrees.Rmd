@@ -1,0 +1,340 @@
+---
+title: "singleExtraTrees"
+author: "stellaRovazzi"
+date: "2026-04-02"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(rJava)
+library(extraTrees)
+library(dplyr)
+library(purrr)
+library(readr)
+library(tools)
+library(tidyr)
+
+
+file <- "C:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/RandomForest/RFInputs/IBM__rf_input.CSV"
+task_name <- "IBM"
+
+# Read in file and add task column
+data_df <- read_csv(file, show_col_types = FALSE) %>%
+  mutate(task = task_name)
+
+# Remove columns w/o all 60 days, modify date to be interpreted as date, 
+# Make task an categorical number id
+data_df <- data_df %>%  drop_na() %>%
+    mutate(
+      Date = as.Date(Date),
+      task_id = as.integer(as.factor(task))
+    ) %>%
+    arrange(Date, task)
+
+# Setting parameters
+# Lag columns expected in each CSV
+lag_cols <- paste0("lag_", 1:60)
+
+# Final holdout test size (by unique dates, not rows)
+test_fraction <- 0.20
+
+# Rolling CV settings on the training portion only
+initial_train_days <- 60  # Train on this many days   
+val_days <- 5             # business week
+step_days <- 20           # move folds forward monthly
+
+```
+
+```{r splitting_data}
+
+all_dates <- sort(unique(data_df$Date))
+n_dates <- length(all_dates)
+
+if (n_dates < (initial_train_days + val_days + 10)) {
+  stop("Not enough unique dates for the requested CV/test configuration.")
+}
+
+test_n_dates <- max(1, floor(n_dates * test_fraction))
+test_start_idx <- n_dates - test_n_dates + 1
+
+train_dates_full <- all_dates[1:(test_start_idx - 1)]
+test_dates <- all_dates[test_start_idx:n_dates]
+
+train_full <- data_df %>%
+  filter(Date %in% train_dates_full)
+
+test_data <- data_df %>%
+  filter(Date %in% test_dates)
+
+cat("Train date range:", min(train_full$Date), "to", max(train_full$Date), "\n")
+cat("Test date range: ", min(test_data$Date), "to", max(test_data$Date), "\n")
+cat("Train rows:", nrow(train_full), "\n")
+cat("Test rows: ", nrow(test_data), "\n\n")
+
+
+```
+
+```{r split}
+make_fixed_splits <- function(dates, train_days, val_days, step_days) {
+  splits <- list()
+  fold <- 1
+  train_start_idx <- 1
+  train_end_idx <- train_days
+
+  while ((train_end_idx + val_days) <= length(dates)) {
+    train_dates <- dates[train_start_idx:train_end_idx]
+    val_dates <- dates[(train_end_idx + 1):(train_end_idx + val_days)]
+
+    splits[[fold]] <- list(
+      fold = fold,
+      train_dates = train_dates,
+      val_dates = val_dates,
+      train_start = min(train_dates),
+      train_end = max(train_dates),
+      val_start = min(val_dates),
+      val_end = max(val_dates)
+    )
+
+    train_start_idx <- train_start_idx + step_days
+    train_end_idx <- train_end_idx + step_days
+    fold <- fold + 1
+  }
+
+  splits
+}
+
+calc_metrics <- function(actual, predicted) {
+  tibble(
+    mae = mean(abs(actual - predicted)),
+  )
+}
+
+```
+
+```{r cross_validaiton}
+cv_dates <- sort(unique(train_full$Date))
+
+cv_splits <- make_fixed_splits(
+  dates = cv_dates,
+  train_days = initial_train_days,
+  val_days = val_days,
+  step_days = step_days
+)
+
+if (length(cv_splits) == 0) {
+  stop("No CV folds were created. Reduce initial_train_days or val_days.")
+}
+
+cat("Number of CV folds:", length(cv_splits), "\n\n")
+```
+
+```{r cross-val_loop}
+param_grid <- expand.grid(
+  nodesize = c(3, 5, 10), # num of features left in terminal nodes
+  numRandomCuts = c(2, 4, 8, 10), # good range
+  mtry_frac = c(sqrt(60), 60/3), # will technically be 60 features
+  stringsAsFactors = FALSE
+)
+
+
+all_cv_results <- purrr::pmap_dfr(param_grid, function(nodesize, numRandomCuts, mtry_frac) {
+
+  fold_results <- map_dfr(cv_splits, function(s) {
+    train_data <- train_full %>%
+      filter(Date >= s$train_start & Date <= s$train_end)
+
+    validation_data <- train_full %>%
+      filter(Date >= s$val_start & Date <= s$val_end)
+
+    seen_tasks <- unique(train_data$task_id)
+    validation_data <- validation_data %>%
+      filter(task_id %in% seen_tasks)
+
+    if (nrow(validation_data) == 0) {
+      return(tibble(
+        fold = s$fold,
+        mae = NA_real_,
+      ))
+    }
+
+    x_train <- train_data %>%
+      select(all_of(lag_cols)) %>%
+      data.matrix()
+
+    y_train <- as.numeric(train_data$Price)
+
+    x_val <- validation_data %>%
+      select(all_of(lag_cols)) %>%
+      data.matrix()
+
+    y_val <- as.numeric(validation_data$Price)
+
+    p <- ncol(x_train)
+
+    model <- extraTrees(
+      x = x_train,
+      y = y_train,
+      nodesize = nodesize,
+      mtry = max(1, floor(p * mtry_frac)),
+      numRandomCuts = numRandomCuts,
+      tasks = train_data$task_id
+    )
+
+    preds <- predict(model, x_val, newtasks=validation_data$task_id)
+    metrics <- calc_metrics(y_val, preds)
+
+    tibble(
+      fold = s$fold,
+      mae = metrics$mae,
+    )
+  })
+
+  fold_results %>%
+    mutate(
+      nodesize = nodesize,
+      numRandomCuts = numRandomCuts,
+      mtry_frac = mtry_frac
+    )
+})
+
+cv_summary_by_params <- all_cv_results %>%
+  group_by(nodesize, numRandomCuts, mtry_frac) %>%
+  summarise(
+    mean_mae = mean(mae, na.rm = TRUE),
+    sd_mae = sd(mae, na.rm = TRUE),
+    .groups = "drop"
+  ) %>%
+  arrange(mean_mae)
+
+print(cv_summary_by_params)
+
+best_params <- cv_summary_by_params %>%
+  slice(1)
+
+print(best_params)
+
+```
+
+```{r nodesize}
+library(ggplot2)
+ggplot(data = cv_summary_by_params, aes(x = as.factor(nodesize), y = mean_mae)) +
+  geom_boxplot() +
+  labs(title = "AAPL Node Size vs MAE",
+       x = "Node Size",
+       y = "Mean of MAE for Folds")
+```
+```{r nodesize}
+library(ggplot2)
+ggplot(data = cv_summary_by_params, aes(x = as.factor(numRandomCuts), y = mean_mae)) +
+  geom_boxplot() +
+  labs(title = "AAPL Number of Random Cuts vs MAE",
+       x = "Random Cuts",
+       y = "Mean of MAE for Folds")
+```
+```{r mtry}
+library(ggplot2)
+ggplot(data = cv_summary_by_params, aes(x = as.factor(mtry_frac), y = mean_mae)) +
+  geom_boxplot() +
+  labs(title = "IBM M try Fraction vs MAE",
+       x = "M try",
+       y = "Mean of MAE for Folds")
+```
+
+```{r evaluation}
+
+# ============================ Saving results from tuning =============
+nodesize = 3 # num of features left in terminal nodes
+numRandomCuts = 8 # good range
+mtry_frac = sqrt(60) # will technically be 60 features
+# ========================= Setting data up again ======================
+# Use full train set to train the evaluation
+x_train_full <- train_full %>% 
+  select(all_of(lag_cols)) %>%
+  data.matrix()
+
+y_train_full <- as.numeric(train_full$Price)
+
+# Keep only tasks in test that were seen in train_full
+seen_tasks_final <- unique(train_full$task_id)
+test_data_eval <- test_data %>%
+  filter(task_id %in% seen_tasks_final)
+
+x_test <- test_data_eval %>%
+  select(all_of(lag_cols)) %>%
+  data.matrix()
+
+y_test <- as.numeric(test_data_eval$Price)
+p_final <- ncol(x_train_full)
+
+# ======================== RUnning the Evaluation ==============================
+
+final_model <- extraTrees(
+  x = x_train_full,
+  y = y_train_full,
+  nodesize = nodesize,
+  mtry = 20,
+  numRandomCuts = numRandomCuts,
+  tasks = train_full$task_id
+)
+
+indiv_test_preds <- predict(final_model, x_test, newtasks=test_data$task_id)
+
+indiv_test_metrics <- calc_metrics(y_test, indiv_test_preds)
+
+indiv_test_predictions <- test_data_eval %>%
+  mutate(predicted_price = indiv_test_preds)
+
+indiv_test_predictions <- indiv_test_predictions %>%
+  mutate(
+    error = Price - predicted_price,
+    mae = abs(error)
+  )
+
+
+
+
+```
+
+```{r}
+month_summary <- indiv_test_predictions %>%
+  mutate(
+    Date = as.Date(Date),
+    month = as.integer(format(Date, "%m"))
+  ) %>%
+  group_by(month) %>%
+  summarise(
+    actual_price = mean(Price, na.rm = TRUE),
+    predicted_price = mean(predicted_price, na.rm = TRUE),
+    error_var = var(error, na.rm = TRUE),
+    error_sd = sd(error, na.rm = TRUE),
+    lower = predicted_price - 1.96 * error_sd,
+    upper = predicted_price + 1.96 * error_sd,
+    .groups = "drop"
+  )
+
+month_summary$month_label <- factor(
+  month_summary$month,
+  levels = 1:12,
+  labels = month.abb   # Jan, Feb, ...
+)
+
+library(ggplot2)
+ggplot(month_summary, aes(x = month_label)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, group=1), alpha = 0.2) +
+  geom_line(aes(y = actual_price, group=1), linewidth = 0.5) +
+  geom_line(aes(y = predicted_price, group=1), linetype = "dashed", linewidth = 0.5) +
+  labs(
+    title = "Single-Tasking BB.TO Actual vs Predicted Price by Month",
+    x = "Month",
+    y = "Price (Log(USD))"
+  ) +
+  theme_minimal()
+```
+
+
+
+
+
+
+
