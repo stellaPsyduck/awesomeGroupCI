@@ -314,40 +314,9 @@ Appendix \ref{mtl_et_tune} shows the tuning plots for this section. Tuning showe
 Tuning also showed $p/3$ was the best for $m_try$ and 10 random cuts would be ideal for multi-tasking.
 
 \subsubsection*{Algorithm Evaluation Performances}
-Below is a table that shows the MAE of evaluation for each stock prediction in the multi-tasking extra trees model:
-
-\begin{tabular}{c c}
-\hline
-Task & Mean of MAE for Evaluation Window \\
-\hline
-AAPL & 0.010017864 \\
-ACIW & 0.013566978 \\
-AMD & 0.031279329 \\
-BB.TO & 0.015650922 \\
-BDC & 0.017563812 \\
-BELF & 0.019272468 \\
-BLKB & 0.013493255 \\
-BMI & 0.011254196 \\
-CLS.TO & 0.012401716 \\
-CRM & 0.013950118 \\
-CSCO & 0.009417804 \\
-DSG.TO & 0.011196125 \\
-GIB-A.TO & 0.009294681 \\
-IBM & 0.011959280 \\
-INTC & 0.009181391 \\
-KXS.TO & 0.017382097 \\
-MSFT & 0.009562804 \\
-NOVT & 0.013969065 \\
-NTCT & 0.015411194 \\
-OLED & 0.024107319 \\
-ORCL & 0.008827831 \\
-OTEX.TO & 0.009609518 \\
-PLAB & 0.015337510 \\
-SLAB & 0.014071373 \\
-UCTT & 0.023878160 \\
-VSAT & 0.012968538 \\
-\hline
-\end{tabular} \\
+The relevant results for comparision are below:
+**add in**
+The rest can be found in Appendix \ref{mtl_et_result}.
 
 Figures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi-tasked predictions of the
 stocks previously predicted with single-task models.
@@ -376,6 +345,7 @@ The blackberry stock prediction holds very close to the true prediction.
 \subsection{Findings}
 \subsection{Interpretation of Results}
 \subsubsection{Single vs Multi}
+***discuss in two pargarphs, one for Et onefor LSTMs***
 \subsubsection{LSTM MTL vs ExtraTrees MTL}
 \subsection{Advantages and Disadvantages of Multi-Tasking}
 
@@ -524,5 +494,40 @@ single-output model would use the same input data as our multi-tasking model, bu
     \label{mt_randcuts}
 \end{figure} 
 
-\end{document}
+\subsection{Multi-Task Extra Trees Results}
+\label{mtl_et_result}
 
+\begin{tabular}{c c}
+\hline
+Task & Mean of MAE for Evaluation Window \\
+\hline
+AAPL & 0.010017864 \\
+ACIW & 0.013566978 \\
+AMD & 0.031279329 \\
+BB.TO & 0.015650922 \\
+BDC & 0.017563812 \\
+BELF & 0.019272468 \\
+BLKB & 0.013493255 \\
+BMI & 0.011254196 \\
+CLS.TO & 0.012401716 \\
+CRM & 0.013950118 \\
+CSCO & 0.009417804 \\
+DSG.TO & 0.011196125 \\
+GIB-A.TO & 0.009294681 \\
+IBM & 0.011959280 \\
+INTC & 0.009181391 \\
+KXS.TO & 0.017382097 \\
+MSFT & 0.009562804 \\
+NOVT & 0.013969065 \\
+NTCT & 0.015411194 \\
+OLED & 0.024107319 \\
+ORCL & 0.008827831 \\
+OTEX.TO & 0.009609518 \\
+PLAB & 0.015337510 \\
+SLAB & 0.014071373 \\
+UCTT & 0.023878160 \\
+VSAT & 0.012968538 \\
+\hline
+\end{tabular} \\
+
+\end{document}
