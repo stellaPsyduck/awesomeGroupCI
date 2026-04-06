@@ -68,7 +68,14 @@ price forecasts in volatile financial environments.
 %-------------------------------------MOTIVATION and OBJECTIVES------------------------
 \section{Motivation and Objectives}
 \subsection*{Motivation}
-Comparing and exploring multi-tasking
+Stock market data is volatile and inherently non-linear, meaning its values change quickly and
+drastically, with inconsistent variance. This makes accurately forecasting stock prices a challenge
+since many methods are too simple to capture this behaviour. Neural nets and decision trees are
+currently used to capture stock market behaviour, but, according to the research, they predominantly
+focus on predicting a single stock at a time \cite{datadriven}. Stocks within the same sector likely
+affect or reveal patterns in each other’s data. This paper explores whether this correlation can be
+used to improve the predictive performance of current non-linear models for stock price prediction.
+
 \subsection*{Objectives}
 The primary objective of this research is to evaluate whether a multi-task learning framework 
 can improve the predictive accuracy of individual stock prices by leveraging historical information 
@@ -122,7 +129,7 @@ patterns of the market.
 
 \subsection{Algorithms}
 \subsubsection*{LSTMs}
-explination
+*** EXPLINATION *** \\
 \begin{figure}[h]
     \centering
 \includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
@@ -231,7 +238,7 @@ Any excess grown tree doesn't impact the predictive power of the model, and 500 
 the tasks of interest \cite{toomanytree}.
 
 %---------------------------------------RESULTS-------------------------------------
-\section{Results}
+\section{Results and Finding}
 \subsection{Single-Task LSTM}
 For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters
 are in CHANGE TO THE CORRECT APPENDIX.
@@ -282,6 +289,8 @@ Notable high-performance results include:
 The stability of the validation curve suggests that the shared representation effectively mitigated overfitting, 
 providing more reliable forecasts compared to deeper, unoptimized architectures.
 
+The evaluations of all stocks are in Appendix \ref{mtl_lstm_results}
+
 \subsection{Single-Task Extra Trees}
 For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
 to tune the hyperparmeter are in \ref{st_extra_tune}.
@@ -316,8 +325,12 @@ Tuning also showed $p/3$ was the best for $m_try$ and 10 random cuts would be id
 
 \subsubsection*{Algorithm Evaluation Performances}
 The relevant results for comparision are below:
-**add in**
-The rest can be found in Appendix \ref{mtl_et_result}.
+\begin{itemize}
+    \item \textbf{BB.TO:} MAE of 0.015650922
+    \item \textbf{IBM:} MAE of 0.011959280
+\end{itemize}
+
+The results for all prediction can be found in Appendix \ref{mtl_et_result}.
 
 Figures \ref{mt_pred_bbto} and \ref{mt_pred_ibm}, visualizes the multi-tasked predictions of the
 stocks previously predicted with single-task models.
@@ -341,17 +354,43 @@ cost of the stock nearing the end of the calendar year.
 
 The blackberry stock prediction holds very close to the true prediction.
 
+Multi-tasking improved the blackberry stock price prediction, while the IBM prediction essentially
+remained unchanged; a 0.0006 difference is negligable. 
 %---------------------------------------DISCUSSIONS-------------------------------------
 \section{Discussion}
-\subsection{Findings}
 \subsection{Interpretation of Results}
-\subsubsection{Single vs Multi}
-***discuss in two pargarphs, one for Et onefor LSTMs***
-\subsubsection{LSTM MTL vs ExtraTrees MTL}
-\subsection{Advantages and Disadvantages of Multi-Tasking}
+\subsubsection*{Single vs Multi}
+**INSERT PARAGRAPH FOR LSTM SINGLE VS MULTI**** \\
+The results, comparing single-task learning ET to multi-task learning ET, reveal that leveraging
+stock correlations within the same sector can improve predictive performance. Blackberry MAE
+decreased after applying multi-task learning, indicating an improvement. Though the MAE of the
+IBM stock didn’t improve with multitasking, the prediction variance became more consistent.
+You can see in figure \ref{st_pred_ibm} how large the variance is in the early months of the calendar
+year; this implies the single-task was biased towards training data. Figure \ref{mt_pred_ibm} shows
+that multi-tasking significantly reduces the variance, making predictions more consistent and the
+model more generalizable. The change in IBM's variance is due to a successful application of
+inductive bias and transfer, since the prediction could use the other stock’s patterns
+to stabilize itself. 
 
+\subsubsection*{LSTM MTL vs ExtraTrees MTL}
+I have literally no idea why the Extra Trees would be better as a multi-task learner T-T. Maybe we could 
+talk about ht epossiblity of adding extra indiviudal weight layers??
+\subsection{Advantages and Disadvantages of Multi-Tasking}
+\textbf{Advantages:}
+    \begin{itemize}
+        \item Faster to train than single-task learning, as you only have to tune one set of  
+              hyperparameters
+        \item 
+    \end{itemize}
+\textbf{Disadvantages:}
+    \begin{itemize}
+        \item This is only helpful if all the stock prices are of interest. If only one stock price is of interest, 
+                multi-input to single output may be a better method.
+        \item 
+    \end{itemize}
 %--------------------------------------CONCLUSION-------------------------------------
 \section{Conclusion}
+We have concluded
 \subsection*{Future Works}
 To further this project, the remaining stocks of interest could have their 
 single-task counterparts calculated and compared. This would provide a better 
@@ -494,6 +533,44 @@ single-output model would use the same input data as our multi-tasking model, bu
     \caption{Tuning Multi-Task Extra Trees number of random cuts}
     \label{mt_randcuts}
 \end{figure} 
+
+\subsection{Multi-Task LSTM Results}
+\label{mtl_lstm_results}
+
+\begin{tabular}{c c}
+\hline
+Task & Mean of MAE for Evaluation Window \\
+\hline
+CSU.TO & 0.1233 \\
+CLS.TO &0.1031 \\
+SHOP &  0.8730 \\
+GIB-A.TO & 0.0313 \\
+OTEX.TO &0.0762 \\
+DSG.TO &  0.1538 \\
+KXS.TO &  0.1103 \\
+BB.TO &  0.2113 \\
+AMD &  0.3884 \\
+IBM & 0.1705 \\
+CSCO &  0.0641 \\
+AAPL &  0.3240 \\
+MSFT &  0.2134 \\
+ORCL & 0.1615 \\
+INTC &  0.1026 \\
+CRM &  0.2022 \\
+NOVT &  0.8327 \\
+VSAT &  0.1816 \\
+BDC & 0.0582 \\
+SLAB &  0.2605 \\
+OLED & 0.7746 \\
+ACIW & 0.1477 \\
+BMI &  0.1815 \\
+BELFB & 0.0710 \\
+BLKB & 0.2459 \\
+NTCT &  0.0532 \\
+UCTT & 1.1013 \\
+PLAB &  0.1730 \\
+\hline
+\end{tabular}
 
 \subsection{Multi-Task Extra Trees Results}
 \label{mtl_et_result}

@@ -20,6 +20,11 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{datadriven}
+\BIBentryALTinterwordspacing
+W.~Bao, Y.~Cao, Y.~Yang, H.~Che, J.~Huang, and S.~Wen, ``Data-driven stock forecasting models based on neural networks: A review,'' \emph{Information Fusion}, vol. 113, p. 102616, 2025. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S1566253524003944}
+\BIBentrySTDinterwordspacing
+
 \bibitem{rfmulti}
 \BIBentryALTinterwordspacing
 L.~Schmid, A.~Gerharz, A.~Groll, and M.~Pauly, ``Tree-based ensembles for multi-output regression: Comparing multivariate approaches with separate univariate ones,'' \emph{Computational Statistics \& Data Analysis}, vol. 179, p. 107628, 2023. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S0167947322002080}
