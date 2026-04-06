@@ -149,7 +149,7 @@ As illustrated in Figure \ref{lstm_diagram}:
     \label{lstm_diagram}
 \end{figure}
 
-Utilizing the PyTorch framework, the architecture was constructed with the following components:
+Utilizing the \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch} framwork, the architecture was constructed with the following components:
 \begin{itemize}
     \item \textbf{Shared Hidden Layers:} Two stacked LSTM layers with 128 hidden units each. These layers serve as a common feature extractor, learning a global representation of the technology sector's dynamics by pooling data from all 25 companies.
     \item \textbf{Task-Specific Heads:} 25 independent linear output layers (heads) that branch from the final LSTM hidden state. Each head is responsible for the regression of a specific stock's log-price, allowing the model to specialize its final prediction for each ticker while utilizing shared temporal features.
