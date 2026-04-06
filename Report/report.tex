@@ -375,9 +375,8 @@ model more generalizable. The change in IBM's variance is due to a successful ap
 inductive bias and transfer, since the prediction could use the other stock’s patterns
 to stabilize itself. 
 
-\subsubsection*{LSTM MTL vs ExtraTrees MTL}
-I have literally no idea why the Extra Trees would be better as a multi-task learner T-T. Maybe we could 
-talk about ht epossiblity of adding extra indiviudal weight layers??
+\subsubsection*{LSTM MTL vs Extra Trees MTL}
+
 \subsection{Advantages and Disadvantages of Multi-Tasking}
 \textbf{Advantages:}
     \begin{itemize}
@@ -389,7 +388,8 @@ talk about ht epossiblity of adding extra indiviudal weight layers??
     \begin{itemize}
         \item This is only helpful if all the stock prices are of interest. If only one stock price is of interest, 
                 multi-input to single output may be a better method.
-        \item 
+        \item With LSTMs, if one or more predictions run into the naive forecasting problem it will cause all of your
+                predictions to be worse.
     \end{itemize}
 %--------------------------------------CONCLUSION-------------------------------------
 \section{Conclusion}
