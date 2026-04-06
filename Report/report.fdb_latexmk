@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex report"] 1775507245.7485 "report.aux" "report.bbl" "report" 1775507422.82805 0
-  "./refs.bib" 1775503763 4913 1bdc124551d67ad4dd3ee5a985bbe8c2 ""
+["bibtex report"] 1775507576.88862 "report.aux" "report.bbl" "report" 1775507581.0427 0
+  "./refs.bib" 1775507533 6248 af86b8e9d90ae57001d0c0aec5a83445 ""
   "c:/texlive/2024/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1735157461 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "report.aux" 1775507421 20139 04df7ead5504273134c4260c445b6ae7 "pdflatex"
+  "report.aux" 1775507580 21460 5fd86474093f7bcca50740bf05d26acb "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1775507419.72355 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1775507422.82995 0
+["pdflatex"] 1775507577.29877 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1775507581.04322 0
   "IEEEtran.cls" 1775356886 288304 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1775507419 35749 f3fc9f0271e669bf3ff9094056d9f3db ""
+  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1775507572 39317 27062a113d9a1e7d165a508368b8ecd3 ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1735156708 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1735157085 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1735160045 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -138,7 +138,9 @@
   "images/bbto_tune_nodesize.png" 1775356886 12628 52303644dfa71e6cf9e3661e54cebeb1 ""
   "images/bbto_tune_randcuts.png" 1775356886 14405 6231e4b7ffe40b680039cddc37a31e6c ""
   "images/lstm_inputs.png" 1775356886 566832 469c7585780552520ff1061f3d22871a ""
-  "images/lstm_multitask_train_vs_val_loss.png" 1775360194 52886 8ce3f6fc543817946f1b351389d3f19f ""
+  "images/lstm_multitask_train_vs_val_loss.png" 1775507460 50405 891ab99ab7fdd91e6f9a080e7edf92e9 ""
+  "images/multi_lstm_BB.TO_EVALGRAPH.png" 1775507460 297496 ac9a1feed94b6aaabe93b0d435d5c923 ""
+  "images/multi_lstm_IBM_EVALGRAPH.png" 1775507460 228072 7ced7442e4b5d19184a66d6554e9b0f7 ""
   "images/multi_tree_pred_BBTO.png" 1775356886 20548 22a1c7f235fe684f80fbe0d063a072f6 ""
   "images/multi_tree_pred_IBM.png" 1775356886 19953 126d131cf79489af8b724d406a7699b4 ""
   "images/multi_tune_mtry.png" 1775356886 10502 5f9ac94f4a463299b097fa7be37b8ea4 ""
@@ -147,9 +149,9 @@
   "images/rollingCross.png" 1775356886 248251 95e9ea8e39ac7c17f1125548bf13f664 ""
   "images/single_tree_pred_BBTO.png" 1775356886 20226 0be9ec72fab1bdcdef1e0f2f64f583e9 ""
   "images/single_tree_pred_IBM.png" 1775356886 19783 0ee2f6ba75ba727415bc669b74f189b8 ""
-  "report.aux" 1775507421 20139 04df7ead5504273134c4260c445b6ae7 "pdflatex"
-  "report.bbl" 1775507246 3692 405cfc177488dc287277dc3ad543261b "bibtex report"
-  "report.tex" 1775507419 35749 f3fc9f0271e669bf3ff9094056d9f3db ""
+  "report.aux" 1775507580 21460 5fd86474093f7bcca50740bf05d26acb "pdflatex"
+  "report.bbl" 1775507577 4517 3e3afe9211c939c792e9bdb6ddcebcbf "bibtex report"
+  "report.tex" 1775507572 39317 27062a113d9a1e7d165a508368b8ecd3 ""
   (generated)
   "report.aux"
   "report.log"

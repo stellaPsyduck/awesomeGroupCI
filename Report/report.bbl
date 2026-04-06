@@ -20,10 +20,25 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{abhyankar1995nonlinear}
+A.~Abhyankar, L.~S. Copeland, and I.~Wong, ``Nonlinear dynamics in real-time equity indices: evidence from the uk, us, germany and japan,'' \emph{The Economic Journal}, pp. 864--880, 1995.
+
+\bibitem{caruana1997multitask}
+R.~Caruana, ``Multitask learning,'' \emph{Machine learning}, vol.~28, pp. 41--75, 1997.
+
+\bibitem{pan2010survey}
+S.~J. Pan and Q.~Yang, ``A survey on transfer learning,'' \emph{IEEE Transactions on knowledge and data engineering}, vol.~22, no.~10, pp. 1345--1359, 2010.
+
 \bibitem{datadriven}
 \BIBentryALTinterwordspacing
 W.~Bao, Y.~Cao, Y.~Yang, H.~Che, J.~Huang, and S.~Wen, ``Data-driven stock forecasting models based on neural networks: A review,'' \emph{Information Fusion}, vol. 113, p. 102616, 2025. [Online]. Available: \url{https://www.sciencedirect.com/science/article/pii/S1566253524003944}
 \BIBentrySTDinterwordspacing
+
+\bibitem{hochreiter1997long}
+S.~Hochreiter and J.~Schmidhuber, ``Long short-term memory,'' \emph{Neural computation}, vol.~9, pp. 1735--1780, 1997.
+
+\bibitem{ruder2017overview}
+S.~Ruder, ``An overview of multi-task learning in deep neural networks,'' \emph{Insight centre for data analytics}, 2017.
 
 \bibitem{rfmulti}
 \BIBentryALTinterwordspacing

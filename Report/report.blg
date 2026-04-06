@@ -8,49 +8,51 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: refs.bib
+Warning--I didn't find a database entry for "fama1970efficent"
 -- IEEEtran.bst version 1.14 (2015/08/26) by Michael Shell.
 -- http://www.michaelshell.org/tex/ieeetran/bibtex/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 10 entries,
+You've used 15 entries,
             4087 wiz_defined-function locations,
-            868 strings with 9142 characters,
-and the built_in function-call counts, 4256 in all, are:
-= -- 339
-> -- 62
-< -- 4
-+ -- 32
-- -- 14
-* -- 181
-:= -- 751
-add.period$ -- 20
-call.type$ -- 10
-change.case$ -- 10
-chr.to.int$ -- 0
-cite$ -- 10
-duplicate$ -- 354
-empty$ -- 385
-format.name$ -- 16
-if$ -- 938
+            898 strings with 9814 characters,
+and the built_in function-call counts, 8078 in all, are:
+= -- 669
+> -- 134
+< -- 45
++ -- 76
+- -- 23
+* -- 354
+:= -- 1327
+add.period$ -- 30
+call.type$ -- 15
+change.case$ -- 15
+chr.to.int$ -- 99
+cite$ -- 15
+duplicate$ -- 625
+empty$ -- 668
+format.name$ -- 28
+if$ -- 1832
 int.to.chr$ -- 0
-int.to.str$ -- 10
-missing$ -- 74
-newline$ -- 71
-num.names$ -- 6
-pop$ -- 225
+int.to.str$ -- 15
+missing$ -- 111
+newline$ -- 86
+num.names$ -- 11
+pop$ -- 301
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 336
+skip$ -- 638
 stack$ -- 0
-substring$ -- 34
-swap$ -- 211
-text.length$ -- 4
+substring$ -- 270
+swap$ -- 442
+text.length$ -- 12
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 10
+type$ -- 15
 warning$ -- 0
-while$ -- 8
-width$ -- 12
-write$ -- 121
+while$ -- 28
+width$ -- 17
+write$ -- 169
+(There was 1 warning)
