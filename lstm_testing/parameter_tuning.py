@@ -655,9 +655,6 @@ if __name__ == "__main__":
     # print(f"Naive Baseline MAE: {naive_mae:.4f}")
     # print(f"LSTM Model MAE:     {lstm_mae:.4f}")
 
-
-
-    # # Print them clearly to the terminal
     # print("--- ACTUAL VALUES ---")
     # print(actual_values)
 
