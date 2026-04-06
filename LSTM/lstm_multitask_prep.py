@@ -19,10 +19,10 @@ base_path = '../DownloadCSV/'
 seq_length = 60 
 
 TARGET_TICKERS = [
-    "CSU.TO", "CLS.TO", "SHOP", "GIB-A.TO", "OTEX.TO", "DSG.TO", "KXS.TO", "BB.TO", # iShare
-    "AMD", "IBM", "CSCO", "AAPL", "MSFT", "ORCL", "INTC", "CRM",                   # Large
-    "NOVT", "VSAT", "BDC", "SLAB", "OLED", "ACIW", "BMI",                         # Medium
-    "BELFB", "BLKB", "NTCT", "UCTT", "PLAB"                                       # Small
+    "CLS.TO", "GIB-A.TO", "OTEX.TO", "DSG.TO", "BB.TO", # iShare
+    "AMD", "IBM", "CSCO", "AAPL", "MSFT", "ORCL", "INTC", "CRM",  # Large
+    "NOVT", "VSAT", "BDC", "SLAB", "OLED", "ACIW", "BMI", # Medium
+    "BELFB", "BLKB", "NTCT", "UCTT", "PLAB" # Small
 ]
 
 global_df = None
