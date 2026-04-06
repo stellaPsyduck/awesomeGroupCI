@@ -301,6 +301,26 @@ INPUT ./images/appl_scaled.png
 INPUT ./images/appl_scaled.png
 INPUT ./images/appl_scaled.png
 INPUT ./images/appl_scaled.png
+INPUT ./images/BB layers.png
+INPUT ./images/BB layers.png
+INPUT ./images/BB layers.png
+INPUT ./images/BB layers.png
+INPUT ./images/BB layers.png
+INPUT ./images/BB hidden.png
+INPUT ./images/BB hidden.png
+INPUT ./images/BB hidden.png
+INPUT ./images/BB hidden.png
+INPUT ./images/BB hidden.png
+INPUT ./images/BB LR.png
+INPUT ./images/BB LR.png
+INPUT ./images/BB LR.png
+INPUT ./images/BB LR.png
+INPUT ./images/BB LR.png
+INPUT ./images/BB epoch.png
+INPUT ./images/BB epoch.png
+INPUT ./images/BB epoch.png
+INPUT ./images/BB epoch.png
+INPUT ./images/BB epoch.png
 INPUT ./images/LSTM_Layers_Comparison_Multitask.png
 INPUT ./images/LSTM_Layers_Comparison_Multitask.png
 INPUT ./images/LSTM_Layers_Comparison_Multitask.png

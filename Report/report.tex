@@ -168,7 +168,7 @@ Extra Trees (ET) is a tree ensemble method like Random Forests, but it produces 
 in its threshold selection, which randomly selects where to split the feature rather than using an optimization
 method. It still chooses $m_{try}$ number of random features to choose the feature splits to compare, where
 $m_{try} = \lfloor \frac{p}{3} \rfloor$ or $m_{try} = \lfloor \sqrt{p} \rfloor$ and p is the number of features. There are two relevant extensions to this algorithm that make it similar
-to our LSTM hard parameter multi-tasking \cite{rfmulti}. \\
+to our LSTM hard parameter multi-tasking \cite{rfmulti}.
 The first is introducing multi-output, which essentially means the loss function is the summation of sample error
 and task outputs. This effectively makes each node split
 consider the error of the candiate splits' effect across all tasks \cite{rfmulti}.
@@ -220,7 +220,8 @@ Dropping a few days of data should not obscure the stocks’ growth patterns and
 The data was scaled logarithmically. This was to ensure stable predictions by reducing 
  effect of outliers on the model and to account for the exponential patterns in each stock's data.
 The predictions become more stable because most analysis techniques assume additive data, including
-machine learning.\cite{log_scale}. \\
+machine learning.\cite{log_scale}. 
+
 The scaling affect is shown in appendix \ref{appendix_a}, the medium stock ACIW is on a similar scale to the large 
 stock AAPL after logging the data.
 \subsubsection*{Lag Length}
@@ -246,33 +247,33 @@ lags \cite{timeseries_data}. Days without all 60 previous lags have been dropped
 This algorithm was implemented in PyTorch, which provides native LSTM modules and facilitates multi-task learning.
 The models in this paper were tuned based on the following hyperparameters: epochs, learning rate, hidden nodes, hidden layers,
 and batch size. Fine-tuning these five parameters allowed the models to capture the data’s underlying patterns, ensuring
-efficient, precise convergence while actively preventing overfitting.\\
+efficient, precise convergence while actively preventing overfitting.
 
 The development of the LSTM architecture followed a progressive tuning strategy, moving from a univariate baseline to a
 complex hard parameter-sharing multi-task framework. Both models were optimized using a heuristic-based grid search (a
 targeted manual search) to identify the best spot between model capacity and generalization. The primary objective was
 to move beyond naive forecasting, where the model merely mirrors the price at $t-1$ and capture the underlying sector-wide
-volatility.\\
+volatility.
 
 The models were systematically tuned across five key dimensions to ensure precise convergence and prevent overfitting:
 Network depth and capacity: Tested between 1-6 layers and 25-200 hidden nodes. A 2 layer architecture with 128 nodes was
-found to best represent non-linear patterns without having gradient stagnation.\\ 
+found to best represent non-linear patterns without having gradient stagnation.
 
 Optimization Parameters: The learning rate was tested from 0.01 down to 0.0001. A rate of 0.0005 with the Adam optimizer
-provided the most stable validation MAE across the 25-stocks.\\
+provided the most stable validation MAE across the 25-stocks.
 
 Training Dynamics: Standardized to 50-100 epochs with a batch size of 64 to manage computational overhead while ensuring
-sufficient exposure to the 2,712-day training set. \\
+sufficient exposure to the 2,712-day training set. 
 
 The fundamental shift in the Multi-Task approach was the implementation of a Composite Loss Function. Unlike the single-task
 baseline, the Multi-Task LSTM aggregated the Mean Absolute Error (MAE) from all 25 task-specific heads into a single joint loss.
 This forced the shared LSTM layer to ignore idiosyncratic noise in individual stocks and prioritize parameters that generalized
-across the entire tech sector. \\
+across the entire tech sector. 
 
 While dropout could have been tuned, it was maintained as a fixed regularization constraint of 0.2 rather than a variable
 parameter. Given the high dimensionality of 25 simultaneous tasks, a fixed dropout served as a non-negotiable guard. This
 ensured that the shared hidden layers remained robust against the influence of high-market-cap outliers allowing the model
-to learn a global representation that remained applicable to mid and small cap tickers within the index. \\
+to learn a global representation that remained applicable to mid and small cap tickers within the index. 
 
 \subsubsection*{Extra Trees}
 For Extra Trees, single-task and multi-task, the parameters that could be tuned  are \cite{rfmulti}:
@@ -293,7 +294,7 @@ the tasks of interest \cite{toomanytree}.
 \section{Results and Findings}
 \subsection{Single-Task LSTM}
 For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters
-are in CHANGE TO THE CORRECT APPENDIX.
+are in Appendix \ref{stl_lstm_tune}.
 The model performance was optimized based on the lowest validation Mean Absolute Error (MAE). 
 \subsection*{Hyperparameters}
 \subsubsection*{BlackBerry (BB.TO)}
@@ -450,7 +451,7 @@ to stabilize itself.
 Due to the naive forecasting problem, it is not possible to determine whether multi-task learning is
 a robust methodology across different models. This does not rule out the possibility that multi-task
 learning is beneficial and robust across multiple models, as the problem stems from the relationship
-between stock data and LSTMs rather than the multi-tasking \cite{naivethisdick}. \\
+between stock data and LSTMs rather than the multi-tasking \cite{naivethisdick}. 
 
 The multitasking extra trees model properly captures sector-wide dependencies in the data and improves
 prediction performance. The LSTM does not. It is likely that converting the model to a multi-task
@@ -482,6 +483,7 @@ Tthe intermediate step of multi-input single-output predictions could also be ex
 This would reveal the effect of shared weights in multi-tasking, because the multi-input
 single-output model would use the same input data as our multi-tasking model, but it would optimize for only one prediction.
 %-------------------------------------BIBLIOGRAPHY-------------------------------------
+\clearpage
 \bibliographystyle{IEEEtran}
 \bibliography{refs}
 
@@ -524,6 +526,39 @@ single-output model would use the same input data as our multi-tasking model, bu
     \label{appl_scaled}
 \end{figure}
 
+\clearpage
+\subsection{Singel-Task LSTM Hyperparameter Tuning}
+\label{stl_lstm_tune}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/BB layers.png}
+    \caption{Visualization of the training and validation MAE acros diffeerent amounts of hidden LSTM layers.}
+    \label{stl_layers}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/BB hidden.png}
+    \caption{Comparision of training and validation MAE across different LSTM hidden layer sizes.}
+    \label{stl_hidden}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/BB LR.png}
+    \caption{Comparision of training and validation MAE across different learning rates.}
+    \label{stl_lr}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/BB epoch.png}
+    \caption{Comparision of training and validation MAE across different epochs.}
+    \label{stl_epoch}
+\end{figure}
+
+\clearpage
 \subsection{Multi-Task LSTM Hyperparameter Tuning}
 \label{mtl_lstm_tune}
 
@@ -548,6 +583,7 @@ single-output model would use the same input data as our multi-tasking model, bu
     \label{mtl_lr}
 \end{figure}
 
+\clearpage
 \subsection{Single-Task Extra Trees Tuning}
 \label{st_extra_tune}
 
@@ -593,6 +629,7 @@ single-output model would use the same input data as our multi-tasking model, bu
     \label{ibm_randcuts}
 \end{figure}
 
+\clearpage
 \subsection{Multi-Task Extra Trees Hyperparameter Tuning}
 \label{mtl_et_tune}
 
@@ -624,6 +661,7 @@ single-output model would use the same input data as our multi-tasking model, bu
     \label{mtl_final_curve}
 \end{figure}
 
+\clearpage
 \subsection{Multi-Task LSTM Results}
 \label{mtl_lstm_results}
 
@@ -662,6 +700,7 @@ PLAB &  0.1730 \\
 \hline
 \end{tabular}
 
+\clearpage
 \subsection{Multi-Task Extra Trees Results}
 \label{mtl_et_result}
 
@@ -680,6 +719,7 @@ BMI & 0.011254196 \\
 CLS.TO & 0.012401716 \\
 CRM & 0.013950118 \\
 CSCO & 0.009417804 \\
+CSU & 0.118063857 \\
 DSG.TO & 0.011196125 \\
 GIB-A.TO & 0.009294681 \\
 IBM & 0.011959280 \\
@@ -692,10 +732,12 @@ OLED & 0.024107319 \\
 ORCL & 0.008827831 \\
 OTEX.TO & 0.009609518 \\
 PLAB & 0.015337510 \\
+SHOP & 0.023406236 \\
 SLAB & 0.014071373 \\
 UCTT & 0.023878160 \\
 VSAT & 0.012968538 \\
 \hline
 \end{tabular} \\
+
 
 \end{document}

@@ -4,6 +4,8 @@ author: "stellaRovazzi"
 date: "2026-04-02"
 output: html_document
 ---
+
+This code was just modified for either the BB.TO or IBM data.
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -36,13 +38,12 @@ data_df <- data_df %>%  drop_na() %>%
 # Lag columns expected in each CSV
 lag_cols <- paste0("lag_", 1:60)
 
-# Final holdout test size (by unique dates, not rows)
 test_fraction <- 0.20
 
-# Rolling CV settings on the training portion only
-initial_train_days <- 60  # Train on this many days   
-val_days <- 5             # business week
-step_days <- 20           # move folds forward monthly
+# Rolling CV params
+initial_train_days <- 60    
+val_days <- 5            
+step_days <- 20           
 
 ```
 
@@ -69,13 +70,12 @@ test_data <- data_df %>%
 
 cat("Train date range:", min(train_full$Date), "to", max(train_full$Date), "\n")
 cat("Test date range: ", min(test_data$Date), "to", max(test_data$Date), "\n")
-cat("Train rows:", nrow(train_full), "\n")
-cat("Test rows: ", nrow(test_data), "\n\n")
-
 
 ```
 
 ```{r split}
+
+# actually setting up the splits of the code
 make_fixed_splits <- function(dates, train_days, val_days, step_days) {
   splits <- list()
   fold <- 1
@@ -113,18 +113,14 @@ calc_metrics <- function(actual, predicted) {
 ```
 
 ```{r cross_validaiton}
-cv_dates <- sort(unique(train_full$Date))
+cv_dates <- sort(unique(train_full$Date)) # Getting list of dtes
 
-cv_splits <- make_fixed_splits(
+cv_splits <- make_fixed_splits( # Splitting up w function
   dates = cv_dates,
   train_days = initial_train_days,
   val_days = val_days,
   step_days = step_days
 )
-
-if (length(cv_splits) == 0) {
-  stop("No CV folds were created. Reduce initial_train_days or val_days.")
-}
 
 cat("Number of CV folds:", length(cv_splits), "\n\n")
 ```
@@ -297,6 +293,8 @@ indiv_test_predictions <- indiv_test_predictions %>%
 ```
 
 ```{r}
+
+# Plotting the prediction vs actual
 month_summary <- indiv_test_predictions %>%
   mutate(
     Date = as.Date(Date),

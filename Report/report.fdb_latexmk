@@ -1,15 +1,15 @@
 # Fdb version 4
-["bibtex report"] 1775507576.88862 "report.aux" "report.bbl" "report" 1775507581.0427 0
+["bibtex report"] 1775512418.9103 "report.aux" "report.bbl" "report" 1775512427.38507 0
   "./refs.bib" 1775507533 6248 af86b8e9d90ae57001d0c0aec5a83445 ""
   "c:/texlive/2024/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1735157461 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "report.aux" 1775507580 21460 5fd86474093f7bcca50740bf05d26acb "pdflatex"
+  "report.aux" 1775512425 23610 214b2ee1f734f4dcc670cc5168ebbb8a "pdflatex"
   (generated)
   "report.bbl"
   "report.blg"
   (rewritten before read)
-["pdflatex"] 1775507577.29877 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1775507581.04322 0
+["pdflatex"] 1775512419.67275 "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" "report.pdf" "report" 1775512427.38681 0
   "IEEEtran.cls" 1775356886 288304 5b2e4fa15b0f7eabb840ebf67df4c0f7 ""
-  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1775507572 39317 27062a113d9a1e7d165a508368b8ecd3 ""
+  "c:/Users/human/Documents/W26/Computational Intelligence/Project/awesomeGroupCI/Report/report.tex" 1775512408 40444 972a61540903b6debdd92f7dc75119de ""
   "c:/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1735156708 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1735157085 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1735160045 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -122,6 +122,10 @@
   "c:/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1735160523 5531417 afafd3ba8f822fda36e3585e3807683b ""
   "c:/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1735160703 3347718 c1e3496c51eea31cc4a1115edc3aa07a ""
   "c:/texlive/2024/texmf.cnf" 1735160499 713 e69b156964470283e0530f5060668171 ""
+  "images/BB LR.png" 1775400485 22628 7e5803c065c006359931102b9269c5ec ""
+  "images/BB epoch.png" 1775508474 44686 5c2ea38e90f9556df729fe409583948e ""
+  "images/BB hidden.png" 1775400485 22423 9a192286d03241696d9d468a665ea10c ""
+  "images/BB layers.png" 1775443547 24163 a3833c0ad987c31655ad10a09af3b90c ""
   "images/BlackBerry Eval.png" 1775504604 217987 84f52e450753324de6f6d4b557ba1c36 ""
   "images/IBM eval.png" 1775504604 141440 e37234cbbe044270053d0efdfcd823dc ""
   "images/IBM_tune_mtry.png" 1775356886 10842 bc2fbb005e342183148314fb254ab4c5 ""
@@ -149,9 +153,9 @@
   "images/rollingCross.png" 1775356886 248251 95e9ea8e39ac7c17f1125548bf13f664 ""
   "images/single_tree_pred_BBTO.png" 1775356886 20226 0be9ec72fab1bdcdef1e0f2f64f583e9 ""
   "images/single_tree_pred_IBM.png" 1775356886 19783 0ee2f6ba75ba727415bc669b74f189b8 ""
-  "report.aux" 1775507580 21460 5fd86474093f7bcca50740bf05d26acb "pdflatex"
-  "report.bbl" 1775507577 4517 3e3afe9211c939c792e9bdb6ddcebcbf "bibtex report"
-  "report.tex" 1775507572 39317 27062a113d9a1e7d165a508368b8ecd3 ""
+  "report.aux" 1775512425 23610 214b2ee1f734f4dcc670cc5168ebbb8a "pdflatex"
+  "report.bbl" 1775512419 4517 3e3afe9211c939c792e9bdb6ddcebcbf "bibtex report"
+  "report.tex" 1775512408 40444 972a61540903b6debdd92f7dc75119de ""
   (generated)
   "report.aux"
   "report.log"
