@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # Config
-TARGET_STOCK = 'IBM'  # 'IBM' 'BB.TO'
+TARGET_STOCK = 'BB.TO'  # 'IBM' 'BB.TO'
 MODEL_PATH = 'final_2layer_multitask.pth'
 
 # model definition
@@ -77,11 +77,13 @@ df = pd.DataFrame({
     'Naive': pd.Series(true_logged).shift(1) # yesterdays price
 })
 
-# Calculate error and 95% confidence interval 
+# caclulate daily error 
 df['error'] = df['Actual'] - df['Predicted']
-df['std'] = df['error'].rolling(window=5, min_periods=1).std().fillna(0.02)
-df['lower'] = df['Predicted'] - (1.96 * df['std'])
-df['upper'] = df['Predicted'] + (1.96 * df['std'])
+# calculate global standard deviaition, non rolling
+global_std = df['error'].std()
+# use 1x standard deviation
+df['lower'] = df['Predicted'] - global_std
+df['upper'] = df['Predicted'] + global_std
 
 # plotting
 plt.figure(figsize=(10, 6), dpi=300)
