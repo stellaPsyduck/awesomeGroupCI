@@ -46,7 +46,7 @@ features = 1
 tuned_epoch = 6
 tuned_hidden_layer = 100
 tuned_learning_rate = 0.0009
-tuned_lstm_layers = 1
+tuned_lstm_layers = 3
 
 
 # ------------ Tuned Parameters BB.TO ------------
@@ -60,8 +60,11 @@ bb_lstm_layers = 2
 # premo results:
 
 # IBM:
-# --- Running LSTM with 1 layer(s) ---
-# Results for 1 layers -> Train MAE: 0.2967 | Val MAE: 0.0950 | Test MAE: 0.1918
+# --- Running LSTM with 3 layer(s) ---
+# Results for 3 layers -> Train MAE: 0.3380 | Val MAE: 0.0884 | Test MAE: 0.0933
+# --- PERFORMANCE COMPARISON ---
+# Naive Baseline MAE: 0.0076
+# LSTM Model MAE:     0.0933
 
 
 
@@ -74,6 +77,10 @@ bb_lstm_layers = 2
 # Epoch [30/42] complete.
 # Epoch [40/42] complete.
 # Results for 2 layers -> Train MAE: 0.1024 | Val MAE: 0.0422 | Test MAE: 0.0319
+
+# --- PERFORMANCE COMPARISON ---
+# Naive Baseline MAE: 0.0150
+# LSTM Model MAE:     0.0319
 
 
 
@@ -140,7 +147,7 @@ def train_and_evaluate_lstm_for_epoch(model, train_loader, val_loader, test_load
     plt.ylabel('Mean Absolute Error')
     plt.title('LSTM Training vs Validation Loss')
     plt.legend()  
-    plt.savefig('LSTM_Train_vs_Val_Loss -- IBM.png')
+    # plt.savefig('LSTM_Train_vs_Val_Loss -- IBM.png')
     plt.show()
 
     model.eval()
@@ -354,7 +361,7 @@ def evaluate_lstm_learning_rates(train_loader, val_loader, test_loader, device, 
 
 
 # Don't take in model, need to change layers per model
-def evaluate_lstm_num_layers(train_loader, val_loader, test_loader, device, input_size, hidden_size=64, epochs=tuned_epoch, learning_rate=tuned_learning_rate):
+def evaluate_lstm_num_layers(train_loader, val_loader, test_loader, device, input_size, hidden_size=tuned_hidden_layer, epochs=tuned_epoch, learning_rate=tuned_learning_rate):
     results = {}
     
     layer_list = [1, 2, 3, 4, 5, 6]
@@ -446,14 +453,154 @@ def evaluate_lstm_num_layers(train_loader, val_loader, test_loader, device, inpu
     caption_text = "Figure : A visualization of the training and validation MAE across different amounts of stacked LSTM layers."
     plt.figtext(0.5, 0.02, caption_text, ha="center", fontsize=10, wrap=True)
 
-    plt.savefig('LSTM_Layers_Comparison -- BBTO.png')
-    # plt.show()
+    # plt.savefig('LSTM_Layers_Comparison -- fail.png')
+    plt.show()
 
     return results
 
 # Best results seem to come from 3 layers
 
 # This comes from looking at the validation
+
+def eval_lstm_expected_vs_real(train_loader, val_loader, test_loader, device, input_size, hidden_size=tuned_hidden_layer, epochs=tuned_epoch, learning_rate=tuned_learning_rate, layers=tuned_epoch):
+
+    print(f'\n--- Running LSTM with {layers} layer(s) ---')
+
+    model = UnivariantLSTM(
+        input_size=input_size, 
+        hidden_size=hidden_size, 
+        num_layers=layers,
+    ).to(device)
+
+    criterion = nn.L1Loss()
+    optimizer = optim.Adam(model.parameters(), lr=learning_rate)
+
+    for epoch in range(epochs):
+        model.train() 
+        epoch_train_loss = 0.0
+        
+        for batch_X, batch_y in train_loader:
+            batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+            
+            outputs = model(batch_X)
+            loss = criterion(outputs.view(-1), batch_y)
+            
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            
+            epoch_train_loss += loss.item()
+
+        if (epoch + 1) % 10 == 0:
+            print(f'Epoch [{epoch + 1}/{epochs}] complete.')
+
+    final_train_loss = epoch_train_loss / len(train_loader)
+
+    model.eval() 
+    epoch_val_loss = 0.0
+    with torch.no_grad():
+        for batch_X, batch_y in val_loader:
+            batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+            outputs = model(batch_X)
+            loss = criterion(outputs.view(-1), batch_y)
+            epoch_val_loss += loss.item()
+
+    final_val_loss = epoch_val_loss / len(val_loader)
+
+    test_loss = 0.0
+    test_predictions = [] 
+    test_actuals = []     
+    
+    with torch.no_grad():
+        for batch_X, batch_y in test_loader:
+            batch_X, batch_y = batch_X.to(device), batch_y.to(device)
+            outputs = model(batch_X)
+            loss = criterion(outputs.view(-1), batch_y)
+            test_loss += loss.item()
+            
+            test_predictions.extend(outputs.view(-1).cpu().numpy())
+            test_actuals.extend(batch_y.cpu().numpy())
+            
+    final_test_loss = test_loss / len(test_loader)
+
+    print(f'Results for {layers} layers -> Train MAE: {final_train_loss:.4f} | Val MAE: {final_val_loss:.4f} | Test MAE: {final_test_loss:.4f}')
+
+    results = {
+        'train_mae': final_train_loss,
+        'val_mae': final_val_loss,
+        'test_mae': final_test_loss,
+        'predictions': test_predictions, 
+        'actuals': test_actuals          
+    }
+
+    actual_values = results['actuals']
+    predicted_values = results['predictions']
+
+    naive_predictions = actual_values[:-1]
+    actuals_aligned = actual_values[1:]
+    lstm_predictions_aligned = predicted_values[1:]
+
+
+    actual_std = np.std(actuals_aligned)
+    naive_std = np.std(naive_predictions)
+    lstm_std = np.std(lstm_predictions_aligned)
+
+    stats_text = (
+        f"Standard Deviation Analysis:\n"
+        f"Actual Data Std: {actual_std:.4f}\n"
+        f"Naive Baseline Std: {naive_std:.4f}\n"
+        f"LSTM Predictions Std: {lstm_std:.4f}\n"
+    )
+    start = 0
+    end = len(actuals_aligned)
+    x_axis = np.arange(start, end)
+
+    plt.figure(figsize=(14, 6))
+    ax = plt.gca()
+
+    plt.plot(actuals_aligned[start:end], color='black', linestyle='-', 
+             linewidth=1.5, label='Actual Price')
+
+    plt.plot(naive_predictions[start:end], color='red', linestyle=':', 
+             linewidth=1.5, alpha=0.7, label='Naive Forecast (1-Day Shift)')
+
+    plt.plot(lstm_predictions_aligned[start:end], color='blue', linestyle='--', 
+             linewidth=1.5, alpha=0.8, label='LSTM Predicted Price')
+    
+    plt.fill_between(
+        x_axis, 
+        lstm_predictions_aligned[start:end] - lstm_std, 
+        lstm_predictions_aligned[start:end] + lstm_std,  
+        color='blue', 
+        alpha=0.15,  
+        label='LSTM ± 1 Std Dev'
+    )
+
+    ax.text(
+        x=0.98, y=0.05, s=stats_text, 
+        transform=ax.transAxes,
+        fontsize=10, 
+        verticalalignment='bottom', 
+        horizontalalignment='right', 
+        bbox=dict(boxstyle="round,pad=0.5", facecolor="white", edgecolor="lightgrey", alpha=0.9)
+    )
+
+    plt.title(f'LSTM Model - Actual vs LSTM vs Naive')
+    plt.xlabel('Time Step')
+    plt.ylabel('Price (Log)')
+    plt.legend(loc='upper left')
+    plt.grid(True, linestyle='-', alpha=0.3)
+
+    ax = plt.gca()
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+
+    plt.tight_layout()
+    plt.savefig(f'LSTM_vs_Naive_Layers_BlackBerry.png', dpi=300)
+    plt.show()
+
+    return results
+
 
 
 
@@ -485,6 +632,36 @@ if __name__ == "__main__":
 
     # evaluate_lstm_learning_rates(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features,  epochs=bb_tuned_epoch, hidden_size=bb_tuned_hidden_layer, device=device)
 
-    evaluate_lstm_num_layers(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features, hidden_size=bb_tuned_hidden_layer, epochs=bb_tuned_epoch, learning_rate=bb_tuned_learning_rate, device=device)
+    # evaluate_lstm_num_layers(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features, hidden_size=bb_tuned_hidden_layer, epochs=bb_tuned_epoch, learning_rate=bb_tuned_learning_rate, device=device)
+    
+    experiment_results = eval_lstm_expected_vs_real(train_loader=BB_train, val_loader=BB_valid, test_loader=BB_test, input_size=features, hidden_size=bb_tuned_hidden_layer, 
+        epochs=bb_tuned_epoch, learning_rate=bb_tuned_learning_rate, layers=bb_lstm_layers, device=device)
+
+    # experiment_results = eval_lstm_expected_vs_real(train_loader=IBM_train, val_loader=IBM_valid, test_loader=IBM_test, input_size=features, hidden_size=tuned_hidden_layer, epochs=tuned_epoch, learning_rate=tuned_learning_rate, 
+    #                                                 layers=tuned_lstm_layers, device=device)
+
+    # actual_values = experiment_results['actuals']
+    # predicted_values = experiment_results['predictions']
+
+    # naive_predictions = actual_values[:-1]
+
+    # actuals_aligned = actual_values[1:]
+    # lstm_predictions_aligned = predicted_values[1:]
+
+    # naive_mae = mean_absolute_error(actuals_aligned, naive_predictions)
+    # lstm_mae = mean_absolute_error(actuals_aligned, lstm_predictions_aligned)
+
+    # print("--- PERFORMANCE COMPARISON ---")
+    # print(f"Naive Baseline MAE: {naive_mae:.4f}")
+    # print(f"LSTM Model MAE:     {lstm_mae:.4f}")
+
+
+
+    # # Print them clearly to the terminal
+    # print("--- ACTUAL VALUES ---")
+    # print(actual_values)
+
+    # print("\n--- PREDICTED VALUES ---")
+    # print(predicted_values)
 
 # DO BB.TO for next tuning
