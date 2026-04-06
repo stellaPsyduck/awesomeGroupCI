@@ -32,7 +32,8 @@
 
 
 \maketitle
-
+\thispagestyle{plain}
+\pagestyle{plain}
 %---------------------------------------ABSTRACT-------------------------------------
 \section*{Abstract}
 As a core branch of financial forecasting, predicting stock prices plays a crucial role for many business leaders, investors, and policymakers in optimizing investment strategies.
@@ -224,8 +225,36 @@ lags \cite{timeseries_data}. Days without all 60 previous lags have been dropped
 
 \subsection{Building the Models}
 \subsubsection*{LSTMs}
-describe the things we need to tune? And how single vs mutli looks diffrent (not what we chose just what we did method wise).
-Why chosen hyper parameters, why others not chosen.
+This algorithm was implemented in PyTorch, which provides native LSTM modules and facilitates multi-task learning.
+The models in this paper were tuned based on the following hyperparameters: epochs, learning rate, hidden nodes, hidden layers,
+and batch size. Fine-tuning these five parameters allowed the models to capture the data’s underlying patterns, ensuring
+efficient, precise convergence while actively preventing overfitting.\\
+
+The development of the LSTM architecture followed a progressive tuning strategy, moving from a univariate baseline to a
+complex hard parameter-sharing multi-task framework. Both models were optimized using a heuristic-based grid search (a
+targeted manual search) to identify the best spot between model capacity and generalization. The primary objective was
+to move beyond naive forecasting, where the model merely mirrors the price at $t-1$ and capture the underlying sector-wide
+volatility.\\
+
+The models were systematically tuned across five key dimensions to ensure precise convergence and prevent overfitting:
+Network depth and capacity: Tested between 1-6 layers and 25-200 hidden nodes. A 2 layer architecture with 128 nodes was
+found to best represent non-linear patterns without having gradient stagnation.\\ 
+
+Optimization Parameters: The learning rate was tested from 0.01 down to 0.0001. A rate of 0.0005 with the Adam optimizer
+provided the most stable validation MAE across the 25-stocks.\\
+
+Training Dynamics: Standardized to 50-100 epochs with a batch size of 64 to manage computational overhead while ensuring
+sufficient exposure to the 2,712-day training set. \\
+
+The fundamental shift in the Multi-Task approach was the implementation of a Composite Loss Function. Unlike the single-task
+baseline, the Multi-Task LSTM aggregated the Mean Absolute Error (MAE) from all 25 task-specific heads into a single joint loss.
+This forced the shared LSTM layer to ignore idiosyncratic noise in individual stocks and prioritize parameters that generalized
+across the entire tech sector. \\
+
+While dropout could have been tuned, it was maintained as a fixed regularization constraint of 0.2 rather than a variable
+parameter. Given the high dimensionality of 25 simultaneous tasks, a fixed dropout served as a non-negotiable guard. This
+ensured that the shared hidden layers remained robust against the influence of high-market-cap outliers allowing the model
+to learn a global representation that remained applicable to mid and small cap tickers within the index. \\
 
 \subsubsection*{Extra Trees}
 For Extra Trees, single-task and multi-task, the parameters that could be tuned  are \cite{rfmulti}:
@@ -256,6 +285,22 @@ For the IBM dataset, the optimal validation MAE was achieved using 6 epochs, 100
 \subsection*{Algorithm Performances}
 BlackBerry’s test evaluation of MAE was 0.0319 for single-task LSTM, and IBM’s test evaluation of MAE was 0.0933.
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/BlackBerry Eval.png}
+    \label{st_lstm_bbto}
+    \caption{Prediction of the the blackberry single-task LSTM with spread of prediciton, which is zero and has no visual.}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/IBM eval.png}
+    \label{st_lstm_ibm}
+    \caption{Prediction of the the IBM single-task LSTM with spread of prediciton.}
+\end{figure}
+
+
 \subsection{Multi-Task LSTM}
 The Multi-Task LSTM architecture was designed to leverage shared temporal features 
 across a synchronized dataset of 25 stocks. By utilizing shared hidden layers, the model 
@@ -275,13 +320,6 @@ the 200-epoch evaluation run consisted of:
 \subsubsection*{Algorithm Performances}
 The multi-task LSTM achieved a final aggregate test Mean Absolute Error (MAE) of \textbf{0.4444} across all 25 task-specific output heads. 
 As illustrated in Figure \ref{mtl_final_curve}, the model demonstrated rapid convergence within the first 25 epochs and maintained a stable validation error throughout the 200-epoch duration. \\
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
-    \caption{Training vs. Validation MAE for the optimized 2-layer Multi-Task LSTM over 200 epochs.}
-    \label{mtl_final_curve}
-\end{figure}
 
 Detailed evaluation of individual stocks showed varying levels of predictive accuracy, likely influenced by the specific volatility of the underlying assets. 
 Notable high-performance results include:
@@ -307,8 +345,8 @@ Figure \ref{st_pred_ibm} shows the prediction of this model over the monthly eva
     \caption{Evaluation prediction of IBM stock using single-task extra tree. Solid line is true value; dotted is prediction; and shaded area is the variance.}
     \label{st_pred_ibm}
 \end{figure}
-Nearing the later part of the calendar year, the single-task model seems to over-esitmate the IBM stock. As well, the variance at the begining of the
-evaluation period is high.
+Nearing the later part of the calendar year, the single-task model seems to predict a value higher than the IBM stock. The variance at the begining of the
+evaluation period is high, implying the model could be bias towards the training data.
 
 \subsection*{Algorithm Evaluation Performances}
 Blackberry's evaluation MAE was 0.02308594 for single-task ET.  
@@ -345,8 +383,8 @@ stocks previously predicted with single-task models.
     \label{mt_pred_ibm}
 \end{figure}
 
-The IBM multi-task prediction has consistent variance throughout the evaluation period. It still, however, over estimates the
-cost of the stock nearing the end of the calendar year.
+The IBM multi-task prediction has consistent variance throughout the evaluation period. It still, however, predicts a higher price than the
+true price nearing the end of the calendar year.
 
 \begin{figure}[H]
     \centering
@@ -376,6 +414,14 @@ inductive bias and transfer, since the prediction could use the other stock’s 
 to stabilize itself. 
 
 \subsubsection*{LSTM MTL vs Extra Trees MTL}
+Due to the naive forecasting problem, it is not possible to determine whether multi-task learning is
+a robust methodology across different models. This does not rule out the possibility that multi-task
+learning is beneficial and robust across multiple models, as the problem stems from the relationship
+between stock data and LSTMs rather than the multi-tasking \cite{naivethisdick}. \\
+
+The multitasking extra trees model properly captures sector-wide dependencies in the data and improves
+prediction performance. The LSTM does not. It is likely that converting the model to a multi-task
+learning format caused the naive forecasting problem to spread to previously unaffected predictions.
 
 \subsection{Advantages and Disadvantages of Multi-Tasking}
 \textbf{Advantages:}
@@ -395,6 +441,7 @@ to stabilize itself.
 \section{Conclusion}
 We have concluded
 \subsection*{Future Works}
+** Maybe explore if dropping the bad LSTM ones make better ?? ** \\
 To further this project, the remaining stocks of interest could have their 
 single-task counterparts calculated and compared. This would provide a better 
 understanding of how multitasking affects the predictions.  \\
@@ -536,6 +583,13 @@ single-output model would use the same input data as our multi-tasking model, bu
     \caption{Tuning Multi-Task Extra Trees number of random cuts}
     \label{mt_randcuts}
 \end{figure} 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
+    \caption{Training vs. Validation MAE for the optimized 2-layer Multi-Task LSTM over 200 epochs.}
+    \label{mtl_final_curve}
+\end{figure}
 
 \subsection{Multi-Task LSTM Results}
 \label{mtl_lstm_results}
