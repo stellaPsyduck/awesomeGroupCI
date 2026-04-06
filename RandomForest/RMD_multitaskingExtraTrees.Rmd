@@ -4,7 +4,7 @@ author: "stellaRovazzi"
 date: "2026-04-01"
 output: html_document
 ---
-
+Referenced the R documentation: https://www.rdocumentation.org/packages/extraTrees/versions/1.0.5/topics/extraTrees .
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 
@@ -50,9 +50,9 @@ lag_cols <- paste0("lag_", 1:60)
 test_fraction <- 0.20
 
 # Rolling CV settings on the training portion only
-initial_train_days <- 60  # Train on this many days   
-val_days <- 5             # business week
-step_days <- 20           # move folds forward monthly
+initial_train_days <- 60  
+val_days <- 5             
+step_days <- 20         
 
 ```
 
@@ -105,11 +105,10 @@ test_data <- data_df %>%
 
 cat("Train date range:", min(train_full$Date), "to", max(train_full$Date), "\n")
 cat("Test date range: ", min(test_data$Date), "to", max(test_data$Date), "\n")
-cat("Train rows:", nrow(train_full), "\n")
-cat("Test rows: ", nrow(test_data), "\n\n")
 
 
 ```
+
 ```{r make_functions}
 make_fixed_splits <- function(dates, train_days, val_days, step_days) {
   splits <- list()
@@ -175,9 +174,10 @@ param_grid <- expand.grid(
   stringsAsFactors = FALSE
 )
 
-
+# go through each set up in the parameter grid
 all_cv_results <- purrr::pmap_dfr(param_grid, function(nodesize, numRandomCuts, mtry_frac) {
 
+  # Train and validate the functions using rolling cross-fold
   fold_results <- map_dfr(cv_splits, function(s) {
     train_data <- train_full %>%
       filter(Date >= s$train_start & Date <= s$train_end)
@@ -319,19 +319,16 @@ test_preds <- predict(final_model, x_test, newtasks=test_data$task_id)
 
 test_metrics <- calc_metrics(y_test, test_preds)
 
-cat("Final Test Metrics:\n")
-print(test_metrics)
-cat("\n")
-
-# ----------------------------- OPTIONAL OUTPUT TABLE -----------------------------
 test_predictions <- test_data_eval %>%
   mutate(predicted_price = test_preds)
-
-cat("Sample Test Predictions:\n")
-print(head(test_predictions))
 ```
 
+
 ```{r}
+
+# Playing around with the data so I can properly plot
+# The previous metrics function wasn't really made for usage in a dataframe, so
+# I just recalucalted it manually here
 test_predictions <- test_predictions %>%
   mutate(
     error = Price - predicted_price,
@@ -348,13 +345,11 @@ mean_multi_results <- test_predictions %>%
 print(mean_multi_results)
 ```
 
-```{r}
-print(max(test_predictions$Date))
-```
 
+The code below was just modified for each plot I needed to call.
 ```{r plotting_results}
 
-
+# grouping by month, so I can look at the seasonal prediction avcerages
 month_summary <- test_predictions %>%
   filter(task == 'IBM_') %>%
   mutate(
@@ -372,10 +367,11 @@ month_summary <- test_predictions %>%
     .groups = "drop"
   )
 
+# Saving the monthly labels
 month_summary$month_label <- factor(
   month_summary$month,
   levels = 1:12,
-  labels = month.abb   # Jan, Feb, ...
+  labels = month.abb
 )
 
 library(ggplot2)
