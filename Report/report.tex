@@ -280,8 +280,7 @@ across a synchronized dataset of 25 stocks. By utilizing shared hidden layers, t
 implements an inductive bias that favours parameters generalizing across the technology sector.
 \subsubsection*{Hyperparameters}
 The optimal configurations for the MTL model was determined through a systematic 3 stage ablation study 
-evaluating layer count, hidden dimension size, and learning rates. The final architecture selected for 
-the 200-epoch evaluation run consisted of:
+evaluating layer count, hidden dimension size, and learning rates (See Appendix \ref{mtl_lstm_tune}). The final architecture selected consisted of:
 \begin{itemize}
     \item \textbf{LSTM Layers:} 2. As illustrated in Figure \ref{mtl_layers}, 2 layers provided the optimal balance between model capacity and generalization, whereas deeper architectures showed a sharp increase in validation error.
     \item \textbf{Hidden Dimension:} 128. The selection of 128 hidden units was justified by the performance trends in Figure \ref{mtl_hidden}, proving sufficient to capture high-dimensional cross-stock correlations without over-parameterization.
@@ -292,27 +291,35 @@ the 200-epoch evaluation run consisted of:
 
 \subsubsection*{Algorithm Performances}
 The multi-task LSTM achieved a final aggregate test Mean Absolute Error (MAE) of \textbf{0.4444} across all 25 task-specific output heads. 
-As illustrated in Figure \ref{mtl_final_curve}, the model demonstrated rapid convergence within the first 25 epochs and maintained a stable validation error throughout the 200-epoch duration. \\
+Figure \ref{mtl_final_curve} shows the training vs. validation convergence.
+
+The relevant results for comparison with the single-task baselines are below:
+\begin{itemize}
+    \item \textbf{BB.TO:} MAE of 0.1365.
+    \item \textbf{IBM:} MAE of 0.1705.
+\end{itemize}
+Figures \ref{mtl_pred_bbto} and \ref{mtl_pred_ibm} visualize the predictions for these stocks over the 2017 evaluation period.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/lstm_multitask_train_vs_val_loss.png}
-    \caption{Training vs. Validation MAE for the optimized 2-layer Multi-Task LSTM over 200 epochs.}
-    \label{mtl_final_curve}
+    \includegraphics[width=0.7\linewidth]{images/multi_lstm_BB.TO_EVALGRAPH.png}
+    \caption{Evaluation prediction of BB.TO using Multi-Task LSTM. Solid line is true value; blue dashed is prediction; and shaded area is the $1\sigma$ error variance.}
+    \label{mtl_pred_bbto}
 \end{figure}
+The BB.TO prediction follows the actual price trend closely, particularly in the latter half of the year. The actual price remains largely within the standard deviation ribbon, indicating successful sector-trend capture by the shared LSTM layer.
 
-Detailed evaluation of individual stocks showed varying levels of predictive accuracy, likely influenced by the specific volatility of the underlying assets. 
-Notable high-performance results include:
-\begin{itemize}
-    \item \textbf{VSAT:} MAE of 0.0658.
-    \item \textbf{BB.TO:} MAE of 0.1365.
-    \item \textbf{NTCT:} MAE of 0.1722.
-    \item \textbf{IBM:} MAE of 0.3238.
-\end{itemize}
-The stability of the validation curve suggests that the shared representation effectively mitigated overfitting, 
-providing more reliable forecasts compared to deeper, unoptimized architectures.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_lstm_IBM_EVALGRAPH.png}
+    \caption{Evaluation prediction of IBM using Multi-Task LSTM. Solid line is true value; blue dashed is prediction; and shaded area is the $1\sigma$ error variance.}
+    \label{mtl_pred_ibm}
+\end{figure}
+For IBM, the Multi-Task model maintains a significant global bias. While the actual price crashed during 2017, the model remained anchored to the positive growth trend of the other 24 stocks in the cohort. This results in the actual price diving well below the $1\sigma$ error variance ribbon, highlighting the model's prioritization of sector-wide signals over idiosyncratic stock volatility.
+
+Furthermore, a localized inverse relationship is observed in the initial 50-day window (Time Steps 0-50). While the true values exhibit a concave U-shaped recovery, the prediction demonstrates a convex n-shaped curve. This discrepancy is identified as a phase lag caused by the 60-day input window, the model's shared representations remained influenced by the positive momentum of the preceding fiscal quarter, resulting in a delayed response to the stock's independent downward trend.
 
 The evaluations of all stocks are in Appendix \ref{mtl_lstm_results}.
+
 \subsection{Single-Task Extra Trees}
 \subsection*{Hyperparameters}
 The plots showing the tuning choices are in \ref{st_extra_tune}. \\
@@ -570,7 +577,7 @@ GIB-A.TO & 0.0313 \\
 OTEX.TO &0.0762 \\
 DSG.TO &  0.1538 \\
 KXS.TO &  0.1103 \\
-BB.TO &  0.2113 \\
+BB.TO &  0.1365 \\
 AMD &  0.3884 \\
 IBM & 0.1705 \\
 CSCO &  0.0641 \\
