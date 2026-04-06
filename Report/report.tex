@@ -46,14 +46,14 @@ uncovering hidden market dynamics, creating new paths for new investment models.
 %--------------------------------------INTRODUCTION-------------------------------------
 \section{Introduction}
 Forecasting of financial time series is a significant challenge in computational intelligence
-due to the high volatility, non-linearity and inconsistent variety of global markets. Traditional 
-univariate models often try to predict stock price movements in isolation, not accounting
+due to the high volatility, non-linearity and inconsistent variety of global markets \cite{fama1970efficent,abhyankar1995nonlinear}. 
+Traditional univariate models often try to predict stock price movements in isolation, not accounting
 for the deep rooted dependencies and shared behaviours between firms in the same sector. 
 This project investigates Multi-Task Learning, a form of inductive transfer
-to improve predictive accuracy by explicity modeling these interconnections. 
+to improve predictive accuracy by explicity modeling these interconnections \cite{caruana1997multitask}. 
 
 By utilizing shared representations, the Multi-Task Learning framework forces the model to favor
-parameters that generalize across different but associated market behaviours. This approach leverages 
+parameters that generalize across different but associated market behaviours \cite{pan2010survey}. This approach leverages 
 sector-wide knowledge to improve the performance of individual target tasks. Our study focuses on 
 a diverse cohort of 25 companies spanning the hardware and software sectors, derived from the 
 iShares S\&P/TSX Capped Information Technology Index and Vanguard Information Technology ETFs. 
@@ -134,15 +134,33 @@ avoids overfitting to a single company size and develops a stronger understandin
 patterns of the market.
 
 \subsection{Algorithms}
-\subsubsection*{LSTMs}
-*** EXPLINATION *** \\
+\subsubsection*{Long Short-Term Memory(LSTMs)}
+The Long Short-Term Memory (LSTM) architecture was chosen for its specialized ability to model long-range 
+temporal dependencies in financial time series, which effectively overcomes the vanishing gradient problem common in 
+standard Recurrent Neural Networks (RNNs) \cite{hochreiter1997long}. In our Multi-Task framework, each input sequence
+$X \in \mathbb{R}^{L \times D}$ represents $L=60$ temporal lags across $D=25$ features (ticker log-prices). These inputs are processed through gated units—comprising input, forget, and output gates, to regulate the flow of information across time steps. 
+
+To evaluate the efficiency of shared representations, we implemented a hard parameter sharing multi-task framework \cite{caruana1997multitask}. 
+As illustrated in Figure \ref{lstm_diagram}: 
+
 \begin{figure}[h]
     \centering
-\includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
+    \includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
     \caption{Diagram of hard parameter sharing and inputs for an LSTM Multi-Tasking model. (Drawn by group).}
     \label{lstm_diagram}
 \end{figure}
-To implement this, we used \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch}.
+
+Utilizing the \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch} framwork, the architecture was constructed with the following components:
+\begin{itemize}
+    \item \textbf{Shared Hidden Layers:} Two stacked LSTM layers with 128 hidden units each. These layers serve as a common feature extractor, learning a global representation of the technology sector's dynamics by pooling data from all 25 companies.
+    \item \textbf{Task-Specific Heads:} 25 independent linear output layers (heads) that branch from the final LSTM hidden state. Each head is responsible for the regression of a specific stock's log-price, allowing the model to specialize its final prediction for each ticker while utilizing shared temporal features.
+\end{itemize}
+
+During training, the model optimizes a composite loss function to balance performance across all tickers:
+\begin{equation}
+    \mathcal{L}_{total} = \sum_{t=1}^{25} \text{MAE}_t
+\end{equation}
+where $\text{MAE}_t$ represents the Mean Absolute Error for a specific company's prediction. This joint optimization acts as a powerful regularizer, because the shared weights must satisfy the trends of the entire cohort, the model is less likely to overfit to idiosyncratic noise or high-frequency volatility in a single stock's history \cite{ruder2017overview}.
 
 \subsubsection*{Multi-Tasking Extra Trees (or Extremely Randomized Trees)}
 Extra Trees (ET) is a tree ensemble method like Random Forests, but it produces more decorrelated trees. It uses
@@ -307,8 +325,7 @@ across a synchronized dataset of 25 stocks. By utilizing shared hidden layers, t
 implements an inductive bias that favours parameters generalizing across the technology sector.
 \subsubsection*{Hyperparameters}
 The optimal configurations for the MTL model was determined through a systematic 3 stage ablation study 
-evaluating layer count, hidden dimension size, and learning rates. The final architecture selected for 
-the 200-epoch evaluation run consisted of:
+evaluating layer count, hidden dimension size, and learning rates (See Appendix \ref{mtl_lstm_tune}). The final architecture selected consisted of:
 \begin{itemize}
     \item \textbf{LSTM Layers:} 2. As illustrated in Figure \ref{mtl_layers}, 2 layers provided the optimal balance between model capacity and generalization, whereas deeper architectures showed a sharp increase in validation error.
     \item \textbf{Hidden Dimension:} 128. The selection of 128 hidden units was justified by the performance trends in Figure \ref{mtl_hidden}, proving sufficient to capture high-dimensional cross-stock correlations without over-parameterization.
@@ -319,19 +336,35 @@ the 200-epoch evaluation run consisted of:
 
 \subsubsection*{Algorithm Performances}
 The multi-task LSTM achieved a final aggregate test Mean Absolute Error (MAE) of \textbf{0.4444} across all 25 task-specific output heads. 
-As illustrated in Figure \ref{mtl_final_curve}, the model demonstrated rapid convergence within the first 25 epochs and maintained a stable validation error throughout the 200-epoch duration. \\
+Figure \ref{mtl_final_curve} shows the training vs. validation convergence.
 
-Detailed evaluation of individual stocks showed varying levels of predictive accuracy, likely influenced by the specific volatility of the underlying assets. 
-Notable high-performance results include:
+The relevant results for comparison with the single-task baselines are below:
 \begin{itemize}
-    \item \textbf{VSAT:} MAE of 0.0658.
     \item \textbf{BB.TO:} MAE of 0.1365.
-    \item \textbf{NTCT:} MAE of 0.1722.
+    \item \textbf{IBM:} MAE of 0.1705.
 \end{itemize}
-The stability of the validation curve suggests that the shared representation effectively mitigated overfitting, 
-providing more reliable forecasts compared to deeper, unoptimized architectures.
+Figures \ref{mtl_pred_bbto} and \ref{mtl_pred_ibm} visualize the predictions for these stocks over the 2017 evaluation period.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_lstm_BB.TO_EVALGRAPH.png}
+    \caption{Evaluation prediction of BB.TO using Multi-Task LSTM. Solid line is true value; blue dashed is prediction; and shaded area is the $1\sigma$ error variance.}
+    \label{mtl_pred_bbto}
+\end{figure}
+The BB.TO prediction follows the actual price trend closely, particularly in the latter half of the year. The actual price remains largely within the standard deviation ribbon, indicating successful sector-trend capture by the shared LSTM layer.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{images/multi_lstm_IBM_EVALGRAPH.png}
+    \caption{Evaluation prediction of IBM using Multi-Task LSTM. Solid line is true value; blue dashed is prediction; and shaded area is the $1\sigma$ error variance.}
+    \label{mtl_pred_ibm}
+\end{figure}
+For IBM, the Multi-Task model maintains a significant global bias. While the actual price crashed during 2017, the model remained anchored to the positive growth trend of the other 24 stocks in the cohort. This results in the actual price diving well below the $1\sigma$ error variance ribbon, highlighting the model's prioritization of sector-wide signals over idiosyncratic stock volatility.
+
+Furthermore, a localized inverse relationship is observed in the initial 50-day window (Time Steps 0-50). While the true values exhibit a concave U-shaped recovery, the prediction demonstrates a convex n-shaped curve. This discrepancy is identified as a phase lag caused by the 60-day input window, the model's shared representations remained influenced by the positive momentum of the preceding fiscal quarter, resulting in a delayed response to the stock's independent downward trend.
 
 The evaluations of all stocks are in Appendix \ref{mtl_lstm_results}.
+
 \subsection{Single-Task Extra Trees}
 \subsection*{Hyperparameters}
 The plots showing the tuning choices are in \ref{st_extra_tune}. \\
@@ -605,7 +638,7 @@ GIB-A.TO & 0.0313 \\
 OTEX.TO &0.0762 \\
 DSG.TO &  0.1538 \\
 KXS.TO &  0.1103 \\
-BB.TO &  0.2113 \\
+BB.TO &  0.1365 \\
 AMD &  0.3884 \\
 IBM & 0.1705 \\
 CSCO &  0.0641 \\
