@@ -45,14 +45,14 @@ uncovering hidden market dynamics, creating new paths for new investment models.
 %--------------------------------------INTRODUCTION-------------------------------------
 \section{Introduction}
 Forecasting of financial time series is a significant challenge in computational intelligence
-due to the high volatility, non-linearity and inconsistent variety of global markets. Traditional 
-univariate models often try to predict stock price movements in isolation, not accounting
+due to the high volatility, non-linearity and inconsistent variety of global markets \cite{fama1970efficent,abhyankar1995nonlinear}. 
+Traditional univariate models often try to predict stock price movements in isolation, not accounting
 for the deep rooted dependencies and shared behaviours between firms in the same sector. 
 This project investigates Multi-Task Learning, a form of inductive transfer
-to improve predictive accuracy by explicity modeling these interconnections. 
+to improve predictive accuracy by explicity modeling these interconnections \cite{caruana1997multitask}. 
 
 By utilizing shared representations, the Multi-Task Learning framework forces the model to favor
-parameters that generalize across different but associated market behaviours. This approach leverages 
+parameters that generalize across different but associated market behaviours \cite{pan2010survey}. This approach leverages 
 sector-wide knowledge to improve the performance of individual target tasks. Our study focuses on 
 a diverse cohort of 25 companies spanning the hardware and software sectors, derived from the 
 iShares S\&P/TSX Capped Information Technology Index and Vanguard Information Technology ETFs. 
