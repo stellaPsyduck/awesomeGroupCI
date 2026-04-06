@@ -310,6 +310,11 @@ BlackBerryâ€™s test evaluation of MAE was 0.0319 for single-task LSTM, and IBMâ€
     \caption{Prediction of the the blackberry single-task LSTM with spread of prediciton, which is zero and has no visual.}
 \end{figure}
 
+In Figure 3, standard deviation analysis confirms that the LSTM successfully
+captured the market variance. However, while the model visually appears to trace the volatility and shape of the actual target, it provides no genuine
+predictive value. Close inspection reveals a strict one-day phase shift; the modelâ€™s predictions lag behind the actual data, indicating it is merely echoing
+the previous day's price rather than anticipating future market movements \cite{naivethisdick}. \\
+
 
 \begin{figure}[H]
     \centering
@@ -317,6 +322,10 @@ BlackBerryâ€™s test evaluation of MAE was 0.0319 for single-task LSTM, and IBMâ€
     \label{st_lstm_ibm}
     \caption{Prediction of the the IBM single-task LSTM with spread of prediciton.}
 \end{figure}
+
+Figure 3 clearly illustrates a severe collapse within the single-task LSTM model. This failure demonstrates that the network did 
+not capture any market variance, meaning it was unable to isolate reliable predictive signals from the dataset. Consequently, it forms a static, 
+horizontal line, failing to track the underlying trends of the actual asset.
 
 
 \subsection{Multi-Task LSTM}
@@ -434,7 +443,10 @@ remained unchanged; a 0.0006 difference is negligable.
 \section{Discussion}
 \subsection{Interpretation of Results}
 \subsubsection*{Single vs Multi}
-**INSERT PARAGRAPH FOR LSTM SINGLE VS MULTI**** \\
+An analysis of the single-task LSTM reveals a critical disconnect between its evaluation metrics and true predictive value. 
+While the model is capable of achieving an artificially low Mean Absolute Error (MAE), it fails to generate meaningful forecasts. 
+Ultimately, when confronted with highly volatile assets, the single-task architecture demonstrates a severe susceptibility to collapse
+ and the naive forecasting trap \cite{naivethisdick}. \\  \\
 The results, comparing single-task learning ET to multi-task learning ET, reveal that leveraging
 stock correlations within the same sector can improve predictive performance. Blackberry MAE
 decreased after applying multi-task learning, indicating an improvement. Though the MAE of the
