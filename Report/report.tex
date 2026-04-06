@@ -133,15 +133,33 @@ avoids overfitting to a single company size and develops a stronger understandin
 patterns of the market.
 
 \subsection{Algorithms}
-\subsubsection*{LSTMs}
-*** EXPLINATION *** \\
+\subsubsection*{Long Short-Term Memory(LSTMs)}
+The Long Short-Term Memory (LSTM) architecture was chosen for its specialized ability to model long-range 
+temporal dependencies in financial time series, which effectively overcomes the vanishing gradient problem common in 
+standard Recurrent Neural Networks (RNNs) \cite{hochreiter1997long}. In our Multi-Task framework, each input sequence
+$X \in \mathbb{R}^{L \times D}$ represents $L=60$ temporal lags across $D=25$ features (ticker log-prices). These inputs are processed through gated units—comprising input, forget, and output gates, to regulate the flow of information across time steps. 
+
+To evaluate the efficiency of shared representations, we implemented a hard parameter sharing multi-task framework \cite{caruana1997multitask}. 
+As illustrated in Figure \ref{lstm_diagram}: 
+
 \begin{figure}[h]
     \centering
-\includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
+    \includegraphics[width=0.7\linewidth]{images/lstm_inputs.png}
     \caption{Diagram of hard parameter sharing and inputs for an LSTM Multi-Tasking model. (Drawn by group).}
     \label{lstm_diagram}
 \end{figure}
-To implement this, we used \href{https://docs.pytorch.org/docs/stable/index.html}{pytorch}.
+
+Utilizing the PyTorch framework, the architecture was constructed with the following components:
+\begin{itemize}
+    \item \textbf{Shared Hidden Layers:} Two stacked LSTM layers with 128 hidden units each. These layers serve as a common feature extractor, learning a global representation of the technology sector's dynamics by pooling data from all 25 companies.
+    \item \textbf{Task-Specific Heads:} 25 independent linear output layers (heads) that branch from the final LSTM hidden state. Each head is responsible for the regression of a specific stock's log-price, allowing the model to specialize its final prediction for each ticker while utilizing shared temporal features.
+\end{itemize}
+
+During training, the model optimizes a composite loss function to balance performance across all tickers:
+\begin{equation}
+    \mathcal{L}_{total} = \sum_{t=1}^{25} \text{MAE}_t
+\end{equation}
+where $\text{MAE}_t$ represents the Mean Absolute Error for a specific company's prediction. This joint optimization acts as a powerful regularizer, because the shared weights must satisfy the trends of the entire cohort, the model is less likely to overfit to idiosyncratic noise or high-frequency volatility in a single stock's history \cite{ruder2017overview}.
 
 \subsubsection*{Multi-Tasking Extra Trees (or Extremely Randomized Trees)}
 Extra Trees (ET) is a tree ensemble method like Random Forests, but it produces more decorrelated trees. It uses
