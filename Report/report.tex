@@ -243,7 +243,7 @@ Any excess grown tree doesn't impact the predictive power of the model, and 500 
 the tasks of interest \cite{toomanytree}.
 
 %---------------------------------------RESULTS-------------------------------------
-\section{Results and Finding}
+\section{Results and Findings}
 \subsection{Single-Task LSTM}
 For the single-task LSTM, IBM and BlackBerry stocks were evaluated. The plots to tune the hyperparameters
 are in CHANGE TO THE CORRECT APPENDIX.
@@ -293,13 +293,12 @@ Notable high-performance results include:
 The stability of the validation curve suggests that the shared representation effectively mitigated overfitting, 
 providing more reliable forecasts compared to deeper, unoptimized architectures.
 
-The evaluations of all stocks are in Appendix \ref{mtl_lstm_results}
-
+The evaluations of all stocks are in Appendix \ref{mtl_lstm_results}.
 \subsection{Single-Task Extra Trees}
-For single-task extra trees, IBM and Blackberry (BB.TO) stocks were evaluated. The plots used
-to tune the hyperparmeter are in \ref{st_extra_tune}.
-\subsubsection*{IBM}
-IBM Had the smallest validation MAE with terminal node size 3 \ref{bbto_nodesize}, 2 random cuts \ref{bbto_randcuts}, and $m_try$ size $p/3$ \ref{bbto_mtry}.
+\subsection*{Hyperparameters}
+The plots showing the tuning choices are in \ref{st_extra_tune}. \\
+\textit{IBM:} IBM Had the smallest validation MAE with terminal node size 3, 2 random cuts, and $m_try$ size $p/3$. \\
+\textit{Blackberry (BB.TO):} Blackberry had the smallest validation MAE with terminal node size 3, 8 random cuts, and $m_try$ size $\sqrt{p}$.
 IBM's evaluation MAE was 0.01502721 for single task ET. \\
 Figure \ref{st_pred_ibm} shows the prediction of this model over the monthly evaluation period.
 \begin{figure}[H]
@@ -310,8 +309,8 @@ Figure \ref{st_pred_ibm} shows the prediction of this model over the monthly eva
 \end{figure}
 Nearing the later part of the calendar year, the single-task model seems to over-esitmate the IBM stock. As well, the variance at the begining of the
 evaluation period is high.
-\subsubsection*{Blackberry (BB.TO)} 
-Blackberry had the smallest validation MAE with terminal node size 3 \ref{ibm_nodesize}, 8 random cuts \ref{ibm_randcuts}, and $m_try$ size $\sqrt{p}$ \ref{ibm_mtry}.
+
+\subsection*{Algorithm Evaluation Performances}
 Blackberry's evaluation MAE was 0.02308594 for single-task ET.  
 Figure \ref{st_pred_bbto} shows the prediction of this model over the monthly evaluation period.
 \begin{figure}[H]
@@ -323,11 +322,11 @@ Figure \ref{st_pred_bbto} shows the prediction of this model over the monthly ev
 The variance of the prediction is consistent throughout the evaluation period. There is a mix between
 over and under reporting the price of the blackbery stock.
 \subsection{Multi-Task Extra Trees}
-\subsubsection*{Hyperparameters}
+\subsection*{Hyperparameters}
 Appendix \ref{mtl_et_tune} shows the tuning plots for this section. Tuning showed 3 nodes and 5 nodes had almost equivalent MAE, so we chose 3 nodes.
 Tuning also showed $p/3$ was the best for $m_try$ and 10 random cuts would be ideal for multi-tasking.
 
-\subsubsection*{Algorithm Evaluation Performances}
+\subsection*{Algorithm Evaluation Performances}
 The relevant results for comparision are below:
 \begin{itemize}
     \item \textbf{BB.TO:} MAE of 0.015650922
