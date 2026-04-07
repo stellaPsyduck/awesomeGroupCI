@@ -485,7 +485,17 @@ learning format caused the naive forecasting problem to spread to previously una
     \end{itemize}
 %--------------------------------------CONCLUSION-------------------------------------
 \section{Conclusion}
-We have concluded
+This research successfully evaluated Multi-Task Learning (MTL) as a framework for modeling the non-linear volatility of the technology sector. 
+By comparing Multi-Task LSTMs and Extra Trees against single-task baselines, we validated that shared representations provide a distinct advantage 
+in stabilizing forecasts for sector-aligned assets. While the single-task LSTM baseline technically achieved a lower Mean Absolute Error (MAE) in some instances, 
+our analysis confirms this was primarily a result of the "naive forecasting trap", where the model mirrors the previous day's price—rather than demonstrating true predictive insight. 
+By contrast, the MTL framework effectively implements an inductive bias, forcing models to prioritize generalizable market patterns over idiosyncratic noise. 
+While the single-task architecture proved susceptible to structural collapse in volatile stocks, the Multi-Task architecture maintained its integrity by leveraging the collective momentum of the 25 stocks.
+
+Ultimately, the Multi-Task Extra Trees model emerged as the most robust architecture for this dataset, successfully capturing intra-sector dependencies to improve predictive accuracy for stocks like BlackBerry (BB.TO). 
+While the Multi-Task LSTM demonstrated a localized global bias in outliers like IBM, this behaviour confirmed the strength of the model's inductive transfer, it prioritized broader sector stability over isolated volatility. 
+Future research could explore weighted loss functions to mitigate this bias or investigate multi-input, single-output models to further isolate the benefits of shared weight representations. 
+These results highlight the potential for MTL frameworks to move beyond traditional univariate models, offering a more holistic approach to financial time series analysis that mirrors the interconnected reality of modern global markets.
 \subsection*{Future Works}
 ** Maybe explore if dropping the bad LSTM ones make better ?? ** \\
 To further this project, the remaining stocks of interest could have their 
